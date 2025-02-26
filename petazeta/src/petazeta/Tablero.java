@@ -4,11 +4,14 @@ import java.util.Random;
 
 public class Tablero {
 	private static Tablero miTablero;
-	private String[][] mapa;
+	private String[][] mapaS;
+	private Casilla[][] mapa;
 	private Random rng = new Random();
 	
 	private Tablero() {
-		mapa = new String[17][17];
+//		mapaS = new String[11][17];
+//		ponerBloquesString();       //en caso de que se quiera probar con strings
+		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 		ponerBloques();
 	}
 	
@@ -19,23 +22,41 @@ public class Tablero {
 		return miTablero;
 	}
 	
-//	public boolean casillaDisponible(int pX, int pY) {
-//		return !mapa[pX][pY].estaOcupada();
-//	}
+	public boolean casillaDisponible(int pX, int pY) {
+		return !mapa[pX][pY].estaOcupada();
+	}
+	
+	private void ponerBloquesString() {
+		for(int i = 0; i < mapaS.length; i++) {
+			for(int j = 0; j < mapaS[i].length; j++) {
+				if(i%2==1&&j%2==1) {
+					mapaS[i][j] = "#";
+				} else if (i > 1 || j > 1){
+					if(rng.nextDouble() <= 0.8) {
+						mapaS[i][j] = "+";
+					} else {
+						mapaS[i][j] = "·";
+					}
+				} else {
+					mapaS[i][j] = "·";
+				}
+			}
+		}
+	}
 	
 	private void ponerBloques() {
 		for(int i = 0; i < mapa.length; i++) {
 			for(int j = 0; j < mapa[i].length; j++) {
 				if(i%2==1&&j%2==1) {
-					mapa[i][j] = "#";
+					mapa[i][j] = new BloqueDuro(j,i);
 				} else if (i > 1 || j > 1){
 					if(rng.nextDouble() <= 0.8) {
-						mapa[i][j] = "+";
+						mapa[i][j] = new BloqueBlando(j,i);
 					} else {
-						mapa[i][j] = "·";
+						mapa[i][j] =  new BloqueDuro(j,i);
 					}
 				} else {
-					mapa[i][j] = "·";
+					mapa[i][j] = new Casilla(j,i,false);
 				}
 			}
 		}
@@ -43,7 +64,7 @@ public class Tablero {
 	
 	public void printMap()
     {
-    	String matrix[][] = this.mapa;
+    	String matrix[][] = this.mapaS;
         for (int j = 0; j < matrix.length; j++)
         {
 	      for (int i = 0; i < matrix[j].length; i++)

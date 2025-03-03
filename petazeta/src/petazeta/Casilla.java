@@ -14,7 +14,7 @@ public class Casilla
 	}
 	
 	
-	public boolean estaOcupado() //Devuelve true si está ocupado (Jugador no puede atravesarlo)
+	public boolean estaOcupada() //Devuelve true si está ocupado (Jugador no puede atravesarlo)
 	{
 		return ocupado;
 	}

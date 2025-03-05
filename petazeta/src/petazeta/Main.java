@@ -31,7 +31,6 @@ public class Main {
 					jugador.mover(jugador.getPosX()+1, jugador.getPosY());
 					System.out.println("Se mueve a la derecha");
 				}
-				
 				System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
 			}
 		});

@@ -16,22 +16,22 @@ public class Main {
 				int keyCode=e.getKeyCode();
 				System.out.println(keyCode);
 				if(keyCode == KeyEvent.VK_W) { //Movimiento arriba
-					//jugador.mover(jugador.getPosX(), jugador.getPosY()+1);
+					jugador.mover(jugador.getPosX(), jugador.getPosY()+1);
 					System.out.println("Se mueve arriba");
 				}
 				else if(keyCode == KeyEvent.VK_S) { //Movimiento abajo
-					//jugador.mover(jugador.getPosX(), jugador.getPosY()-1);
+					jugador.mover(jugador.getPosX(), jugador.getPosY()-1);
 					System.out.println("Se mueve abajo");
 				}
 				else if(keyCode == KeyEvent.VK_A) { //Movimiento izquierda
-					//jugador.mover(jugador.getPosX()-1, jugador.getPosY());
+					jugador.mover(jugador.getPosX()-1, jugador.getPosY());
 					System.out.println("Se mueve a la izquierda");
 				}
 				else if(keyCode == KeyEvent.VK_D) { //Movimiento derecha
-					//jugador.mover(jugador.getPosX()+1, jugador.getPosY());
+					jugador.mover(jugador.getPosX()+1, jugador.getPosY());
 					System.out.println("Se mueve a la derecha");
 				}
-				//System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
+				System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
 			}
 		});
 		

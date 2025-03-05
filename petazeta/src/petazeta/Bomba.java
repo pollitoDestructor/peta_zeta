@@ -9,7 +9,8 @@ public class Bomba extends Casilla {
     private Tablero tablero; //Referencia al tablero (constructora)
 
     public Bomba(int a, int b) {
-        super(a, b, true); 
+        super(a, b); 
+        ocupado = true;
         this.tablero = Tablero.getTablero(); //Puntero a Tablero (por comodidad)
         
         TimerTask timerTask = new TimerTask() {

@@ -23,7 +23,7 @@ public class Tablero {
 	}
 	
 	public boolean casillaDisponible(int pX, int pY) {
-		return !mapa[pX][pY].estaOcupada();
+		return !mapa[pY][pX].estaOcupada();
 	}
 	
 	private void ponerBloquesString() {
@@ -56,8 +56,56 @@ public class Tablero {
 						mapa[i][j] =  new BloqueDuro(j,i);
 					}
 				} else {
-					mapa[i][j] = new Casilla(j,i,false);
+					mapa[i][j] = new Casilla(j,i);
 				}
+			}
+		}
+	}
+	
+	public void detonarBomba(int pX, int pY, String pTipo) {
+		if(pX - 1 >= 0) {	//Comprueba que no se salga del tablero
+			switch (mapa[pY][pX-1].tipoCasilla()) {
+			case "BloqueBlando":
+				//mostrar explosion (a la hora de la parte visual)
+				mapa[pY][pX-1].destruir();
+				mapa[pY][pX-1] = new Casilla(pY,pX-1);
+			case "Bomba":
+				//Decidir si detona o ignora
+			default:
+				//Mostrar fueguito uff mami
+			}
+		}
+		if(pX + 1 < mapa[0].length) {	//Comprueba que no se salga del tablero
+			switch (mapa[pY][pX+1].tipoCasilla()) {
+			case "BloqueBlando":
+				//mostrar explosion (a la hora de la parte visual)
+				mapa[pY][pX+1].destruir();
+			case "Bomba":
+				//Decidir si detona o ignora
+			default:
+				//Mostrar fueguito uff mami
+			}
+		}
+		if(pY - 1 >= 0) {	//Comprueba que no se salga del tablero
+			switch (mapa[pY-1][pX].tipoCasilla()) {
+			case "BloqueBlando":
+				//mostrar explosion (a la hora de la parte visual)
+				mapa[pY-1][pX].destruir();
+			case "Bomba":
+				//Decidir si detona o ignora
+			default:
+				//Mostrar fueguito uff mami
+			}
+		}
+		if(pX + 1 < mapa.length) {	//Comprueba que no se salga del tablero
+			switch (mapa[pY+1][pX].tipoCasilla()) {
+			case "BloqueBlando":
+				//mostrar explosion (a la hora de la parte visual)
+				mapa[pY+1][pX].destruir();
+			case "Bomba":
+				//Decidir si detona o ignora
+			default:
+				//Mostrar fueguito uff mami
 			}
 		}
 	}
@@ -69,7 +117,7 @@ public class Tablero {
         {
 	      for (int i = 0; i < matrix[j].length; i++)
 	      {
-			System.out.print(matrix[i][j]);
+			System.out.print(matrix[j][i]);
 		  }
 		  System.out.println();
         }

@@ -6,7 +6,7 @@ public class Casilla
 	protected int coordY; // Para la interfaz igual son necesarias
 	protected boolean ocupado;
 	
-	public Casilla(int pX, int pY, boolean pO) //Constructora
+	public Casilla(int pX, int pY) //Constructora
 	{
 		coordX = pX;
 		coordY = pY;

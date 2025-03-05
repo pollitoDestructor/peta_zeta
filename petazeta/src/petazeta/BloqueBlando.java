@@ -4,7 +4,8 @@ public class BloqueBlando extends Casilla {
 	
 	public BloqueBlando(int pX, int pY) //Constructora
 	{
-		super(pX,pY,true);
+		super(pX,pY);
+		ocupado = true;
 	}
 	
 	

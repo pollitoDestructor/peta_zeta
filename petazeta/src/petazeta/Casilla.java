@@ -2,19 +2,23 @@ package petazeta;
 
 public class Casilla 
 {
-	protected int coordX;
-	protected int coordY;
+	protected int coordX; // Para la interfaz igual son necesarias
+	protected int coordY; // Para la interfaz igual son necesarias
 	protected boolean ocupado;
 	
 	public Casilla(int pX, int pY, boolean pO) //Constructora
 	{
 		coordX = pX;
 		coordY = pY;
-		ocupado = pO;
+		ocupado = false;
 	}
 	
+	public String tipoCasilla() 
+	{
+		return this.getClass().getName();
+	}
 	
-	public boolean estaOcupada() //Devuelve true si está ocupado (Jugador no puede atravesarlo)
+	public boolean estaOcupada() //Devuelve true si estï¿½ ocupado (Jugador no puede atravesarlo)
 	{
 		return ocupado;
 	}

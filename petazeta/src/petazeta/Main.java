@@ -12,27 +12,32 @@ public class Main {
 		JFrame f = new JFrame();
 				
 		f.addKeyListener(new KeyAdapter() {
-			public void KeyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				int keyCode=e.getKeyCode();
 				System.out.println(keyCode);
-				if(e.getKeyCode() == KeyEvent.VK_W) { //Movimiento arriba
-					jugador.mover(jugador.getPosX(), jugador.getPosY()+1);
+				if(keyCode == KeyEvent.VK_W) { //Movimiento arriba
+					//jugador.mover(jugador.getPosX(), jugador.getPosY()+1);
+					System.out.println("Se mueve arriba");
 				}
-				else if(e.getKeyCode() == KeyEvent.VK_S) { //Movimiento abajo
-					jugador.mover(jugador.getPosX(), jugador.getPosY()-1);
+				else if(keyCode == KeyEvent.VK_S) { //Movimiento abajo
+					//jugador.mover(jugador.getPosX(), jugador.getPosY()-1);
+					System.out.println("Se mueve abajo");
 				}
-				else if(e.getKeyCode() == KeyEvent.VK_A) { //Movimiento izquierda
-					jugador.mover(jugador.getPosX()-1, jugador.getPosY());
+				else if(keyCode == KeyEvent.VK_A) { //Movimiento izquierda
+					//jugador.mover(jugador.getPosX()-1, jugador.getPosY());
+					System.out.println("Se mueve a la izquierda");
 				}
-				else if(e.getKeyCode() == KeyEvent.VK_D) { //Movimiento derecha
-					jugador.mover(jugador.getPosX()+1, jugador.getPosY());
+				else if(keyCode == KeyEvent.VK_D) { //Movimiento derecha
+					//jugador.mover(jugador.getPosX()+1, jugador.getPosY());
+					System.out.println("Se mueve a la derecha");
 				}
-				System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
+				//System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
 			}
 		});
-				tablero.printMap();
-				System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
-				f.setVisible(true);
+		
+		tablero.printMap();
+		System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
+		f.setVisible(true);
 	}
 
 }

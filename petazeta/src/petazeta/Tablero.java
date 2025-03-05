@@ -23,7 +23,11 @@ public class Tablero {
 	}
 	
 	public boolean casillaDisponible(int pX, int pY) {
-		return !mapa[pY][pX].estaOcupada();
+		boolean ocupada = true;
+		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
+			ocupada = !mapa[pY][pX].estaOcupada();
+		}
+		return ocupada;
 	}
 	
 	private void ponerBloquesString() {

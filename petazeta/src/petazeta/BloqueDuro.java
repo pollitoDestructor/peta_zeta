@@ -4,7 +4,8 @@ public class BloqueDuro extends Casilla{
 	
 	public BloqueDuro(int pX, int pY)
 	{
-		super(pX,pY,true);
+		super(pX,pY);
+		ocupado = true;
 	}
 	
 	public void destruir() //Destruye el BloqueBlando

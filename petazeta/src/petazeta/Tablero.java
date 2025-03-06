@@ -9,8 +9,8 @@ public class Tablero {
 	private Random rng = new Random();
 	
 	private Tablero() {
-//		mapaS = new String[11][17];
-//		ponerBloquesString();       //en caso de que se quiera probar con strings
+		mapaS = new String[11][17];
+		ponerBloquesString();       //en caso de que se quiera probar con strings
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 		ponerBloques();
 	}
@@ -23,11 +23,11 @@ public class Tablero {
 	}
 	
 	public boolean casillaDisponible(int pX, int pY) {
-		boolean ocupada = true;
+		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
-			ocupada = !mapa[pY][pX].estaOcupada();
+			disponible = !mapa[pY][pX].estaOcupada();
 		}
-		return ocupada;
+		return disponible;
 	}
 	
 	private void ponerBloquesString() {

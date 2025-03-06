@@ -4,13 +4,10 @@ import java.util.Random;
 
 public class Tablero {
 	private static Tablero miTablero;
-	private String[][] mapaS;
 	private Casilla[][] mapa;
 	private Random rng = new Random();
 	
 	private Tablero() {
-		mapaS = new String[11][17];
-		ponerBloquesString();       //en caso de que se quiera probar con strings
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 		ponerBloques();
 	}
@@ -30,23 +27,6 @@ public class Tablero {
 		return disponible;
 	}
 	
-	private void ponerBloquesString() {
-		for(int i = 0; i < mapaS.length; i++) {
-			for(int j = 0; j < mapaS[i].length; j++) {
-				if(i%2==1&&j%2==1) {
-					mapaS[i][j] = "#";
-				} else if (i > 1 || j > 1){
-					if(rng.nextDouble() <= 0.8) {
-						mapaS[i][j] = "+";
-					} else {
-						mapaS[i][j] = "·";
-					}
-				} else {
-					mapaS[i][j] = "·";
-				}
-			}
-		}
-	}
 	
 	private void ponerBloques() {
 		for(int i = 0; i < mapa.length; i++) {
@@ -57,7 +37,7 @@ public class Tablero {
 					if(rng.nextDouble() <= 0.8) {
 						mapa[i][j] = new BloqueBlando(j,i);
 					} else {
-						mapa[i][j] =  new BloqueDuro(j,i);
+						mapa[i][j] =  new Casilla(j,i);
 					}
 				} else {
 					mapa[i][j] = new Casilla(j,i);
@@ -84,6 +64,7 @@ public class Tablero {
 			case "BloqueBlando":
 				//mostrar explosion (a la hora de la parte visual)
 				mapa[pY][pX+1].destruir();
+				mapa[pY][pX+1] = new Casilla(pY,pX+1);
 			case "Bomba":
 				//Decidir si detona o ignora
 			default:
@@ -95,6 +76,7 @@ public class Tablero {
 			case "BloqueBlando":
 				//mostrar explosion (a la hora de la parte visual)
 				mapa[pY-1][pX].destruir();
+				mapa[pY-1][pX] = new Casilla(pY-1,pX);
 			case "Bomba":
 				//Decidir si detona o ignora
 			default:
@@ -106,6 +88,7 @@ public class Tablero {
 			case "BloqueBlando":
 				//mostrar explosion (a la hora de la parte visual)
 				mapa[pY+1][pX].destruir();
+				mapa[pY+1][pX] = new Casilla(pY+1,pX);
 			case "Bomba":
 				//Decidir si detona o ignora
 			default:
@@ -114,16 +97,24 @@ public class Tablero {
 		}
 	}
 	
-	public void printMap()
-    {
-    	String matrix[][] = this.mapaS;
-        for (int j = 0; j < matrix.length; j++)
-        {
-	      for (int i = 0; i < matrix[j].length; i++)
-	      {
-			System.out.print(matrix[j][i]);
-		  }
-		  System.out.println();
-        }
+	
+	public void printMap() {
+		for (int j = 0; j < mapa.length; j++) {
+			for (int i = 0; i < mapa[j].length; i++) {
+				switch (mapa[j][i].tipoCasilla()) {
+					case "BloqueDuro":
+						System.out.print("#");
+						break;
+					case "BloqueBlando":
+						System.out.print("+");
+						break;
+					case "Casilla":
+						System.out.print("·");
+						break;
+				}
+			}
+			System.out.println();
+        	}
 	}
 }
+

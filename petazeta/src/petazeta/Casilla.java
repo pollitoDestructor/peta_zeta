@@ -15,7 +15,7 @@ public class Casilla
 	
 	public String tipoCasilla() 
 	{
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 	
 	public boolean estaOcupada() //Devuelve true si est� ocupado (Jugador no puede atravesarlo)

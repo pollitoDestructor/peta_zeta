@@ -7,11 +7,15 @@ import javax.swing.JFrame;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		
-		Jugador jugador = Jugador.getJugador();
 		Tablero tablero = Tablero.getTablero();
+		TableroVisual frame = new TableroVisual();
+
+		tablero.ponerBloques();
+		frame.setVisible(true);
+		Jugador jugador = Jugador.getJugador();
+		
 		JFrame f = new JFrame();
-				
+		
 		f.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				int keyCode=e.getKeyCode();
@@ -33,7 +37,7 @@ public class Main {
 					System.out.println("Se mueve a la derecha");
 				}
 				else if(keyCode == KeyEvent.VK_SPACE) { //Poner bomba
-					Bomba bomba = new Bomba(jugador.getPosX(),jugador.getPosY());
+					Bomba bomba = new Bomba(Jugador.getJugador().getPosX(),Jugador.getJugador().getPosY());
 					System.out.println("Se pone una bomba");
 				}
 				
@@ -46,6 +50,7 @@ public class Main {
 		tablero.printMap();
 		System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
 		f.setVisible(true);
+		
 		
 	}
 

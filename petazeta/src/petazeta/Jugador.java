@@ -5,18 +5,18 @@ public class Jugador {
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
 	private int posY;
-	//private String color;
+	private String color;
 
-	private Jugador(/*String color*/) {
+	private Jugador(String color) {
 		this.posX=0;
 		this.posY=0;
-		//this.color=color;
+		this.color=color;
 	}
 	
 	//obtener obj estatico
-	public static Jugador getJugador() {
+	public static Jugador getJugador(String color) {
 		if (miJugador == null){
-			miJugador = new Jugador();
+			miJugador = new Jugador(color);
 		}
 		return miJugador;
 	}
@@ -29,13 +29,11 @@ public class Jugador {
 	public int getPosY() {
 		return this.posY;
 	}
-	
-	/*
 
 	public String getColor() {
 		return this.color;
 	}
-	*/
+
 	
 	//setters
 	/*
@@ -48,12 +46,13 @@ public class Jugador {
 	}
 	
 	*/
+
 	
 	//movimiento del jugador
 	public void mover(int x, int y) {
 		if (Tablero.getTablero().casillaDisponible(x,y)){
 			this.posX=x; this.posY=y;
 		}
-		/*else {System.out.println("El movimiento no se ha podido efectuar");}*/
+		//else {System.out.println("El movimiento no se ha podido efectuar");}
 	}
 }

@@ -111,7 +111,7 @@ public class TableroVisual extends JFrame implements Observer{
 					pCasilla.setBackground(new Color(252, 208, 126)); //Casilla vacia
 					pCasilla.setIcon(null); //Actualzia png
 					break;
-				case 1:
+				case 1: 
 					pCasilla.setBackground(new Color(245, 115, 59)); //Bloque Blando
 					pCasilla.setIcon(null); //Actualiza png
 					break;

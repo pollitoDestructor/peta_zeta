@@ -48,7 +48,7 @@ public class Jugador {
 	*/
 
 	public void ponerBomba()
-	{
+	{ 
 		Tablero.getTablero().ponerBomba(this.posX, this.posY);
 	}
 	

@@ -1,7 +1,7 @@
 package petazeta;
 
 import java.util.Observable;
-import java.util.Random;
+import java.util.Random; 
 
 @SuppressWarnings("deprecation")
 public class Tablero extends Observable{

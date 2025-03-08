@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class ViewBomba extends JPanel {
     private static final long serialVersionUID = 1L;
     private JLabelBomba lblBomba;
-    private Bomba bomba;
+    private Bomba bomba; 
 
     public ViewBomba(int x, int y) {
         this.bomba = new Bomba(x, y);

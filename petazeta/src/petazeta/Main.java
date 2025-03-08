@@ -47,7 +47,7 @@ public class Main {
 
 				        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
 				    }
-				}
+				} 
 
 				
 			}

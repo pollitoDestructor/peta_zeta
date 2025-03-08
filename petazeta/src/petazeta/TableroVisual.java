@@ -43,6 +43,8 @@ public class TableroVisual extends JFrame implements Observer{
 		contentPane.add(getPanel());
 		contentPane.add(getPanel_Casillas(), BorderLayout.CENTER);
 		
+		
+		
 		/*grid = new JPanel();
 		contentPane.add(grid);
 		grid.setLayout(new GridLayout(11, 17, 0, 0));
@@ -108,19 +110,20 @@ public class TableroVisual extends JFrame implements Observer{
 				
 				switch ((int)param[3]) {
 				case 0:
-					pCasilla.setBackground(new Color(252, 208, 126)); //Casilla vacia
-					pCasilla.setIcon(null); //Actualzia png
+				
+					pCasilla.setIcon(null); 					//Casilla vacia
 					break;
 				case 1: 
-					pCasilla.setBackground(new Color(245, 115, 59)); //Bloque Blando
-					pCasilla.setIcon(null); //Actualiza png
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("soft41.png"))); //Bloque Blando
+				
 					break;
 				case 2:
-					pCasilla.setBackground(new Color(94, 16, 4)); //Bloque Duro
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("hard4.png"))); //Bloque Duro
 					break;
 				case 3:
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png"))); //Bomba
 					break;
+			
 				}
 			}
 			

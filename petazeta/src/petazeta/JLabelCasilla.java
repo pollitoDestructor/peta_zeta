@@ -11,6 +11,7 @@ public class JLabelCasilla extends JLabel implements Observer{
 	private int cX;
 	private int cY;
 	
+	
 	public JLabelCasilla(int pCX, int pCY) {
 		super();
 		cX = pCX;

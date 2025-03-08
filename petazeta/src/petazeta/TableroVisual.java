@@ -23,7 +23,6 @@ public class TableroVisual extends JFrame implements Observer{
 	private JPanel grid;
 
 
-
 	/**
 	 * Create the frame.
 	 */

@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 
 public class Main {
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static void main(String[] args) throws Exception {
 		Tablero tablero = Tablero.getTablero();
 		TableroVisual f = new TableroVisual();
@@ -33,21 +36,25 @@ public class Main {
 					jugador.mover(jugador.getPosX()+1, jugador.getPosY());
 					System.out.println("Se mueve a la derecha");
 				}
-				else if(keyCode == KeyEvent.VK_SPACE) { //Poner bomba
-					if (jugador.getColor()=="blanco") {
-						Bomba bomba = new Bomba(jugador.getPosX(),jugador.getPosY());
-					}
-					System.out.println("Se pone una bomba");
+				else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
+				    if (jugador.getColor().equals("blanco")) {
+				        Bomba bomba = new Bomba(jugador.getPosX(), jugador.getPosY());
+				        // Crear la vista de la bomba y agregarla a la interfaz
+				        ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
+				        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
+				        f.revalidate(); // Refrescar la interfaz
+				        f.repaint(); 
+
+				        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
+				    }
 				}
-				
-				tablero.printMap();
-				System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
+
 				
 			}
 		});
 		
 		//tablero.printMap();
-		System.out.println("El jugador está en: "+jugador.getPosX()+" "+jugador.getPosY());
+		System.out.println("El jugador estï¿½ en: "+jugador.getPosX()+" "+jugador.getPosY());
 		f.setVisible(true);
 		
 		

@@ -7,7 +7,7 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class JLabelCasilla extends JLabel implements Observer{
+public class JLabelCasilla extends JLabel implements Observer{ 
 
 	private int cX;
 	private int cY;

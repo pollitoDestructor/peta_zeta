@@ -24,7 +24,7 @@ public class TableroVisual extends JFrame implements Observer{
 
 	private static final long serialVersionUID = -1526416068663302084L;
 	private JPanel grid;
-	private JPanel contentPane;
+	private JPanel contentPane; 
 	private JPanel panel;
 
 

@@ -9,7 +9,7 @@ public class Tablero extends Observable{
 	private Casilla[][] mapa;
 	private Random rng = new Random();
 	
-	private Tablero() {
+	private Tablero() { 
 		
 		
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]

@@ -1,6 +1,6 @@
 package petazeta;
 
-public class Jugador {
+public class Jugador { 
 	
 	private static Jugador miJugador; //referencia estatica
 	private int posX;

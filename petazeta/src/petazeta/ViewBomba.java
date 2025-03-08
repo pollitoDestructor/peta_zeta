@@ -11,14 +11,13 @@ public class ViewBomba extends JPanel {
     private Bomba bomba;
 
     public ViewBomba(int x, int y) {
-        this.bomba = new Bomba(x, y);
         inicializar();
     }
 
     private void inicializar() //INICIALIZAMOS LA IMAGEN DE LA BOMBA
     {
-        this.setLayout(new GridBagLayout());
-        lblBomba = new JLabelBomba(5, 5, new ImageIcon(getClass().getResource("bomb1.png")));
+    	/* this.setLayout(new GridBagLayout());
+        lblBomba = new JLabelBomba( new ImageIcon(getClass().getResource("bomb1.png")));
         this.add(lblBomba);
 
         Timer timer = new Timer();
@@ -28,6 +27,7 @@ public class ViewBomba extends JPanel {
                 explotar();
             }
         }, 3000); // EXPLOTA
+    */ //Trasladado a JLabelCasilla
     }
 
     private void explotar() //AQUI AL EXPLOTAR CAMBIAMOS AL GIF (solo en la bomba)

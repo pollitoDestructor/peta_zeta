@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class JLabelCasilla extends JLabel implements Observer{
@@ -16,7 +17,7 @@ public class JLabelCasilla extends JLabel implements Observer{
 		super();
 		cX = pCX;
 		cY = pCY;
-		Tablero.getTablero().addObserver(this);
+		//Tablero.getTablero().addObserver(this);
 	}
 	
 	public int getCX() {
@@ -29,9 +30,9 @@ public class JLabelCasilla extends JLabel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		//La idea es que cada vez que tablero hace una casilla llama al update diciendo que tipo
-		System.out.println("update");
+		/*System.out.println("update");
 		if(o instanceof Tablero) {
-			Object[] param = (Object[])arg; //[accion:String, pX:int, pY:int, tipoBloque:String]
+			Object[] param = (Object[])arg; //[accion:int, pX:int, pY:int, tipoBloque:String]
 			int y = 10-(int)param[2];
 			int x = (int)param[1];
 			if ((int)param[0]==0&&y==cY&&x==cX) { //comprueba la accion que se quiere realizar (poner una casilla, detonar una bomba, mostrar el mapa, etc.)
@@ -52,7 +53,7 @@ public class JLabelCasilla extends JLabel implements Observer{
 					break;
 				}
 			}
-		}
+		}*/
 	}
 
 }

@@ -40,29 +40,25 @@ public class Tablero extends Observable{
 			for(int j = 0; j < mapa[i].length; j++) {
 				setChanged();
 				if(i%2==1&&j%2==1) {
-					mapa[i][j] = new BloqueDuro(j,i);
-					super.notifyObservers(new Object[] {0, j,i,2});
+					mapa[i][j] = new BloqueDuro(i,j);
+					notifyObservers(new Object[] {0, i,j,2});
 
 					
 				} else if (i > 1 || j > 1){
 					if(rng.nextDouble() <= 0.7) {
-						mapa[i][j] = new BloqueBlando(j,i);
-						super.notifyObservers(new Object[] {0, j,i,1});
+						mapa[i][j] = new BloqueBlando(i,j);
+						notifyObservers(new Object[] {0, i,j,1});
 						
 						
 					} else {
-						mapa[i][j] =  new Casilla(j,i);
+						mapa[i][j] =  new Casilla(i,j);
 
-						super.notifyObservers(new Object[] {0, j,i,0});
-
-						
+						notifyObservers(new Object[] {0, i,j,0});
 					}
 				} else {
-					mapa[i][j] = new Casilla(j,i);
+					mapa[i][j] = new Casilla(i,j);
 
-					super.notifyObservers(new Object[] {0, j,i,0});
-
-					
+					notifyObservers(new Object[] {0, i,j,0});
 				}
 			}
 		}
@@ -71,74 +67,86 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-		if(pX - 1 >= 0) {	//Comprueba que no se salga del tablero
-			switch (mapa[pY][pX-1].tipoCasilla()) {
-			case "BloqueBlando":
-				//mostrar explosion (a la hora de la parte visual)
-				mapa[pY][pX-1].destruir();
-				mapa[pY][pX-1] = new Casilla(pY,pX-1);
-				setChanged();
-				super.notifyObservers(new Object[] {0, pX-1,pY,0});
-				break;
-			case "Bomba":
-				//Decidir si detona o ignora
-				break;
-			default:
-				//Mostrar fueguito uff mamiç
-				break;
-			}
+		setChanged();
+		mapa[pY][pX] = new Casilla(pY,pX);
+		notifyObservers(new Object[] {0, pY, pX, 0});
+		
+		if(pY - 1 >= 0) { // Comprueba que no se salga del tablero
+		    switch (mapa[pY - 1][pX].tipoCasilla()) {
+		        case "BloqueBlando":
+		            // mostrar explosion (a la hora de la parte visual)
+		            mapa[pY - 1][pX].destruir();
+		            mapa[pY - 1][pX] = new Casilla(pY - 1, pX);
+		            setChanged();
+		            notifyObservers(new Object[] {0, pY - 1, pX, 0});
+		            break;
+		        case "Bomba":
+		            // Decidir si detona o ignora
+		            break;
+		        default:
+		            // Mostrar fueguito uff mami
+		            break;
+		    }
 		}
-		if(pX + 1 < mapa[0].length) {	//Comprueba que no se salga del tablero
-			switch (mapa[pY][pX+1].tipoCasilla()) {
-			case "BloqueBlando":
-				//mostrar explosion (a la hora de la parte visual)
-				mapa[pY][pX+1].destruir();
-				mapa[pY][pX+1] = new Casilla(pY,pX+1);
-				setChanged();
-				super.notifyObservers(new Object[] {0, pX+1,pY,0});
-				break;
-			case "Bomba":
-				//Decidir si detona o ignora
-				break;
-			default:
-				//Mostrar fueguito uff mami
-				break;
-			}
+		if(pY + 1 < mapa.length) { // Comprueba que no se salga del tablero
+		    switch (mapa[pY + 1][pX].tipoCasilla()) {
+		        case "BloqueBlando":
+		            // mostrar explosion (a la hora de la parte visual)
+		            mapa[pY + 1][pX].destruir();
+		            mapa[pY + 1][pX] = new Casilla(pY + 1, pX);
+		            setChanged();
+		            notifyObservers(new Object[] {0, pY + 1, pX, 0});
+		            break;
+		        case "Bomba":
+		            // Decidir si detona o ignora
+		            break;
+		        default:
+		            // Mostrar fueguito uff mami
+		            break;
+		    }
 		}
-		if(pY - 1 >= 0) {	//Comprueba que no se salga del tablero
-			switch (mapa[pY-1][pX].tipoCasilla()) {
-			case "BloqueBlando":
-				//mostrar explosion (a la hora de la parte visual)
-				mapa[pY-1][pX].destruir();
-				mapa[pY-1][pX] = new Casilla(pY-1,pX);
-				setChanged();
-				super.notifyObservers(new Object[] {0,pX, pY-1,0});
-				break;
-			case "Bomba":
-				//Decidir si detona o ignora
-				break;
-			default:
-				//Mostrar fueguito uff mami
-				break;
-			}
+		if(pX - 1 >= 0) { // Comprueba que no se salga del tablero
+		    switch (mapa[pY][pX - 1].tipoCasilla()) {
+		        case "BloqueBlando":
+		            // mostrar explosion (a la hora de la parte visual)
+		            mapa[pY][pX - 1].destruir();
+		            mapa[pY][pX - 1] = new Casilla(pY, pX - 1);
+		            setChanged();
+		            notifyObservers(new Object[] {0, pY, pX - 1, 0});
+		            break;
+		        case "Bomba":
+		            // Decidir si detona o ignora
+		            break;
+		        default:
+		            // Mostrar fueguito uff mami
+		            break;
+		    }
 		}
-		if(pX + 1 < mapa.length) {	//Comprueba que no se salga del tablero
-			switch (mapa[pY+1][pX].tipoCasilla()) {
-			case "BloqueBlando":
-				//mostrar explosion (a la hora de la parte visual)
-				mapa[pY+1][pX].destruir();
-				mapa[pY+1][pX] = new Casilla(pY+1,pX);
-				setChanged();
-				super.notifyObservers(new Object[] {0,pX, pY+1,0});
-				break;
-			case "Bomba":
-				//Decidir si detona o ignora
-				break;
-			default:
-				//Mostrar fueguito uff mami
-				break;
-			}
+		if(pX + 1 < mapa[0].length) { // Comprueba que no se salga del tablero
+		    switch (mapa[pY][pX + 1].tipoCasilla()) {
+		        case "BloqueBlando":
+		            // mostrar explosion (a la hora de la parte visual)
+		            mapa[pY][pX + 1].destruir();
+		            mapa[pY][pX + 1] = new Casilla(pY, pX + 1);
+		            setChanged();
+		            notifyObservers(new Object[] {0, pY, pX + 1, 0});
+		            break;
+		        case "Bomba":
+		            // Decidir si detona o ignora
+		            break;
+		        default:
+		            // Mostrar fueguito uff mami
+		            break;
+		    }
 		}
+	}
+	
+	
+	public void ponerBomba(int pX, int pY)
+	{
+		setChanged();
+		mapa[pY][pX] = new Bomba(pX,pY); //Pone la bomba en esas coords
+		notifyObservers(new Object[] {0,pY, pX,3});
 	}
 	
 	

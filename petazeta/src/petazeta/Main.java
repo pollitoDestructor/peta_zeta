@@ -38,12 +38,12 @@ public class Main {
 				}
 				else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
 				    if (jugador.getColor().equals("blanco")) {
-				        Bomba bomba = new Bomba(jugador.getPosX(), jugador.getPosY());
+				        jugador.ponerBomba();
 				        // Crear la vista de la bomba y agregarla a la interfaz
-				        ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
+				        /*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
 				        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
 				        f.revalidate(); // Refrescar la interfaz
-				        f.repaint(); 
+				        f.repaint(); */
 
 				        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
 				    }

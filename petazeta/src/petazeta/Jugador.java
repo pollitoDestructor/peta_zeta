@@ -47,6 +47,10 @@ public class Jugador {
 	
 	*/
 
+	public void ponerBomba()
+	{
+		Tablero.getTablero().ponerBomba(this.posX, this.posY);
+	}
 	
 	//movimiento del jugador
 	public void mover(int x, int y) {

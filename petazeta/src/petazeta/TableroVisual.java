@@ -2,6 +2,7 @@ package petazeta;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -62,24 +63,28 @@ public class TableroVisual extends JFrame implements Observer{
 		Tablero.getTablero().addObserver(this);
 	}
 	private JPanel getPanel_Casillas() {
-		if (grid == null) {
-			grid = new JPanel();
-			grid.setLayout(new GridLayout(11, 17, 0, 0));
-			for(int m = 0; m < 17; m++)
-			{
-				for(int n = 10; n >= 0; n--) 
-				{
-					JLabelCasilla labelCasilla = new JLabelCasilla(m,n);
-					labelCasilla.setBackground(new Color(0,0,255));
-					labelCasilla.setOpaque(true);
-					//grid.add(labelCasilla,n,m);
-					
-					grid.add(labelCasilla);
-				}
-			}
-		}
-		return grid;
+	    if (grid == null) {
+	        grid = new JPanel() {
+	            @Override
+	            protected void paintComponent(Graphics g) {
+	                super.paintComponent(g);
+	                ImageIcon background = new ImageIcon(getClass().getResource("stageBack1.png"));
+	                g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
+	            }
+	        };
+	        grid.setLayout(new GridLayout(11, 17, 0, 0));
+
+	        for (int m = 0; m < 17; m++) {
+	            for (int n = 10; n >= 0; n--) {
+	                JLabelCasilla labelCasilla = new JLabelCasilla(m, n);
+	                labelCasilla.setOpaque(false);  // Hace que las casillas sean transparentes
+	                grid.add(labelCasilla);
+	            }
+	        }
+	    }
+	    return grid;
 	}
+
 	
 	private JPanel getPanel() {
 		if (panel == null) {

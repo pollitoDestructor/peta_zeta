@@ -44,23 +44,8 @@ public class TableroVisual extends JFrame implements Observer{
 		contentPane.add(getPanel());
 		contentPane.add(getPanel_Casillas(), BorderLayout.CENTER);
 		
-		
-		
-		/*grid = new JPanel();
-		contentPane.add(grid);
-		grid.setLayout(new GridLayout(11, 17, 0, 0));
-		
-		JLabelCasilla labelCasilla;
-		for(int m = 0; m < 17; m++) {
-			for(int n = 10; n >= 0; n--) {
-				labelCasilla = new JLabelCasilla(m,n);
-				labelCasilla.setBackground(new Color(0,0,255));
-				labelCasilla.setOpaque(true);
-				grid.add(labelCasilla,n,m);
-			}
-		}*/
-		
 		Tablero.getTablero().addObserver(this);
+		Jugador.getJugador("blanco").addObserver(this);
 	}
 	private JPanel getPanel_Casillas() {
 	    if (grid == null) {
@@ -98,10 +83,6 @@ public class TableroVisual extends JFrame implements Observer{
 		//La idea es que cada vez que tablero hace una casilla llama al update diciendo que tipo
 		System.out.println("update");
 		
-		/*int index = 17*10+16;
-		JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
-		pCasilla.setBackground(new Color(0, 0, 0));*/
-		
 		if(o instanceof Tablero) {
 			Object[] param = (Object[])arg; //[accion:int, pX:int, pY:int, tipoBloque:String]
 			int y = (int)param[2];
@@ -115,8 +96,7 @@ public class TableroVisual extends JFrame implements Observer{
 				
 				switch ((int)param[3]) {
 				case 0:
-				
-					pCasilla.setIcon(null); 					//Casilla vacia
+					pCasilla.setIcon(null); //Casilla vacia
 					break;
 				case 1: 
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("soft41.png"))); //Bloque Blando
@@ -126,7 +106,7 @@ public class TableroVisual extends JFrame implements Observer{
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("hard4.png"))); //Bloque Duro
 					break;
 				case 3:
-					pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png"))); //Bomba
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb1.png"))); //Bomba
 					break;
 			
 				}
@@ -134,6 +114,39 @@ public class TableroVisual extends JFrame implements Observer{
 			
 			/*grid.validate();
 			grid.repaint();*/
+		}
+		else if(o instanceof Jugador)
+		{
+			Object[] movimiento = (Object[]) arg; //[posX:int, posY:int, x:int, y:int]
+            int posX = (int)movimiento[0];
+            int posY = (int)movimiento[1];
+            int x = (int)movimiento[2];
+            int y = (int)movimiento[3];
+
+            int index = 17*posY+posX; //la pos que dejamos atrás
+			JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
+			if(pCasilla.getIcon() != null) //Para evitar errores
+			{
+				if(((ImageIcon) pCasilla.getIcon()).getDescription().contains("whitewithbomb1.png"))
+				{
+					//Si DEJAMOS bomba (el anterior es Bomberman con bomba
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+				}
+				else
+				{
+					//Si no es null y NO dejamos atrás bomba (anda normal)
+					pCasilla.setIcon(null);
+				}
+			}
+			
+			index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
+			pCasilla = (JLabelCasilla) grid.getComponent(index);
+			
+            if (x == 1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteright1.png")));//derecha
+            else if (x == -1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteleft1.png")));//izquierda
+            else if (y == 1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whitedown1.png")));//abajo
+            else if (y == -1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteup1.png")));//arriba*/
+            else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
 		}
 	}
 }

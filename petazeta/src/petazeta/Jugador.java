@@ -1,6 +1,8 @@
 package petazeta;
 
-public class Jugador { 
+import java.util.Observable;
+
+public class Jugador extends Observable { 
 	
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
@@ -46,6 +48,12 @@ public class Jugador {
 	}
 	
 	*/
+	
+	public void inicio() //para imprimir la primera pos
+	{
+		setChanged();
+		notifyObservers(new Object[] {posX,posY,0,0});
+	}
 
 	public void ponerBomba()
 	{ 
@@ -54,8 +62,11 @@ public class Jugador {
 	
 	//movimiento del jugador
 	public void mover(int x, int y) {
-		if (Tablero.getTablero().casillaDisponible(x,y)){
-			this.posX=x; this.posY=y;
+		if (Tablero.getTablero().casillaDisponible(posX+x,posY+y)){
+			setChanged();
+			notifyObservers(new Object[] {posX,posY,x,y}); //le manda la pos SIN ACTUALIZAR
+			this.posX=posX+x; this.posY=posY+y;
+			
 		}
 		//else {System.out.println("El movimiento no se ha podido efectuar");}
 	}

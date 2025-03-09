@@ -15,25 +15,26 @@ public class Main {
 
 		tablero.ponerBloques();
 		Jugador jugador = Jugador.getJugador("blanco");
+		jugador.inicio(); //para imprimir el primer Bomberman nada más
 		
 		f.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				int keyCode=e.getKeyCode();
 				//System.out.println(keyCode);
 				if(keyCode == KeyEvent.VK_W) { //Movimiento arriba
-					jugador.mover(jugador.getPosX(), jugador.getPosY()-1);
+					jugador.mover(0, -1);
 					System.out.println("Se mueve arriba");
 				}
 				else if(keyCode == KeyEvent.VK_S) { //Movimiento abajo
-					jugador.mover(jugador.getPosX(), jugador.getPosY()+1);
+					jugador.mover(0, 1);
 					System.out.println("Se mueve abajo");
 				}
 				else if(keyCode == KeyEvent.VK_A) { //Movimiento izquierda
-					jugador.mover(jugador.getPosX()-1, jugador.getPosY());
+					jugador.mover(-1, 0);
 					System.out.println("Se mueve a la izquierda");
 				}
 				else if(keyCode == KeyEvent.VK_D) { //Movimiento derecha
-					jugador.mover(jugador.getPosX()+1, jugador.getPosY());
+					jugador.mover(1,0);
 					System.out.println("Se mueve a la derecha");
 				}
 				else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba

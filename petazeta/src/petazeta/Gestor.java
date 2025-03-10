@@ -39,9 +39,7 @@ public class Gestor {
 
 				        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
 				    }
-				} 
-
-				
+				} 	
 			}
 		});
 	}

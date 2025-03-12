@@ -5,13 +5,33 @@ import java.awt.event.KeyEvent;
 
 public class Gestor {
 	private static Gestor mGestor;
+	private Controlador controlador = null;
 	
 	private Gestor(TableroVisual f, Jugador jugador) {
-		
 		f.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				int keyCode=e.getKeyCode();
-				//System.out.println(keyCode)
+				//System.out.println(keyCode)	
+				getControlador().actionPerformed(keyCode,jugador);
+			}
+		});		
+	}
+	public static Gestor getGestor(TableroVisual f, Jugador jugador) {
+		if (mGestor == null){
+			mGestor = new Gestor(f, jugador);
+		}
+		return mGestor;
+	}
+	
+		private Controlador getControlador() {
+			if (controlador == null) {
+				controlador = new Controlador();
+			}
+			return controlador;
+		}
+		//2- CONTROLADOR : listener
+		private class Controlador {
+			public void actionPerformed(int keyCode, Jugador jugador) {
 				if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
 					jugador.mover(0, -1);
 					System.out.println("Se mueve arriba");
@@ -39,15 +59,8 @@ public class Gestor {
 
 				        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
 				    }
-				} 	
+				} 
 			}
-		});
-	}
-	public static Gestor getGestor(TableroVisual f, Jugador jugador) {
-		if (mGestor == null){
-			mGestor = new Gestor(f, jugador);
 		}
-		return mGestor;
-	}
 
 }

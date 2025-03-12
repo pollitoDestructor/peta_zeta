@@ -8,6 +8,7 @@ public class Jugador extends Observable {
 	private int posX;
 	private int posY;
 	private String color="blanco";
+	private int bombas=5;
 
 	private Jugador() {
 		this.posX=0;
@@ -51,6 +52,12 @@ public class Jugador extends Observable {
 	}
 	*/
 	
+	public void addBomba() {
+		if (this.bombas<5) {
+			this.bombas++;
+		}
+	}
+	
 	public void inicio() //para imprimir la primera pos
 	{
 		setChanged();
@@ -59,7 +66,11 @@ public class Jugador extends Observable {
 
 	public void ponerBomba()
 	{ 
+		if (this.bombas!=0) {
+		bombas--;
 		Tablero.getTablero().ponerBomba(this.posX, this.posY);
+		System.out.println("Se pone una bomba en (" + this.posX + ", " + this.posY + ")");
+		}
 	}
 	
 	//movimiento del jugador

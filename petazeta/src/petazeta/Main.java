@@ -16,10 +16,9 @@ public class Main {
 		
 		tablero.ponerBloques();
 		
-		Jugador jugador = Jugador.getJugador("blanco");
+		Jugador jugador = Jugador.getJugador();
 		jugador.inicio(); //para imprimir el primer Bomberman nada mas
 		
-		Gestor.getGestor(f,jugador);
 		//tablero.printMap();
 		System.out.println("El jugador esta en: "+jugador.getPosX()+" "+jugador.getPosY());
 		f.setVisible(true);

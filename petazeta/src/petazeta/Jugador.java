@@ -7,18 +7,17 @@ public class Jugador extends Observable {
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
 	private int posY;
-	private String color;
+	private String color="blanco";
 
-	private Jugador(String color) {
+	private Jugador() {
 		this.posX=0;
 		this.posY=0;
-		this.color=color;
 	}
 	
 	//obtener obj estatico
-	public static Jugador getJugador(String color) {
+	public static Jugador getJugador() {
 		if (miJugador == null){
-			miJugador = new Jugador(color);
+			miJugador = new Jugador();
 		}
 		return miJugador;
 	}
@@ -47,6 +46,9 @@ public class Jugador extends Observable {
 		this.posY=y;
 	}
 	
+	public void setCol(String col) {
+		this.color=col;
+	}
 	*/
 	
 	public void inicio() //para imprimir la primera pos

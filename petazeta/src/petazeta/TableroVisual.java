@@ -11,8 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -27,6 +28,7 @@ public class TableroVisual extends JFrame implements Observer{
 	private JPanel grid;
 	private JPanel contentPane; 
 	private JPanel panel;
+	private Controlador controlador;
 
 
 	/**
@@ -45,7 +47,15 @@ public class TableroVisual extends JFrame implements Observer{
 		contentPane.add(getPanel_Casillas(), BorderLayout.CENTER);
 		
 		Tablero.getTablero().addObserver(this);
-		Jugador.getJugador("blanco").addObserver(this);
+		Jugador.getJugador().addObserver(this);
+		
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				int keyCode=e.getKeyCode();
+				//System.out.println(keyCode)	
+				getControlador().actionPerformed(keyCode,Jugador.getJugador());
+			}
+		});
 	}
 	private JPanel getPanel_Casillas() {
 	    if (grid == null) {
@@ -147,6 +157,45 @@ public class TableroVisual extends JFrame implements Observer{
             else if (y == 1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whitedown1.png")));//abajo
             else if (y == -1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteup1.png")));//arriba*/
             else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
+		}
+	}
+	private Controlador getControlador() {
+		if (controlador == null) {
+			controlador = new Controlador();
+		}
+		return controlador;
+	}
+	//2CONTROLADOR
+	private class Controlador {
+		public void actionPerformed(int keyCode, Jugador jugador) {
+			if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
+				jugador.mover(0, -1);
+				System.out.println("Se mueve arriba");
+			}
+			else if(keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) { //Movimiento abajo
+				jugador.mover(0, 1);
+				System.out.println("Se mueve abajo");
+			}
+			else if(keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) { //Movimiento izquierda
+				jugador.mover(-1, 0);
+				System.out.println("Se mueve a la izquierda");
+			}
+			else if(keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) { //Movimiento derecha
+				jugador.mover(1,0);
+				System.out.println("Se mueve a la derecha");
+			}
+			else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
+			    if (jugador.getColor().equals("blanco")) {
+			        jugador.ponerBomba();
+			        // Crear la vista de la bomba y agregarla a la interfaz
+			        /*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
+			        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
+			        f.revalidate(); // Refrescar la interfaz
+			        f.repaint(); */
+
+			        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
+			    }
+			} 
 		}
 	}
 }

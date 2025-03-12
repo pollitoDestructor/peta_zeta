@@ -22,5 +22,5 @@ public class Explosion extends Casilla {
 	        timer = new Timer();
 	        timer.schedule(timerTask, PERIODO * 1000); // Explota despues de 3 segundos
 	}
-	
+	//
 }

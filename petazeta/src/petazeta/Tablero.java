@@ -84,7 +84,8 @@ public class Tablero extends Observable{
 		            // Decidir si detona o ignora
 		            break;
 		        default:
-		            // Mostrar fueguito uff mami
+		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
+		            mapa[pY - 1][pX] = new Casilla(pY - 1, pX);
 		            break;
 		    }
 		}
@@ -101,7 +102,8 @@ public class Tablero extends Observable{
 		            // Decidir si detona o ignora
 		            break;
 		        default:
-		            // Mostrar fueguito uff mami
+		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
+		            mapa[pY + 1][pX] = new Casilla(pY + 1, pX);
 		            break;
 		    }
 		}
@@ -118,7 +120,8 @@ public class Tablero extends Observable{
 		            // Decidir si detona o ignora
 		            break;
 		        default:
-		            // Mostrar fueguito uff mami
+		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
+		            mapa[pY][pX - 1] = new Casilla(pY, pX - 1);
 		            break;
 		    }
 		}
@@ -135,7 +138,8 @@ public class Tablero extends Observable{
 		            // Decidir si detona o ignora
 		            break;
 		        default:
-		            // Mostrar fueguito uff mami
+		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
+		            mapa[pY][pX + 1] = new Casilla(pY, pX + 1);
 		            break;
 		    }
 		}
@@ -163,7 +167,7 @@ public class Tablero extends Observable{
 						System.out.print("+");
 						break;
 					case "Casilla":
-						System.out.print("·");
+						System.out.print("Â·");
 						break;
 				}
 			}
@@ -171,4 +175,3 @@ public class Tablero extends Observable{
         	}
 	}
 }
-

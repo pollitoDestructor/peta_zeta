@@ -192,8 +192,6 @@ public class TableroVisual extends JFrame implements Observer{
 			        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
 			        f.revalidate(); // Refrescar la interfaz
 			        f.repaint(); */
-
-			        System.out.println("Se pone una bomba en (" + jugador.getPosX() + ", " + jugador.getPosY() + ")");
 			    }
 			} 
 		}

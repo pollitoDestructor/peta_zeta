@@ -83,6 +83,9 @@ public class Tablero extends Observable{
 		        case "Bomba":
 		            // Decidir si detona o ignora
 		            break;
+		        case "BloqueDuro":
+		            // Evitar explosion bloque
+		            break;
 		        default:
 		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
 		            mapa[pY - 1][pX] = new Casilla(pY - 1, pX);
@@ -100,6 +103,9 @@ public class Tablero extends Observable{
 		            break;
 		        case "Bomba":
 		            // Decidir si detona o ignora
+		            break;
+		        case "BloqueDuro":
+		            // Evitar explosion bloque
 		            break;
 		        default:
 		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
@@ -119,6 +125,9 @@ public class Tablero extends Observable{
 		        case "Bomba":
 		            // Decidir si detona o ignora
 		            break;
+		        case "BloqueDuro":
+		            // Evitar explosion bloque
+		            break;
 		        default:
 		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
 		            mapa[pY][pX - 1] = new Casilla(pY, pX - 1);
@@ -136,6 +145,9 @@ public class Tablero extends Observable{
 		            break;
 		        case "Bomba":
 		            // Decidir si detona o ignora
+		            break;
+		        case "BloqueDuro":
+		            // Evitar explosion bloque
 		            break;
 		        default:
 		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);

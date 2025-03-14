@@ -135,6 +135,12 @@ public class TableroVisual extends JFrame implements Observer{
 
             int index = 17*posY+posX; //la pos que dejamos atrás
 			JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
+			String[] partes = null;
+			if(x != 0 || y != 0) {
+				String imagenActual = pCasilla.getIcon().toString();
+				String nombreImagen = imagenActual.substring(imagenActual.lastIndexOf("/"  ) + 1);
+	            partes = nombreImagen.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\.)");
+			}
 			if(pCasilla.getIcon() != null) //Para evitar errores
 			{
 				if(((ImageIcon) pCasilla.getIcon()).getDescription().contains("whitewithbomb1.png"))
@@ -151,13 +157,42 @@ public class TableroVisual extends JFrame implements Observer{
 			
 			index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
 			pCasilla = (JLabelCasilla) grid.getComponent(index);
-			
-            if (x == 1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteright1.png")));//derecha
-            else if (x == -1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteleft1.png")));//izquierda
-            else if (y == 1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whitedown1.png")));//abajo
-            else if (y == -1) pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteup1.png")));//arriba*/
-            else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
-		}
+			if(x != 0 || y != 0) {	
+	            if (x == 1) {
+	            	if(partes[0].equals("whiteright")) {
+	            		int frame = Integer.parseInt(partes[1])%5;
+	            		frame = frame+1;
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteright"+String.valueOf(frame)+".png")));//derecha
+	            	} else {
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteright1.png")));//derecha
+	            	}
+	            } else if (x == -1) {
+	            	if(partes[0].equals("whiteleft")) {
+	            		int frame = Integer.parseInt(partes[1]);
+	            		frame = frame%5+1;
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteleft"+String.valueOf(frame)+".png")));//derecha
+	            	} else {
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteleft1.png")));//derecha
+	            	}
+	            } else if (y == 1) {
+	            	if(partes[0].equals("whitedown")) {
+	            		int frame = Integer.parseInt(partes[1]);
+	            		frame = frame%4+1;
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whitedown"+String.valueOf(frame)+".png")));//derecha
+	            	} else {
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whitedown1.png")));//derecha
+	            	}
+	            } else if (y == -1) {
+	            	if(partes[0].equals("whiteup")) {
+	            		int frame = Integer.parseInt(partes[1]);
+	            		frame = frame%5+1;
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteup"+String.valueOf(frame)+".png")));//derecha
+	            	} else {
+	            		pCasilla.setIcon(new ImageIcon(getClass().getResource("whiteup1.png")));//derecha
+	            	}
+	            } else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
+			}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
+			}
 	}
 	private Controlador getControlador() {
 		if (controlador == null) {

@@ -118,6 +118,9 @@ public class TableroVisual extends JFrame implements Observer{
 				case 3:
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb1.png"))); //Bomba
 					break;
+				case 4:
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("blast.gif"))); //Explosion
+					break;
 			
 				}
 			}

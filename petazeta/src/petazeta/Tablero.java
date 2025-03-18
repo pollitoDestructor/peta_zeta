@@ -87,8 +87,9 @@ public class Tablero extends Observable{
 		            // Evitar explosion bloque
 		            break;
 		        default:
+		            setChanged();
 		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
-		            mapa[pY - 1][pX] = new Casilla(pY - 1, pX);
+		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
 		            break;
 		    }
 		}
@@ -108,8 +109,9 @@ public class Tablero extends Observable{
 		            // Evitar explosion bloque
 		            break;
 		        default:
+		        	setChanged();
 		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
-		            mapa[pY + 1][pX] = new Casilla(pY + 1, pX);
+		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
 		            break;
 		    }
 		}
@@ -129,8 +131,9 @@ public class Tablero extends Observable{
 		            // Evitar explosion bloque
 		            break;
 		        default:
+		        	setChanged();
 		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
-		            mapa[pY][pX - 1] = new Casilla(pY, pX - 1);
+		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
 		            break;
 		    }
 		}
@@ -150,8 +153,9 @@ public class Tablero extends Observable{
 		            // Evitar explosion bloque
 		            break;
 		        default:
+		        	setChanged();
 		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
-		            mapa[pY][pX + 1] = new Casilla(pY, pX + 1);
+		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
 		            break;
 		    }
 		}
@@ -163,6 +167,13 @@ public class Tablero extends Observable{
 		setChanged();
 		mapa[pY][pX] = new Bomba(pX,pY); //Pone la bomba en esas coords
 		notifyObservers(new Object[] {0,pY, pX,3});
+	}
+	
+	public void explosionTerminada(int pX, int pY)
+	{
+        setChanged();
+        mapa[pY][pX] = new Casilla(pY, pX);
+        notifyObservers(new Object[] {0, pY, pX, 0});
 	}
 	
 	

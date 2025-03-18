@@ -8,7 +8,7 @@ public class Jugador extends Observable {
 	private int posX;
 	private int posY;
 	private String color="blanco";
-	private int bombas=5;
+	private int bombas=10;
 
 	private Jugador() {
 		this.posX=0;
@@ -35,22 +35,6 @@ public class Jugador extends Observable {
 	public String getColor() {
 		return this.color;
 	}
-
-	
-	//setters
-	/*
-	public void setPosX(int x) {
-		this.posX=x;
-	}
-	
-	public void setPosY(int y) {
-		this.posY=y;
-	}
-	
-	public void setCol(String col) {
-		this.color=col;
-	}
-	*/
 	
 	public void addBomba() {
 		if (this.bombas<5) {

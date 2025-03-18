@@ -17,10 +17,10 @@ public class Explosion extends Casilla {
 	            @Override
 	            public void run() {
 	            	System.out.println("Explotado");
+	            	Tablero.getTablero().explosionTerminada(pY,pX);
 	            }       
 	        };
 	        timer = new Timer();
-	        timer.schedule(timerTask, PERIODO * 1000); // Explota despues de 3 segundos
+	        timer.schedule(timerTask, PERIODO * 1000); // Termina despues de 2 segundos
 	}
-	//
 }

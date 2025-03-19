@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -91,15 +92,16 @@ public class TableroVisual extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		//La idea es que cada vez que tablero hace una casilla llama al update diciendo que tipo
-		System.out.println("update");
+		//System.out.println("update");
 		
 		if(o instanceof Tablero) {
 			Object[] param = (Object[])arg; //[accion:int, pX:int, pY:int, tipoBloque:String]
-			int y = (int)param[2];
-			int x = (int)param[1];
+			
 			if ((int)param[0]==0) { //comprueba la accion que se quiere realizar (poner una casilla, detonar una bomba, mostrar el mapa, etc.)
-				System.out.println("switch");
-				System.out.println((int)param[3]);
+				//System.out.println("switch");
+				//System.out.println((int)param[3]);
+				int y = (int)param[2]; 
+				int x = (int)param[1];
 				
 				int index = 17*x+y;
 				JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
@@ -119,10 +121,19 @@ public class TableroVisual extends JFrame implements Observer{
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb1.png"))); //Bomba
 					break;
 				case 4:
-					pCasilla.setIcon(new ImageIcon(getClass().getResource("blast.gif"))); //Explosion
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
 					break;
 			
 				}
+			}
+			else if((int)param[0]==1) //Ventana de muerte
+			{
+				//GestorFinalVisual.getFinal(false); TODO
+				setVisible(false);
+				System.out.println("Apaga paso1.");
+				dispose();
+				System.out.println("Dispose paso 2.");
+				
 			}
 			
 			/*grid.validate();

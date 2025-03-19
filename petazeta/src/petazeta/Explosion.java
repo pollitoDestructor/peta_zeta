@@ -11,7 +11,7 @@ public class Explosion extends Casilla {
 	public Explosion(int pX, int pY)
 	{
 		super(pX,pY);
-		ocupado = true;
+		ocupado = false;
 		
 	     TimerTask timerTask = new TimerTask() {
 	            @Override

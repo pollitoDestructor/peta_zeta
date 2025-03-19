@@ -29,6 +29,16 @@ public class Tablero extends Observable{
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
 		}
+		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
+		{
+			System.out.println("Explota muere Dios qué horror.");
+			//TODO update
+			setChanged();
+			
+			notifyObservers(new Object[] {1});
+			FinalVisual fv = new FinalVisual(false);
+	        fv.setVisible(true);
+		}
 //		notifyObservers(new Object[] {1, 0,0,(String)""});
 //		setChanged();
 		return disponible;
@@ -68,20 +78,23 @@ public class Tablero extends Observable{
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
 		setChanged();
-		mapa[pY][pX] = new Casilla(pY,pX);
-		notifyObservers(new Object[] {0, pY, pX, 0});
+		mapa[pY][pX] = new Explosion(pY,pX);
+		notifyObservers(new Object[] {0, pY, pX, 4});
 		
 		if(pY - 1 >= 0) { // Comprueba que no se salga del tablero
 		    switch (mapa[pY - 1][pX].tipoCasilla()) {
 		        case "BloqueBlando":
 		            // mostrar explosion (a la hora de la parte visual)
 		            mapa[pY - 1][pX].destruir();
-		            mapa[pY - 1][pX] = new Casilla(pY - 1, pX);
 		            setChanged();
-		            notifyObservers(new Object[] {0, pY - 1, pX, 0});
+		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
+		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
 		            break;
 		        case "Bomba":
 		            // Decidir si detona o ignora
+		        	setChanged();
+		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
+		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
 		            break;
 		        case "BloqueDuro":
 		            // Evitar explosion bloque
@@ -98,11 +111,14 @@ public class Tablero extends Observable{
 		        case "BloqueBlando":
 		            // mostrar explosion (a la hora de la parte visual)
 		            mapa[pY + 1][pX].destruir();
-		            mapa[pY + 1][pX] = new Casilla(pY + 1, pX);
 		            setChanged();
-		            notifyObservers(new Object[] {0, pY + 1, pX, 0});
+		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
+		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
 		            break;
 		        case "Bomba":
+		        	setChanged();
+		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
+		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
 		            // Decidir si detona o ignora
 		            break;
 		        case "BloqueDuro":
@@ -120,12 +136,15 @@ public class Tablero extends Observable{
 		        case "BloqueBlando":
 		            // mostrar explosion (a la hora de la parte visual)
 		            mapa[pY][pX - 1].destruir();
-		            mapa[pY][pX - 1] = new Casilla(pY, pX - 1);
 		            setChanged();
-		            notifyObservers(new Object[] {0, pY, pX - 1, 0});
+		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
+		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
 		            break;
 		        case "Bomba":
 		            // Decidir si detona o ignora
+		        	setChanged();
+		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
+		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
 		            break;
 		        case "BloqueDuro":
 		            // Evitar explosion bloque
@@ -142,12 +161,15 @@ public class Tablero extends Observable{
 		        case "BloqueBlando":
 		            // mostrar explosion (a la hora de la parte visual)
 		            mapa[pY][pX + 1].destruir();
-		            mapa[pY][pX + 1] = new Casilla(pY, pX + 1);
 		            setChanged();
-		            notifyObservers(new Object[] {0, pY, pX + 1, 0});
+		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
+		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
 		            break;
 		        case "Bomba":
 		            // Decidir si detona o ignora
+		        	setChanged();
+		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
+		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
 		            break;
 		        case "BloqueDuro":
 		            // Evitar explosion bloque

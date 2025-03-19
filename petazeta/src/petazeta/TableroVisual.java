@@ -234,14 +234,12 @@ public class TableroVisual extends JFrame implements Observer{
 				System.out.println("Se mueve a la derecha");
 			}
 			else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
-			    if (jugador.getColor().equals("blanco")) {
 			        jugador.ponerBomba();
 			        // Crear la vista de la bomba y agregarla a la interfaz
 			        /*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
 			        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
 			        f.revalidate(); // Refrescar la interfaz
 			        f.repaint(); */
-			    }
 			} 
 		}
 	}

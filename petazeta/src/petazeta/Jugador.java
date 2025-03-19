@@ -7,7 +7,6 @@ public class Jugador extends Observable {
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
 	private int posY;
-	private String color="blanco";
 	private int bombas=10;
 
 	private Jugador() {
@@ -30,10 +29,6 @@ public class Jugador extends Observable {
 	
 	public int getPosY() {
 		return this.posY;
-	}
-
-	public String getColor() {
-		return this.color;
 	}
 	
 	public void addBomba() {

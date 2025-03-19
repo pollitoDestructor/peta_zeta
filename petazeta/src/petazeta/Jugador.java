@@ -37,9 +37,17 @@ public class Jugador extends Observable {
 	}
 	
 	public void addBomba() {
-		if (this.bombas<5) {
+		if (this.bombas<10) {
 			this.bombas++;
 		}
+	}
+	
+	public boolean estaEnCasilla(int pX, int pY) {
+		boolean esta = false;
+		if(this.posX==pX && this.posY==pY) {
+			esta = true;
+		}
+		return esta;
 	}
 	
 	public void inicio() //para imprimir la primera pos

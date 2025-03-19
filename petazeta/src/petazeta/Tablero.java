@@ -38,6 +38,7 @@ public class Tablero extends Observable{
 			notifyObservers(new Object[] {1});
 			FinalVisual fv = new FinalVisual(false);
 	        fv.setVisible(true);
+		
 		}
 		}
 //		notifyObservers(new Object[] {1, 0,0,(String)""});
@@ -78,110 +79,46 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-		setChanged();
-		mapa[pY][pX] = new Explosion(pY,pX);
-		notifyObservers(new Object[] {0, pY, pX, 4});
-		
-		if(pY - 1 >= 0) { // Comprueba que no se salga del tablero
-		    switch (mapa[pY - 1][pX].tipoCasilla()) {
-		        case "BloqueBlando":
-		            // mostrar explosion (a la hora de la parte visual)
-		            mapa[pY - 1][pX].destruir();
-		            setChanged();
-		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
-		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
-		            break;
-		        case "Bomba":
-		            // Decidir si detona o ignora
-		        	setChanged();
-		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
-		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
-		            break;
-		        case "BloqueDuro":
-		            // Evitar explosion bloque
-		            break;
-		        default:
-		            setChanged();
-		            mapa[pY - 1][pX] = new Explosion(pY - 1, pX);
-		            notifyObservers(new Object[] {0, pY - 1, pX, 4});
-		            break;
-		    }
-		}
-		if(pY + 1 < mapa.length) { // Comprueba que no se salga del tablero
-		    switch (mapa[pY + 1][pX].tipoCasilla()) {
-		        case "BloqueBlando":
-		            // mostrar explosion (a la hora de la parte visual)
-		            mapa[pY + 1][pX].destruir();
-		            setChanged();
-		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
-		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
-		            break;
-		        case "Bomba":
-		        	setChanged();
-		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
-		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
-		            // Decidir si detona o ignora
-		            break;
-		        case "BloqueDuro":
-		            // Evitar explosion bloque
-		            break;
-		        default:
-		        	setChanged();
-		            mapa[pY + 1][pX] = new Explosion(pY + 1, pX);
-		            notifyObservers(new Object[] {0, pY + 1, pX, 4});
-		            break;
-		    }
-		}
-		if(pX - 1 >= 0) { // Comprueba que no se salga del tablero
-		    switch (mapa[pY][pX - 1].tipoCasilla()) {
-		        case "BloqueBlando":
-		            // mostrar explosion (a la hora de la parte visual)
-		            mapa[pY][pX - 1].destruir();
-		            setChanged();
-		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
-		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
-		            break;
-		        case "Bomba":
-		            // Decidir si detona o ignora
-		        	setChanged();
-		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
-		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
-		            break;
-		        case "BloqueDuro":
-		            // Evitar explosion bloque
-		            break;
-		        default:
-		        	setChanged();
-		            mapa[pY][pX - 1] = new Explosion(pY, pX - 1);
-		            notifyObservers(new Object[] {0, pY, pX - 1, 4});
-		            break;
-		    }
-		}
-		if(pX + 1 < mapa[0].length) { // Comprueba que no se salga del tablero
-		    switch (mapa[pY][pX + 1].tipoCasilla()) {
-		        case "BloqueBlando":
-		            // mostrar explosion (a la hora de la parte visual)
-		            mapa[pY][pX + 1].destruir();
-		            setChanged();
-		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
-		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
-		            break;
-		        case "Bomba":
-		            // Decidir si detona o ignora
-		        	setChanged();
-		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
-		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
-		            break;
-		        case "BloqueDuro":
-		            // Evitar explosion bloque
-		            break;
-		        default:
-		        	setChanged();
-		            mapa[pY][pX + 1] = new Explosion(pY, pX + 1);
-		            notifyObservers(new Object[] {0, pY, pX + 1, 4});
-		            break;
-		    }
-		}
+	    setChanged();
+	    mapa[pY][pX] = new Explosion(pY, pX);
+	    notifyObservers(new Object[] {0, pY, pX, 4});
+
+	    // Direcciones: arriba, abajo, izquierda, derecha
+	    int[] dx = {0, 0, -1, 1};
+	    int[] dy = {-1, 1, 0, 0};
+
+	    for (int i = 0; i < 4; i++) {
+	        int newX = pX + dx[i];
+	        int newY = pY + dy[i];
+
+	        if (esValido(newX, newY)) {
+	            procesarExplosion(newX, newY);
+	        }
+	    }
+	}
+
+	// Método para verificar si la posición está dentro del mapa
+	private boolean esValido(int x, int y) {
+	    return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length;
+	}
+
+	// Método auxiliar para manejar la explosión en una casilla
+	private void procesarExplosion(int x, int y) {
+	    String tipo = mapa[y][x].tipoCasilla();
+
+	    switch (tipo) {
+	        case "BloqueBlando":
+	            mapa[y][x].destruir();
+	        case "Bomba": // También explota si es bomba
+	        case "Casilla": // Cualquier otro caso que no sea bloque duro
+	            setChanged();
+	            mapa[y][x] = new Explosion(y, x);
+	            notifyObservers(new Object[] {0, y, x, 4});
+	            break;
+	        case "BloqueDuro":
+	            // No hace nada, la explosión no pasa a través de un bloque duro.
+	            break;
+	    }
 	}
 	
 	

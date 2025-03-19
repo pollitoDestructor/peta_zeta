@@ -28,16 +28,17 @@ public class Tablero extends Observable{
 		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
-		}
+		
 		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
 		{
-			System.out.println("Explota muere Dios qué horror.");
+			System.out.println("Explota muere Dios quï¿½ horror.");
 			//TODO update
 			setChanged();
 			
 			notifyObservers(new Object[] {1});
 			FinalVisual fv = new FinalVisual(false);
 	        fv.setVisible(true);
+		}
 		}
 //		notifyObservers(new Object[] {1, 0,0,(String)""});
 //		setChanged();

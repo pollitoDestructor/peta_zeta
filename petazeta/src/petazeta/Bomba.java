@@ -34,5 +34,6 @@ public class Bomba extends Casilla {
 	{
 		System.out.println("Bomba "+coordX+", "+coordY+" destruida."); 
 		timer.cancel();
+		timer.purge();
 	}
 }

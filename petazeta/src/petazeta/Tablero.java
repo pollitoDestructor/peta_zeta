@@ -8,6 +8,7 @@ public class Tablero extends Observable{
 	private static Tablero miTablero;
 	private Casilla[][] mapa;
 	private Random rng = new Random();
+	private boolean finPartida = false;
 	
 	private Tablero() { 
 		
@@ -135,11 +136,16 @@ public class Tablero extends Observable{
 	
 	private void pantallaFinal(boolean pEstadoPartida)
 	{
-		setChanged();
-		
-		notifyObservers(new Object[] {1});
-		FinalVisual fv = new FinalVisual(pEstadoPartida);
-        fv.setVisible(true);
+		if(!finPartida)
+		{
+			finPartida = true;
+			System.out.println("Fin");
+			setChanged();
+
+			notifyObservers(new Object[] {1});
+			FinalVisual fv = new FinalVisual(pEstadoPartida);
+			fv.setVisible(true);
+		}
 	}
 	
 	public void printMap() {

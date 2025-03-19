@@ -113,6 +113,7 @@ public class GestorFinalVisual extends Observable {
 	{
 		if (timer != null) {
             timer.cancel();  
+            timer.purge();
         }
 		
 		System.out.println("AQUÍ SE DETIENE EL MAIN!!!!!"); //TODO

@@ -33,11 +33,7 @@ public class Tablero extends Observable{
 		{
 			System.out.println("Explota muere Dios qu� horror.");
 			//TODO update
-			setChanged();
-			
-			notifyObservers(new Object[] {1});
-			FinalVisual fv = new FinalVisual(false);
-	        fv.setVisible(true);
+			pantallaFinal(false);
 		
 		}
 		}
@@ -79,20 +75,21 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-	    setChanged();
-	    mapa[pY][pX] = new Explosion(pY, pX);
-	    notifyObservers(new Object[] {0, pY, pX, 4});
 
 	    // Direcciones: arriba, abajo, izquierda, derecha
-	    int[] dx = {0, 0, -1, 1};
-	    int[] dy = {-1, 1, 0, 0};
+	    int[] dx = {0,0, 0, -1, 1};
+	    int[] dy = {0,-1, 1, 0, 0};
 
-	    for (int i = 0; i < 4; i++) {
+	    for (int i = 0; i < 5; i++) {
 	        int newX = pX + dx[i];
 	        int newY = pY + dy[i];
 
 	        if (esValido(newX, newY)) {
 	            procesarExplosion(newX, newY);
+	            if(Jugador.getJugador().estaEnCasilla(newX, newY))
+	            {
+	            	pantallaFinal(false);
+	            }
 	        }
 	    }
 	}
@@ -136,6 +133,14 @@ public class Tablero extends Observable{
         notifyObservers(new Object[] {0, pY, pX, 0});
 	}
 	
+	private void pantallaFinal(boolean pEstadoPartida)
+	{
+		setChanged();
+		
+		notifyObservers(new Object[] {1});
+		FinalVisual fv = new FinalVisual(pEstadoPartida);
+        fv.setVisible(true);
+	}
 	
 	public void printMap() {
 		setChanged();

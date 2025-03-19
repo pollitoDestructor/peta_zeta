@@ -32,7 +32,7 @@ public class Tablero extends Observable{
 		
 		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
 		{
-			System.out.println("Explota muere Dios qu� horror.");
+			System.out.println("Explota muere Dios quï¿½ horror.");
 			//TODO update
 			pantallaFinal(false);
 		
@@ -86,7 +86,7 @@ public class Tablero extends Observable{
 	        int newY = pY + dy[i];
 
 	        if (esValido(newX, newY)) {
-	            procesarExplosion(newX, newY);
+	            procesarExplosion(newX, newY, i);
 	            if(Jugador.getJugador().estaEnCasilla(newX, newY))
 	            {
 	            	pantallaFinal(false);
@@ -95,26 +95,38 @@ public class Tablero extends Observable{
 	    }
 	}
 
-	// Método para verificar si la posición está dentro del mapa
+	// MÃ©todo para verificar si la posiciÃ³n estÃ¡ dentro del mapa
 	private boolean esValido(int x, int y) {
 	    return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length;
 	}
 
-	// Método auxiliar para manejar la explosión en una casilla
-	private void procesarExplosion(int x, int y) {
+	// MÃ©todo auxiliar para manejar la explosiÃ³n en una casilla
+	private void procesarExplosion(int x, int y, int pItr) {
 	    String tipo = mapa[y][x].tipoCasilla();
 
 	    switch (tipo) {
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
-	        case "Bomba": // También explota si es bomba
+	            setChanged();
+	            mapa[y][x] = new Explosion(y, x);
+	            notifyObservers(new Object[] {0, y, x, 4});
+	            break;
+	        case "Bomba": // TambiÃ©n explota si es bomba
+	        	if(pItr == 0) {
+	        		setChanged();
+		            mapa[y][x] = new Explosion(y, x);
+		            notifyObservers(new Object[] {0, y, x, 4});
+	        	} else {
+	        		this.detonarBomba(x, y, "Normal");
+	        	}
+	        	break;
 	        case "Casilla": // Cualquier otro caso que no sea bloque duro
 	            setChanged();
 	            mapa[y][x] = new Explosion(y, x);
 	            notifyObservers(new Object[] {0, y, x, 4});
 	            break;
 	        case "BloqueDuro":
-	            // No hace nada, la explosión no pasa a través de un bloque duro.
+	            // No hace nada, la explosiÃ³n no pasa a travÃ©s de un bloque duro.
 	            break;
 	    }
 	}
@@ -161,7 +173,7 @@ public class Tablero extends Observable{
 						System.out.print("+");
 						break;
 					case "Casilla":
-						System.out.print("·");
+						System.out.print("Â·");
 						break;
 				}
 			}

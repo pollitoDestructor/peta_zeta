@@ -53,7 +53,7 @@ public class Jugador extends Observable {
 
 	public void ponerBomba()
 	{ 
-		if (this.bombas!=0) {
+		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY)) {
 		bombas--;
 		Tablero.getTablero().ponerBomba(this.posX, this.posY);
 		System.out.println("Se pone una bomba en (" + this.posX + ", " + this.posY + ")");

@@ -11,8 +11,6 @@ public class Tablero extends Observable{
 	private boolean finPartida = false;
 	
 	private Tablero() { 
-		
-		
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 //		ponerBloques();
 	}
@@ -33,13 +31,10 @@ public class Tablero extends Observable{
 		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
 		{
 			System.out.println("Explota muere Dios quï¿½ horror.");
-			//TODO update
-			pantallaFinal(false);
+			this.pantallaFinal(false);
 		
 		}
 		}
-//		notifyObservers(new Object[] {1, 0,0,(String)""});
-//		setChanged();
 		return disponible;
 	}
 	
@@ -105,6 +100,7 @@ public class Tablero extends Observable{
 	    String tipo = mapa[y][x].tipoCasilla();
 
 	    switch (tipo) {
+	    	case "Casilla":
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
 	            setChanged();
@@ -120,11 +116,6 @@ public class Tablero extends Observable{
 	        		this.detonarBomba(x, y, "Normal");
 	        	}
 	        	break;
-	        case "Casilla": // Cualquier otro caso que no sea bloque duro
-	            setChanged();
-	            mapa[y][x] = new Explosion(y, x);
-	            notifyObservers(new Object[] {0, y, x, 4});
-	            break;
 	        case "BloqueDuro":
 	            // No hace nada, la explosiÃ³n no pasa a travÃ©s de un bloque duro.
 	            break;
@@ -158,27 +149,6 @@ public class Tablero extends Observable{
 			FinalVisual fv = new FinalVisual(pEstadoPartida);
 			fv.setVisible(true);
 		}
-	}
-	
-	public void printMap() {
-		setChanged();
-		super.notifyObservers(new Object[] {1, 0,0,(String)""});
-		for (int j = 0; j < mapa.length; j++) {
-			for (int i = 0; i < mapa[j].length; i++) {
-				switch (mapa[j][i].tipoCasilla()) {
-					case "BloqueDuro":
-						System.out.print("#");
-						break;
-					case "BloqueBlando":
-						System.out.print("+");
-						break;
-					case "Casilla":
-						System.out.print("Â·");
-						break;
-				}
-			}
-			System.out.println();
-        	}
 	}
 	
 }

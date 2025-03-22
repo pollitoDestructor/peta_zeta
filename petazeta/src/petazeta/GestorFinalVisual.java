@@ -31,7 +31,7 @@ public class GestorFinalVisual extends Observable {
     }*/
 	
 	//Constructora
-	public GestorFinalVisual(boolean pEstadoFin)
+	private GestorFinalVisual(boolean pEstadoFin)
 	{
 		estadoFin = pEstadoFin;
 		

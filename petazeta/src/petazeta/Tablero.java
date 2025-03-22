@@ -45,24 +45,24 @@ public class Tablero extends Observable{
 				setChanged();
 				if(i%2==1&&j%2==1) {
 					mapa[i][j] = new BloqueDuro(i,j);
-					notifyObservers(new Object[] {0, i,j,2});
+					notifyObservers(new Object[] {"PonerImagen", i,j,"BloqueDuro"});
 
 					
 				} else if (i > 1 || j > 1){
 					if(rng.nextDouble() <= 0.7) {
 						mapa[i][j] = new BloqueBlando(i,j);
-						notifyObservers(new Object[] {0, i,j,1});
+						notifyObservers(new Object[] {"PonerImagen", i,j,"BloqueBlando"});
 						
 						
 					} else {
 						mapa[i][j] =  new Casilla(i,j);
 
-						notifyObservers(new Object[] {0, i,j,0});
+						notifyObservers(new Object[] {"PonerImagen", i,j,"Casilla"});
 					}
 				} else {
 					mapa[i][j] = new Casilla(i,j);
 
-					notifyObservers(new Object[] {0, i,j,0});
+					notifyObservers(new Object[] {"PonerImagen", i,j,"Casilla"});
 				}
 			}
 		}
@@ -105,13 +105,13 @@ public class Tablero extends Observable{
 	            mapa[y][x].destruir();
 	            setChanged();
 	            mapa[y][x] = new Explosion(y, x);
-	            notifyObservers(new Object[] {0, y, x, 4});
+	            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
 	            break;
 	        case "Bomba": // TambiÃ©n explota si es bomba
 	        	if(pItr == 0) {
 	        		setChanged();
 		            mapa[y][x] = new Explosion(y, x);
-		            notifyObservers(new Object[] {0, y, x, 4});
+		            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
 	        	} else {
 	        		this.detonarBomba(x, y, "Normal");
 	        	}
@@ -127,14 +127,14 @@ public class Tablero extends Observable{
 	{
 		setChanged();
 		mapa[pY][pX] = new Bomba(pX,pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {0,pY, pX,3});
+		notifyObservers(new Object[] {"PonerImagen",pY, pX,"Bomba"});
 	}
 	
 	public void explosionTerminada(int pX, int pY)
 	{
         setChanged();
         mapa[pY][pX] = new Casilla(pY, pX);
-        notifyObservers(new Object[] {0, pY, pX, 0});
+        notifyObservers(new Object[] {"PonerImagen", pY, pX, "Casilla"});
 	}
 	
 	private void pantallaFinal(boolean pEstadoPartida)
@@ -145,7 +145,7 @@ public class Tablero extends Observable{
 			System.out.println("Fin");
 			setChanged();
 
-			notifyObservers(new Object[] {1});
+			notifyObservers(new Object[] {"Muerte"});
 			FinalVisual fv = new FinalVisual(pEstadoPartida);
 			fv.setVisible(true);
 		}

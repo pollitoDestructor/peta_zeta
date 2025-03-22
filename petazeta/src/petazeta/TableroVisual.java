@@ -21,6 +21,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.util.Random;
+
 @SuppressWarnings("deprecation")
 
 public class TableroVisual extends JFrame implements Observer{
@@ -90,43 +92,38 @@ public class TableroVisual extends JFrame implements Observer{
 	}
 	
 	@Override
-	public void update(Observable o, Object arg) {
-		//La idea es que cada vez que tablero hace una casilla llama al update diciendo que tipo
-		//System.out.println("update");
-		
+	public void update(Observable o, Object arg) {		
 		if(o instanceof Tablero) {
-			Object[] param = (Object[])arg; //[accion:int, pX:int, pY:int, tipoBloque:String]
+			Object[] param = (Object[])arg; //[accion:String, pX:int, pY:int, tipoBloque:String]
 			
-			if ((int)param[0]==0) { //comprueba la accion que se quiere realizar (poner una casilla, detonar una bomba, mostrar el mapa, etc.)
-				//System.out.println("switch");
-				//System.out.println((int)param[3]);
+			if ((String)param[0]=="PonerImagen") { //comprueba la accion que se quiere realizar (poner una casilla, detonar una bomba, mostrar el mapa, etc.)
 				int y = (int)param[2]; 
 				int x = (int)param[1];
 				
 				int index = 17*x+y;
 				JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
 				
-				switch ((int)param[3]) {
-				case 0:
+				switch ((String)param[3]) {
+				case "Casilla":
 					pCasilla.setIcon(null); //Casilla vacia
 					break;
-				case 1: 
-					pCasilla.setIcon(new ImageIcon(getClass().getResource("soft41.png"))); //Bloque Blando
+				case "BloqueBlando": 
+					Random r = new Random();		//Para que haya variación en la imagen de los bloques blandos
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("soft4" + String.valueOf(r.nextInt(5) + 1)+".png"))); //Bloque Blando
 				
 					break;
-				case 2:
+				case "BloqueDuro":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("hard4.png"))); //Bloque Duro
 					break;
-				case 3:
+				case "Bomba":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb1.png"))); //Bomba
 					break;
-				case 4:
+				case "Explosion":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
 					break;
-			
 				}
 			}
-			else if((int)param[0]==1) //Ventana de muerte
+			else if((String)param[0]=="Muerte") //Ventana de muerte
 			{
 				//GestorFinalVisual.getFinal(false); TODO
 				setVisible(false);

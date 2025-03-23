@@ -142,13 +142,15 @@ public class Tablero extends Observable{
 	{
 		if(!finPartida)
 		{
-			finPartida = true;
+			/*finPartida = true;
 			System.out.println("Fin");
 			setChanged();
 
 			notifyObservers(new Object[] {"Muerte"});
 			FinalVisual fv = new FinalVisual(pEstadoPartida);
-			fv.setVisible(true);
+			fv.setVisible(true);*/
+			System.out.println("Cerramos main");
+			System.exit(0);
 		}
 	}
 	

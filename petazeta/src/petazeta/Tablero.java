@@ -113,6 +113,7 @@ public class Tablero extends Observable{
 		            mapa[y][x] = new Explosion(y, x);
 		            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
 	        	} else {
+	        		mapa[y][x].destruir();
 	        		this.detonarBomba(x, y, "Normal");
 	        	}
 	        	break;

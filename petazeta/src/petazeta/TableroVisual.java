@@ -216,19 +216,19 @@ public class TableroVisual extends JFrame implements Observer{
 		public void actionPerformed(int keyCode, Jugador jugador) {
 			if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
 				jugador.mover(0, -1);
-				System.out.println("Se mueve arriba");
+				//System.out.println("Se mueve arriba");
 			}
 			else if(keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) { //Movimiento abajo
 				jugador.mover(0, 1);
-				System.out.println("Se mueve abajo");
+				//System.out.println("Se mueve abajo");
 			}
 			else if(keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) { //Movimiento izquierda
 				jugador.mover(-1, 0);
-				System.out.println("Se mueve a la izquierda");
+				//System.out.println("Se mueve a la izquierda");
 			}
 			else if(keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) { //Movimiento derecha
 				jugador.mover(1,0);
-				System.out.println("Se mueve a la derecha");
+				//System.out.println("Se mueve a la derecha");
 			}
 			else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
 			        jugador.ponerBomba();

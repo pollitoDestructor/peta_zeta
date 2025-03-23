@@ -18,6 +18,8 @@ public class Explosion extends Casilla {
 	            public void run() {
 	            	System.out.println("Explotado");
 	            	Tablero.getTablero().explosionTerminada(pY,pX);
+	            	timer.cancel();
+	            	timer.purge();
 	            }       
 	        };
 	        timer = new Timer();

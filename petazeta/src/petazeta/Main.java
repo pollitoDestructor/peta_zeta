@@ -9,7 +9,7 @@ public class Main {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		Tablero tablero = Tablero.getTablero();
 		TableroVisual f = new TableroVisual();

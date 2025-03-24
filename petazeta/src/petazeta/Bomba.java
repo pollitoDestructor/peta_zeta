@@ -17,7 +17,6 @@ public class Bomba extends Casilla {
             @Override
             public void run() {
                 explotar(); //Pasados 3 segundos, explota
-                Jugador.getJugador().addBomba();
             }       
         };
         timer = new Timer();

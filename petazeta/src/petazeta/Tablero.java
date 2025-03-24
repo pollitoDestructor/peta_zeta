@@ -81,6 +81,7 @@ public class Tablero extends Observable{
 	        int newY = pY + dy[i];
 
 	        if (esValido(newX, newY)) {
+                Jugador.getJugador().addBomba();
 	            procesarExplosion(newX, newY, i);
 	            if(Jugador.getJugador().estaEnCasilla(newX, newY))
 	            {

@@ -1,4 +1,4 @@
-package petazeta;
+package viewController;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
+
+import Modelo.Jugador;
+import Modelo.Tablero;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -74,7 +77,7 @@ public class TableroVisual extends JFrame implements Observer{
 
 	        for (int m = 0; m < 17; m++) {
 	            for (int n = 10; n >= 0; n--) {
-	                JLabelCasilla labelCasilla = new JLabelCasilla(m, n);
+	                JLabel labelCasilla = new JLabel();
 	                labelCasilla.setOpaque(false);  // Hace que las casillas sean transparentes
 	                grid.add(labelCasilla);
 	            }
@@ -101,7 +104,7 @@ public class TableroVisual extends JFrame implements Observer{
 				int x = (int)param[1];
 				
 				int index = 17*x+y;
-				JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
+				JLabel pCasilla = (JLabel) grid.getComponent(index);
 				
 				switch ((String)param[3]) {
 				case "Casilla":
@@ -145,7 +148,7 @@ public class TableroVisual extends JFrame implements Observer{
             int y = (int)movimiento[3];
 
             int index = 17*posY+posX; //la pos que dejamos atrás
-			JLabelCasilla pCasilla = (JLabelCasilla) grid.getComponent(index);
+			JLabel pCasilla = (JLabel) grid.getComponent(index);
 			String[] partes = null;
 			if(x != 0 || y != 0) {
 				String imagenActual = pCasilla.getIcon().toString();
@@ -167,7 +170,7 @@ public class TableroVisual extends JFrame implements Observer{
 			}
 			
 			index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
-			pCasilla = (JLabelCasilla) grid.getComponent(index);
+			pCasilla = (JLabel) grid.getComponent(index);
 			if(x != 0 || y != 0) {	
 	            if (x == 1) {
 	            	if(partes[0].equals("whiteright")) {

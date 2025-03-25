@@ -4,6 +4,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
+import Modelo.Jugador;
+import Modelo.Tablero;
+import viewController.TableroVisual;
+
 public class Main { 
 
 	/**

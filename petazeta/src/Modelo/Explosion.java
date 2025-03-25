@@ -1,4 +1,4 @@
-package petazeta;
+package Modelo;
 
 import java.util.Timer;
 import java.util.TimerTask;

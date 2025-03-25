@@ -1,4 +1,4 @@
-package petazeta;
+package Modelo;
 
 public class BloqueBlando extends Casilla {
 	

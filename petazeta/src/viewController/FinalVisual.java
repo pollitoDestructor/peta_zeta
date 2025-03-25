@@ -1,10 +1,12 @@
-package petazeta;
+package viewController;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Modelo.GestorFinalVisual;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;

@@ -1,4 +1,4 @@
-package petazeta;
+package Modelo;
 
 import java.util.Observable;
 import java.util.Random; 

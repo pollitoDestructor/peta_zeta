@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import Modelo.Jugador;
-import Modelo.Tablero;
+import modelo.Jugador;
+import modelo.Tablero;
 
 import java.awt.GridLayout;
 import java.awt.Image;

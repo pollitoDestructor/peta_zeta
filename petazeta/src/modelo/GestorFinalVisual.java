@@ -1,4 +1,4 @@
-package Modelo;
+package modelo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,10 +1,7 @@
 package viewController;
 
-import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,15 +12,11 @@ import modelo.Jugador;
 import modelo.Tablero;
 
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -63,6 +56,8 @@ public class TableroVisual extends JFrame implements Observer{
 			}
 		});
 	}
+	
+	@SuppressWarnings("serial") //TODO es por el UID (numero largo)
 	private JPanel getPanel_Casillas() {
 	    if (grid == null) {
 	        grid = new JPanel() {

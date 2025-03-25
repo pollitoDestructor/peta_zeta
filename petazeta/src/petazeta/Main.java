@@ -1,9 +1,5 @@
 package petazeta;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JFrame;
-
 import modelo.Jugador;
 import modelo.Tablero;
 import viewController.TableroVisual;

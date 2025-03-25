@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.Observable;
 
+@SuppressWarnings("deprecation")
 public class Jugador extends Observable { 
 	
 	private static Jugador miJugador; //referencia estatica

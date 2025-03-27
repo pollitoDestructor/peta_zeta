@@ -1,7 +1,10 @@
 package viewController;
 
+import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,11 +15,16 @@ import modelo.Jugador;
 import modelo.Tablero;
 
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -47,17 +55,9 @@ public class TableroVisual extends JFrame implements Observer{
 		
 		Tablero.getTablero().addObserver(this);
 		Jugador.getJugador().addObserver(this);
-		
-		this.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				int keyCode=e.getKeyCode();
-				//System.out.println(keyCode)	
-				getControlador().actionPerformed(keyCode,Jugador.getJugador());
-			}
-		});
+		this.addKeyListener(getControlador());
 	}
 	
-	@SuppressWarnings("serial") //TODO es por el UID (numero largo)
 	private JPanel getPanel_Casillas() {
 	    if (grid == null) {
 	        grid = new JPanel() {
@@ -209,33 +209,47 @@ public class TableroVisual extends JFrame implements Observer{
 		}
 		return controlador;
 	}
-	//2CONTROLADOR
-	private class Controlador {
-		public void actionPerformed(int keyCode, Jugador jugador) {
+	//CONTROLADOR
+	private class Controlador implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int keyCode=e.getKeyCode();
 			if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
-				jugador.mover(0, -1);
+				Jugador.getJugador().mover(0, -1);
 				//System.out.println("Se mueve arriba");
 			}
 			else if(keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) { //Movimiento abajo
-				jugador.mover(0, 1);
+				Jugador.getJugador().mover(0, 1);
 				//System.out.println("Se mueve abajo");
 			}
 			else if(keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) { //Movimiento izquierda
-				jugador.mover(-1, 0);
+				Jugador.getJugador().mover(-1, 0);
 				//System.out.println("Se mueve a la izquierda");
 			}
 			else if(keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) { //Movimiento derecha
-				jugador.mover(1,0);
+				Jugador.getJugador().mover(1,0);
 				//System.out.println("Se mueve a la derecha");
 			}
 			else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
-			        jugador.ponerBomba();
+					Jugador.getJugador().ponerBomba();
 			        // Crear la vista de la bomba y agregarla a la interfaz
-			        /*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
-			        f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
-			        f.revalidate(); // Refrescar la interfaz
-			        f.repaint(); */
-			} 
+					/*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
+				       f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
+				       f.revalidate(); // Refrescar la interfaz
+				       f.repaint(); */
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }

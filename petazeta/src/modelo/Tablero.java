@@ -1,7 +1,9 @@
 package modelo;
 
 import java.util.Observable;
-import java.util.Random; 
+import java.util.Random;
+
+import patrones.FactoryCasillas; 
 
 @SuppressWarnings("deprecation")
 public class Tablero extends Observable{
@@ -40,34 +42,15 @@ public class Tablero extends Observable{
 	
 	
 	public void ponerBloques() {
+		Casilla c;
 		for(int i = 0; i < mapa.length; i++) {
 			for(int j = 0; j < mapa[i].length; j++) {
 				setChanged();
-				if(i%2==1&&j%2==1) {
-					mapa[i][j] = new BloqueDuro(i,j);
-					notifyObservers(new Object[] {"PonerImagen", i,j,"BloqueDuro"});
-
-					
-				} else if (i > 1 || j > 1){
-					if(rng.nextDouble() <= 0.7) {
-						mapa[i][j] = new BloqueBlando(i,j);
-						notifyObservers(new Object[] {"PonerImagen", i,j,"BloqueBlando"});
-						
-						
-					} else {
-						mapa[i][j] =  new Casilla(i,j);
-
-						notifyObservers(new Object[] {"PonerImagen", i,j,"Casilla"});
-					}
-				} else {
-					mapa[i][j] = new Casilla(i,j);
-
-					notifyObservers(new Object[] {"PonerImagen", i,j,"Casilla"});
-				}
+				c = FactoryCasillas.getFactoryCasillas().genCasilla(i, j);
+				mapa[i][j] = c;
+				notifyObservers(new Object[] {"PonerImagen", i,j,c.tipoCasilla()});
 			}
-		}
-
-		
+		} 
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
@@ -105,13 +88,13 @@ public class Tablero extends Observable{
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
 	            setChanged();
-	            mapa[y][x] = new Explosion(y, x);
+	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", y, x);;
 	            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
 	            break;
 	        case "Bomba": // TambiÃ©n explota si es bomba
 	        	if(pItr == 0) {
 	        		setChanged();
-		            mapa[y][x] = new Explosion(y, x);
+		            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", y, x);
 		            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
 	        	} else {
 	        		mapa[y][x].destruir();
@@ -121,6 +104,10 @@ public class Tablero extends Observable{
 	        case "BloqueDuro":
 	            // No hace nada, la explosiÃ³n no pasa a travÃ©s de un bloque duro.
 	            break;
+	        case "Explosion":
+	        	Explosion e = (Explosion) mapa[y][x];
+	        	e.iniciarTimer();
+	        	break;
 	    }
 	}
 	
@@ -128,14 +115,14 @@ public class Tablero extends Observable{
 	public void ponerBomba(int pX, int pY)
 	{
 		setChanged();
-		mapa[pY][pX] = new Bomba(pX,pY); //Pone la bomba en esas coords
+		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla("Bomba", pX, pY); //Pone la bomba en esas coords
 		notifyObservers(new Object[] {"PonerImagen",pY, pX,"Bomba"});
 	}
 	
 	public void explosionTerminada(int pX, int pY)
 	{
         setChanged();
-        mapa[pY][pX] = new Casilla(pY, pX);
+        mapa[pY][pX] =  FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", pY, pX);
         notifyObservers(new Object[] {"PonerImagen", pY, pX, "Casilla"});
 	}
 	

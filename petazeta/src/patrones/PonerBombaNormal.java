@@ -1,8 +1,8 @@
-package Strategy;
+package patrones;
 
 import modelo.Tablero;
 
-public class PonerBombaGigante implements StrategyPonerBomba {
+public class PonerBombaNormal implements StrategyPonerBomba {
 
 	@Override
 	public void ponerBomba(int posX, int posY) {

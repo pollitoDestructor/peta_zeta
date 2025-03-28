@@ -2,8 +2,8 @@ package modelo;
 
 import java.util.Observable;
 
-import Strategy.PonerBombaGigante;
-import Strategy.PonerBombaNormal;
+import patrones.PonerBombaGigante;
+import patrones.PonerBombaNormal;
 
 @SuppressWarnings("deprecation")
 public class Jugador extends Observable { 

@@ -12,7 +12,6 @@ public class Bomba extends Casilla {
         super(a, b);  
         ocupado = true;
         this.tablero = Tablero.getTablero(); //Puntero a Tablero (por comodidad)
-        
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -35,4 +34,5 @@ public class Bomba extends Casilla {
 		timer.cancel();
 		timer.purge();
 	}
+    
 }

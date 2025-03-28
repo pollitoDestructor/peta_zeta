@@ -13,6 +13,7 @@ public class Main {
 		
 		Tablero tablero = Tablero.getTablero();
 		TableroVisual f = new TableroVisual();
+		//prueba
 		
 		tablero.ponerBloques();
 		

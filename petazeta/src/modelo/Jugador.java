@@ -2,6 +2,9 @@ package modelo;
 
 import java.util.Observable;
 
+import Strategy.PonerBombaGigante;
+import Strategy.PonerBombaNormal;
+
 @SuppressWarnings("deprecation")
 public class Jugador extends Observable { 
 	
@@ -9,6 +12,7 @@ public class Jugador extends Observable {
 	private int posX;
 	private int posY;
 	private int bombas=10;
+	private String color="blanco";
 
 	private Jugador() {
 		this.posX=0;
@@ -56,10 +60,15 @@ public class Jugador extends Observable {
 	{ 
 		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY)) {
 		bombas--;
-		Tablero.getTablero().ponerBomba(this.posX, this.posY);
-		System.out.println("Se pone una bomba en (" + this.posX + ", " + this.posY + ")");
-		}
+			if (this.color=="blanco") {
+				PonerBombaNormal Normal = new PonerBombaNormal();
+				Normal.ponerBomba(posX, posY);}
+			else if (this.color=="negro") {
+				PonerBombaGigante Gigante = new PonerBombaGigante();
+				Gigante.ponerBomba(posX, posY);}
+			}
 	}
+	
 	
 	//movimiento del jugador
 	public void mover(int x, int y) {

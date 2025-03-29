@@ -11,10 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import modelo.Enemigo;
-import modelo.EnemigoNormal;
-import modelo.Jugador;
-import modelo.Tablero;
+import modelo.*;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -239,6 +236,17 @@ public class TableroVisual extends JFrame implements Observer{
 				else {
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon1.png")));
 				}
+				break;
+
+				case "EnemigoDestruido":
+					int x = (int) params[1];
+					int y = (int) params[2];
+					Casilla casilla = Tablero.getTablero().getCasilla(x,y);
+					if(casilla.tipoCasilla() != "Explosion") {
+						int index = y * 17 + x;
+						pCasilla = (JLabel) grid.getComponent(index);
+						pCasilla.setIcon(null);
+					}
 				break;
 			}
 		}

@@ -31,24 +31,55 @@ public class Tablero extends Observable{
 	public ArrayList<Enemigo> getListaEnemigos() {
 		return ListaEnemigos;
 	}
+
+	public Enemigo getEnemigo(int pX, int pY) {
+		Enemigo enemigoB = null;
+		for (Enemigo enemigo : ListaEnemigos) {
+			if (enemigo.posX == pX && enemigo.posY == pY) {
+				enemigoB = enemigo;
+			}
+		}
+		return enemigoB;
+	}
+
+	public Casilla getCasilla(int pX, int pY) {
+		return mapa[pX][pY];
+	}
 	
 	public boolean casillaDisponible(int pX, int pY, String pType) {
 		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
 		
-		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
-		{
+		if(mapa[pY][pX].tipoCasilla().equals("Explosion")) {
 			switch (pType) {
 				case "Jugador":
 					System.out.println("Explota muere Dios quï¿½ horror.");
 					this.pantallaFinal(false);
 					break;
 				case "EnemigoNormal":
-					System.out.println("Enemigo muerto");
+					Enemigo enemigo = getEnemigo(pX, pY);
+					if (enemigo != null) {
+						enemigo.destruir();
+						disponible = false;
+					}
 					break;
 			}
-		}}
+		}
+		}
+		Enemigo enemigo = getEnemigo(pX, pY);
+		if(enemigo != null && enemigo.estaEnCasilla(pX, pY))
+		{
+			switch (pType) {
+				case "Jugador":
+					System.out.println("Explota muere Dios quï¿½ horror.");
+					this.pantallaFinal(false);
+					break;
+					case "EnemigoNormal":
+						disponible = false;
+						break;
+				}
+		}
 		return disponible;
 	}
 
@@ -116,6 +147,14 @@ public class Tablero extends Observable{
 	// MÃ©todo auxiliar para manejar la explosiÃ³n en una casilla
 	private void procesarExplosion(int x, int y, int pItr) {
 	    String tipo = mapa[y][x].tipoCasilla();
+
+		ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
+
+		for (Enemigo enemigo : copiaEnemigos) {
+			if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
+				enemigo.destruir();
+			}
+		}
 
 	    switch (tipo) {
 	    	case "Casilla":

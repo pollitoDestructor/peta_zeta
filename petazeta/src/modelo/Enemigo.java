@@ -7,12 +7,14 @@ import java.util.TimerTask;
 public abstract class Enemigo extends Observable {
     protected int posX;
     protected int posY;
+    private boolean estaVivo;
     private Timer timer;
     private static final int INTERVALO_MOVIMIENTO = 2000; // 3 segundo en milisegundos
 
     protected Enemigo(int pX, int pY) {
         this.posX = pX;
         this.posY = pY;
+        estaVivo = true;
         iniciarTimerMovimiento();
     }
 
@@ -68,7 +70,19 @@ public abstract class Enemigo extends Observable {
     }
 
     public void destruir() {
+        estaVivo = false;
         detenerTimer();
+        Tablero.getTablero().getListaEnemigos().remove(this);
+        if(Tablero.getTablero().getCasilla(posX,posY).tipoCasilla() != "Explosion")
+        {
+            setChanged();
+            notifyObservers(new Object[] {"EnemigoDestruido",posX,posY,tipoEnemigo()});
+        }
+        System.out.println("Enemigo muerto");
+    }
+
+    public boolean estaVivo() {
+        return estaVivo;
     }
 
     public boolean estaEnCasilla(int pX, int pY) {

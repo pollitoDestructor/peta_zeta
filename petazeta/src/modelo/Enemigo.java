@@ -46,6 +46,7 @@ public abstract class Enemigo extends Observable {
                 movX = 1;
                 break;
         }
+
         mover(movX, movY,tipoEnemigo());
     }
 

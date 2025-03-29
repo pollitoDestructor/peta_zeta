@@ -240,7 +240,6 @@ public class TableroVisual extends JFrame implements Observer{
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon1.png")));
 				}
 				break;
-
 			}
 		}
 	}

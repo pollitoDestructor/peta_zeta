@@ -48,7 +48,6 @@ public class Tablero extends Observable{
 					System.out.println("Enemigo muerto");
 					break;
 			}
-		
 		}}
 		return disponible;
 	}

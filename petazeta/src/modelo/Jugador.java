@@ -1,9 +1,9 @@
 package modelo;
 
 import java.util.Observable;
-
 import patrones.PonerBombaGigante;
 import patrones.PonerBombaNormal;
+import patrones.StrategyPonerBomba;
 
 @SuppressWarnings("deprecation")
 public class Jugador extends Observable { 
@@ -13,6 +13,7 @@ public class Jugador extends Observable {
 	private int posY;
 	private int bombas=10;
 	private String color="blanco";
+	private StrategyPonerBomba strategyBomba = new PonerBombaNormal(); //Bomba default normal
 
 	private Jugador() {
 		this.posX=0;
@@ -35,6 +36,8 @@ public class Jugador extends Observable {
 	public int getPosY() {
 		return this.posY;
 	}
+
+	public String getColor() {return this.color;}
 	
 	public void addBomba() {
 		if (this.bombas<10) {
@@ -56,17 +59,16 @@ public class Jugador extends Observable {
 		notifyObservers(new Object[] {posX,posY,0,0});
 	}
 
+	public void changeStrategyPonerBomba(StrategyPonerBomba spb){
+		this.strategyBomba=spb;
+	}
+
 	public void ponerBomba()
 	{ 
 		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY,"Jugador")) {
-		bombas--;
-			if (this.color=="blanco") {
-				PonerBombaNormal Normal = new PonerBombaNormal();
-				Normal.ponerBomba(posX, posY);}
-			else if (this.color=="negro") {
-				PonerBombaGigante Gigante = new PonerBombaGigante();
-				Gigante.ponerBomba(posX, posY);}
-			}
+			bombas--;
+			strategyBomba.ponerBomba(posX, posY);
+		}
 	}
 	
 	

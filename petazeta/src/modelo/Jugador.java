@@ -58,7 +58,7 @@ public class Jugador extends Observable {
 
 	public void ponerBomba()
 	{ 
-		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY)) {
+		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY,"Jugador")) {
 		bombas--;
 			if (this.color=="blanco") {
 				PonerBombaNormal Normal = new PonerBombaNormal();
@@ -72,7 +72,7 @@ public class Jugador extends Observable {
 	
 	//movimiento del jugador
 	public void mover(int x, int y) {
-		if (Tablero.getTablero().casillaDisponible(posX+x,posY+y)){
+		if (Tablero.getTablero().casillaDisponible(posX+x,posY+y,"Jugador")) {
 			setChanged();
 			notifyObservers(new Object[] {posX,posY,x,y}); //le manda la pos SIN ACTUALIZAR
 			this.posX=posX+x; this.posY=posY+y;

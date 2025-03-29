@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Enemigo;
 import modelo.Jugador;
 import modelo.Tablero;
 
@@ -98,7 +99,7 @@ public class TableroVisual extends JFrame implements Observer{
 				int y = (int)param[2]; 
 				int x = (int)param[1];
 				
-				int index = 17*x+y;
+				int index = 17*y+x;
 				JLabel pCasilla = (JLabel) grid.getComponent(index);
 				
 				switch ((String)param[3]) {
@@ -106,7 +107,7 @@ public class TableroVisual extends JFrame implements Observer{
 					pCasilla.setIcon(null); //Casilla vacia
 					break;
 				case "BloqueBlando": 
-					Random r = new Random();		//Para que haya variación en la imagen de los bloques blandos
+					Random r = new Random();		//Para que haya variaciï¿½n en la imagen de los bloques blandos
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("soft4" + String.valueOf(r.nextInt(5) + 1)+".png"))); //Bloque Blando
 				
 					break;
@@ -142,7 +143,7 @@ public class TableroVisual extends JFrame implements Observer{
             int x = (int)movimiento[2];
             int y = (int)movimiento[3];
 
-            int index = 17*posY+posX; //la pos que dejamos atrás
+            int index = 17*posY+posX; //la pos que dejamos atrï¿½s
 			JLabel pCasilla = (JLabel) grid.getComponent(index);
 			String[] partes = null;
 			if(x != 0 || y != 0) {
@@ -159,7 +160,7 @@ public class TableroVisual extends JFrame implements Observer{
 				}
 				else
 				{
-					//Si no es null y NO dejamos atrás bomba (anda normal)
+					//Si no es null y NO dejamos atrï¿½s bomba (anda normal)
 					pCasilla.setIcon(null);
 				}
 			}
@@ -201,7 +202,31 @@ public class TableroVisual extends JFrame implements Observer{
 	            	}
 	            } else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
 			}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
+		}
+		else if(o instanceof Enemigo) {
+			Object[] movimiento = (Object[]) arg; //[posX:int, posY:int, x:int, y:int]
+			int posX = (int) movimiento[0];
+			int posY = (int) movimiento[1];
+			int x = (int) movimiento[2];
+			int y = (int) movimiento[3];
+
+			// Limpiar posiciÃ³n anterior
+			int oldIndex = 17 * posY + posX;
+			JLabel oldCasilla = (JLabel) grid.getComponent(oldIndex);
+			oldCasilla.setIcon(null);
+
+			// Nueva posiciÃ³n
+			int newIndex = 17 * (posY + y) + (posX + x);
+			JLabel newCasilla = (JLabel) grid.getComponent(newIndex);
+
+			// Alternar entre ballon1.png y ballon2.png
+			if(newCasilla.getIcon() == null ||
+					((ImageIcon)newCasilla.getIcon()).getDescription().contains("ballon1.png")) {
+				newCasilla.setIcon(new ImageIcon(getClass().getResource("ballon2.png")));
+			} else {
+				newCasilla.setIcon(new ImageIcon(getClass().getResource("ballon1.png")));
 			}
+		}
 	}
 	private Controlador getControlador() {
 		if (controlador == null) {

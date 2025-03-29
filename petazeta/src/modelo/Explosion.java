@@ -21,7 +21,7 @@ public class Explosion extends Casilla {
 	            @Override
 	            public void run() {
 	            	System.out.println("Explotado");
-	            	Tablero.getTablero().explosionTerminada(coordY,coordX);
+	            	Tablero.getTablero().explosionTerminada(coordX,coordY);
 	            	timer.cancel();
 	            	timer.purge();
 	            }       

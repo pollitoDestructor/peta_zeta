@@ -12,7 +12,11 @@ public class Casilla
 		coordY = pY;
 		ocupado = false;
 	}
-	
+
+	public void setOcupado(boolean estado) {
+		ocupado = estado;
+	}
+
 	public String tipoCasilla() 
 	{
 		return this.getClass().getSimpleName();

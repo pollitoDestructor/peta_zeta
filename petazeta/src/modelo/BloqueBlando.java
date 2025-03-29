@@ -7,7 +7,6 @@ public class BloqueBlando extends Casilla {
 		super(pX,pY);
 		ocupado = true;
 	}
-	//prueba
 	
 	public void destruir() //Destruye el BloqueBlando
 	{

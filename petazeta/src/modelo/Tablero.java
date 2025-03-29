@@ -3,7 +3,8 @@ package modelo;
 import java.util.Observable;
 import java.util.Random;
 
-import patrones.FactoryCasillas; 
+import patrones.FactoryCasillas;
+import patrones.FactoryEnemigos;
 
 @SuppressWarnings("deprecation")
 public class Tablero extends Observable{
@@ -25,32 +26,57 @@ public class Tablero extends Observable{
 		return miTablero;
 	}
 	
-	public boolean casillaDisponible(int pX, int pY) {
+	public boolean casillaDisponible(int pX, int pY, String pType) {
 		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
 		
 		if(mapa[pY][pX].tipoCasilla().equals("Explosion"))
 		{
-			System.out.println("Explota muere Dios quï¿½ horror.");
-			this.pantallaFinal(false);
+			switch (pType) {
+				case "Jugador":
+					System.out.println("Explota muere Dios quï¿½ horror.");
+					this.pantallaFinal(false);
+					break;
+				case "EnemigoNormal":
+					System.out.println("Enemigo muerto");
+					break;
+			}
 		
-		}
-		}
+		}}
 		return disponible;
 	}
-	
-	
+
+
 	public void ponerBloques() {
 		Casilla c;
 		for(int i = 0; i < mapa.length; i++) {
 			for(int j = 0; j < mapa[i].length; j++) {
 				setChanged();
-				c = FactoryCasillas.getFactoryCasillas().genCasilla(i, j);
+				c = FactoryCasillas.getFactoryCasillas().genCasilla(j, i);
 				mapa[i][j] = c;
-				notifyObservers(new Object[] {"PonerImagen", i,j,c.tipoCasilla()});
+				notifyObservers(new Object[] {"PonerImagen", j, i, c.tipoCasilla()});
 			}
-		} 
+		}
+
+		int cantE = rng.nextInt(3)+2;
+		int cantEC = 0;
+		while(cantEC < cantE) {
+			int y = rng.nextInt(mapa.length);    // fila
+			int x = rng.nextInt(mapa[0].length); // columna
+
+			if(casillaDisponible(x, y,"Normal")) {
+				if(x > 1 || y > 1) {
+					System.out.println("Generando enemigo en x:" + x + " y:" + y);
+					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("EnemigoNormal", x, y);
+					mapa[y][x].setOcupado(true);
+					setChanged();
+					notifyObservers(new Object[] {"PonerImagen", x, y, "Enemigo"});
+					cantEC++;
+				}
+			}
+		}
+		System.out.println("Total enemigos generados: " + cantEC);
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
@@ -88,14 +114,14 @@ public class Tablero extends Observable{
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
 	            setChanged();
-	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", y, x);;
-	            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
+	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);;
+	            notifyObservers(new Object[] {"PonerImagen", x, y, "Explosion"});
 	            break;
 	        case "Bomba": // TambiÃ©n explota si es bomba
 	        	if(pItr == 0) {
 	        		setChanged();
-		            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", y, x);
-		            notifyObservers(new Object[] {"PonerImagen", y, x, "Explosion"});
+		            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+		            notifyObservers(new Object[] {"PonerImagen", x, y, "Explosion"});
 	        	} else {
 	        		mapa[y][x].destruir();
 	        		this.detonarBomba(x, y, "Normal");
@@ -116,14 +142,14 @@ public class Tablero extends Observable{
 	{
 		setChanged();
 		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla("Bomba", pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pY, pX,"Bomba"});
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,"Bomba"});
 	}
 	
 	public void explosionTerminada(int pX, int pY)
 	{
         setChanged();
-        mapa[pY][pX] =  FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", pY, pX);
-        notifyObservers(new Object[] {"PonerImagen", pY, pX, "Casilla"});
+        mapa[pY][pX] =  FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", pX, pY);
+        notifyObservers(new Object[] {"PonerImagen", pX, pY, "Casilla"});
 	}
 	
 	private void pantallaFinal(boolean pEstadoPartida)

@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Enemigo;
+import modelo.EnemigoNormal;
 import modelo.Jugador;
 import modelo.Tablero;
 
@@ -120,6 +121,9 @@ public class TableroVisual extends JFrame implements Observer{
 				case "Explosion":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
 					break;
+				case "Enemigo":
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon1.png")));
+				break;
 				}
 			}
 			else if((String)param[0]=="Muerte") //Ventana de muerte
@@ -131,7 +135,10 @@ public class TableroVisual extends JFrame implements Observer{
 				System.out.println("Dispose paso 2.");
 				
 			}
-			
+			else if((String)param[0]=="NuevoEnemigo"){
+				Enemigo nuevoEnemigo = (Enemigo) param[1];
+				nuevoEnemigo.addObserver(this); // Registrar el enemigo como observable
+			}
 			/*grid.validate();
 			grid.repaint();*/
 		}
@@ -203,28 +210,37 @@ public class TableroVisual extends JFrame implements Observer{
 	            } else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
 			}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource("whitehappy1.png")));//inicializar
 		}
-		else if(o instanceof Enemigo) {
-			Object[] movimiento = (Object[]) arg; //[posX:int, posY:int, x:int, y:int]
-			int posX = (int) movimiento[0];
-			int posY = (int) movimiento[1];
-			int x = (int) movimiento[2];
-			int y = (int) movimiento[3];
+		else if(o instanceof Enemigo)
+		{
+			Object[] params = (Object[]) arg;
+			String accion = (String) params[0];
 
-			// Limpiar posición anterior
-			int oldIndex = 17 * posY + posX;
-			JLabel oldCasilla = (JLabel) grid.getComponent(oldIndex);
-			oldCasilla.setIcon(null);
+			switch (accion) {
+				case "mover":
+				int oldX = (int) params[1];
+				int oldY = (int) params[2];
+				int newX = (int) params[3];
+				int newY = (int) params[4];
+				System.out.println("Enemigo movido de (" + oldX + "," + oldY + ") a (" + newX + "," + newY + ")");
 
-			// Nueva posición
-			int newIndex = 17 * (posY + y) + (posX + x);
-			JLabel newCasilla = (JLabel) grid.getComponent(newIndex);
+				//Borrar posición anterior
+				int oldIndex = oldY * 17 + oldX;
+				JLabel pCasilla = (JLabel) grid.getComponent(oldIndex);
+				boolean esBaloon1 = pCasilla.getIcon() != null && ((ImageIcon)pCasilla.getIcon()).getDescription().contains("baloon1.png");
+				pCasilla.setIcon(null);
 
-			// Alternar entre ballon1.png y ballon2.png
-			if(newCasilla.getIcon() == null ||
-					((ImageIcon)newCasilla.getIcon()).getDescription().contains("ballon1.png")) {
-				newCasilla.setIcon(new ImageIcon(getClass().getResource("ballon2.png")));
-			} else {
-				newCasilla.setIcon(new ImageIcon(getClass().getResource("ballon1.png")));
+				//Poner en nueva posición
+				int newIndex = newY * 17 + newX;
+				pCasilla = (JLabel) grid.getComponent(newIndex);
+				if(esBaloon1)
+				{
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon2.png")));
+				}
+				else {
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon1.png")));
+				}
+				break;
+
 			}
 		}
 	}

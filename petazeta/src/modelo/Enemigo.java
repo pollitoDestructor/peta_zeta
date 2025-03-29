@@ -5,60 +5,82 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class Enemigo extends Observable {
-    private int posX;
-    private int posY;
-    private Timer timer = null;
-    private static final int PERIODO = 1; //Periodo de 1 segundo
+    protected int posX;
+    protected int posY;
+    private Timer timer;
+    private static final int INTERVALO_MOVIMIENTO = 2000; // 3 segundo en milisegundos
 
     protected Enemigo(int pX, int pY) {
-        posX = pX;
-        posY = pY;
-        iniciarTimer();
+        this.posX = pX;
+        this.posY = pY;
+        iniciarTimerMovimiento();
     }
 
-    public void iniciarTimer() {
-        detenerTimer();
-
-        timer = new Timer(true); // Timer como daemon (no evita que el programa termine)
+    private void iniciarTimerMovimiento() {
+        detenerTimer(); // Detener timer existente si lo hay
+        timer = new Timer(true); // Timer como daemon
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                // Movimiento aleatorio (ejemplo: -1, 0, o +1 en X/Y)
-                int movX = (int) (Math.random() * 3) - 1; // Valores: -1, 0, 1
-                int movY = (int) (Math.random() * 3) - 1;
-                mover(movX, movY, tipoEnemigo());
+                moverAleatoriamente();
             }
-        }, PERIODO, PERIODO);
+        }, INTERVALO_MOVIMIENTO, INTERVALO_MOVIMIENTO);
     }
 
-    public void detenerTimer() {
+    public void moverAleatoriamente() {
+        // Generar número aleatorio entre 0 y 3 para las 4 direcciones
+        int direccion = (int)(Math.random() * 4);
+        int movX = 0, movY = 0;
+
+        switch (direccion) {
+            case 0: // Arriba
+                movY = -1;
+                break;
+            case 1: // Abajo
+                movY = 1;
+                break;
+            case 2: // Izquierda
+                movX = -1;
+                break;
+            case 3: // Derecha
+                movX = 1;
+                break;
+        }
+        mover(movX, movY,tipoEnemigo());
+    }
+
+    //movimiento del enemigo
+    public void mover(int x, int y, String pType) {
+        if (Tablero.getTablero().casillaDisponible(posX+x,posY+y, pType)) {
+            setChanged();
+            notifyObservers(new Object[] {"mover",posX,posY,posX+x,posY+y,tipoEnemigo()}); //le manda la pos
+            posX = posX + x;
+            posY = posY + y;
+            System.out.println(tipoEnemigo() + " movido a (" + posX + "," + posY + ")");
+        }
+    }
+    private void detenerTimer() {
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
 
-    // Método para limpieza cuando el enemigo se elimina
     public void destruir() {
         detenerTimer();
     }
 
-    public abstract boolean estaEnCasilla(int pX, int pY);
-    public abstract void mover(int x, int y,String tipo);
-    public abstract String tipoEnemigo();
-    protected int getPosX() {
-        return posX;
+    public boolean estaEnCasilla(int pX, int pY) {
+        boolean esta = false;
+        if(this.posX==pX && this.posY==pY) {
+            esta = true;
+        }
+        return esta;
     }
 
-    protected int getPosY() {
-        return posY;
+    public String tipoEnemigo()
+    {
+        return this.getClass().getSimpleName();
     }
 
-    protected void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    protected void setPosY(int posY) {
-        this.posY = posY;
-    }
 }

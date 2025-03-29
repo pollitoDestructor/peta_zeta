@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import patrones.FactoryEnemigos;
 public class Tablero extends Observable{
 	private static Tablero miTablero;
 	private Casilla[][] mapa;
+	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
 	private boolean finPartida = false;
 	
@@ -24,6 +26,10 @@ public class Tablero extends Observable{
 			
 		}
 		return miTablero;
+	}
+
+	public ArrayList<Enemigo> getListaEnemigos() {
+		return ListaEnemigos;
 	}
 	
 	public boolean casillaDisponible(int pX, int pY, String pType) {
@@ -50,28 +56,31 @@ public class Tablero extends Observable{
 
 	public void ponerBloques() {
 		Casilla c;
-		for(int i = 0; i < mapa.length; i++) {
-			for(int j = 0; j < mapa[i].length; j++) {
+		for (int i = 0; i < mapa.length; i++) {
+			for (int j = 0; j < mapa[i].length; j++) {
 				setChanged();
 				c = FactoryCasillas.getFactoryCasillas().genCasilla(j, i);
 				mapa[i][j] = c;
-				notifyObservers(new Object[] {"PonerImagen", j, i, c.tipoCasilla()});
+				notifyObservers(new Object[]{"PonerImagen", j, i, c.tipoCasilla()});
 			}
 		}
-
+	}
+	public void ponerEnemigos() {
 		int cantE = rng.nextInt(3)+2;
 		int cantEC = 0;
 		while(cantEC < cantE) {
-			int y = rng.nextInt(mapa.length);    // fila
-			int x = rng.nextInt(mapa[0].length); // columna
+			int y = rng.nextInt(mapa.length);
+			int x = rng.nextInt(mapa[0].length);
 
 			if(casillaDisponible(x, y,"Normal")) {
 				if(x > 1 || y > 1) {
 					System.out.println("Generando enemigo en x:" + x + " y:" + y);
 					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("EnemigoNormal", x, y);
-					mapa[y][x].setOcupado(true);
+					ListaEnemigos.add(enemigo);
 					setChanged();
 					notifyObservers(new Object[] {"PonerImagen", x, y, "Enemigo"});
+					setChanged();
+					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
 					cantEC++;
 				}
 			}

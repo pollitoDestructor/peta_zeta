@@ -50,35 +50,34 @@ public class Tablero extends Observable{
 		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
-		
-		if(mapa[pY][pX].tipoCasilla().equals("Explosion")) {
-			switch (pType) {
-				case "Jugador":
-					System.out.println("Explota muere Dios quï¿½ horror.");
-					this.pantallaFinal(false);
-					break;
-				case "EnemigoNormal":
-					Enemigo enemigo = getEnemigo(pX, pY);
-					if (enemigo != null) {
-						enemigo.destruir();
-						disponible = false;
-					}
-					break;
+
+			if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
+				switch (pType) {
+					case "Jugador":
+						System.out.println("Explota muere Dios quï¿½ horror.");
+						this.pantallaFinal(false);
+						break;
+					case "EnemigoNormal":
+						Enemigo enemigo = getEnemigo(pX, pY);
+						if (enemigo != null) {
+							enemigo.destruir();
+							disponible = false;
+						}
+						break;
+				}
 			}
-		}
-		}
-		Enemigo enemigo = getEnemigo(pX, pY);
-		if(enemigo != null && enemigo.estaEnCasilla(pX, pY))
-		{
-			switch (pType) {
-				case "Jugador":
-					System.out.println("Explota muere Dios quï¿½ horror.");
-					this.pantallaFinal(false);
-					break;
+			Enemigo enemigo = getEnemigo(pX, pY);
+			if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
+				switch (pType) {
 					case "EnemigoNormal":
 						disponible = false;
 						break;
+					case "Jugador":
+						System.out.println("Explota muere Dios quï¿½ horror.");
+						this.pantallaFinal(false);
+						break;
 				}
+			}
 		}
 		return disponible;
 	}
@@ -96,7 +95,7 @@ public class Tablero extends Observable{
 		}
 	}
 	public void ponerEnemigos() {
-		int cantE = rng.nextInt(3)+2;
+		int cantE = rng.nextInt(3)+2; // 2-4 enemigos
 		int cantEC = 0;
 		while(cantEC < cantE) {
 			int y = rng.nextInt(mapa.length);

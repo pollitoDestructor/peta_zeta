@@ -32,12 +32,12 @@ public class Jugador extends Observable {
 	public int getPosX() {
 		return this.posX;
 	}
-	
 	public int getPosY() {
 		return this.posY;
 	}
 
 	public String getColor() {return this.color;}
+	public void setColor(String pColor) {this.color=pColor;}
 	
 	public void addBomba() {
 		if (this.bombas<10) {

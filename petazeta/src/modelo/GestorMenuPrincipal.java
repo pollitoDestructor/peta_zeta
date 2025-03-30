@@ -1,5 +1,7 @@
 package modelo;
 
+import patrones.PonerBombaGigante;
+import patrones.PonerBombaNormal;
 import viewController.TableroVisual;
 
 public class GestorMenuPrincipal {
@@ -24,6 +26,21 @@ public class GestorMenuPrincipal {
         jugador.inicio(); //para imprimir el primer Bomberman nada mas
         System.out.println("El jugador esta en: "+jugador.getPosX()+" "+jugador.getPosY());
         f.setVisible(true);
+    }
+
+    public void cambiarJugador(String pColor) {
+        if (pColor == Jugador.getJugador().getColor()) {
+        } else {
+            Jugador.getJugador().setColor(pColor);
+            System.out.println("Cambio de color a: "+pColor);
+            if (pColor == "blanco") {
+                Jugador.getJugador().changeStrategyPonerBomba(new PonerBombaNormal());
+                System.out.println("Cambio de estrategia a: PonerBombaNormal");
+            } else if (pColor == "negro") {
+                Jugador.getJugador().changeStrategyPonerBomba(new PonerBombaGigante());
+                System.out.println("Cambio de estrategia a: PonerBombaGigante");
+            }
+        }
     }
 
     public void end() {

@@ -214,8 +214,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private class ControladorRaton implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(e.getComponent()==bomber1){System.out.println("bomber1");}
-            else if(e.getComponent()==bomber1){System.out.println("bomber2");}
+            if(e.getComponent()==bomber1){System.out.println("bomber1");menu.cambiarJugador("blanco");}
+            else if(e.getComponent()==bomber2){System.out.println("bomber2");menu.cambiarJugador("negro");}
         }
 
         @Override

@@ -3,6 +3,7 @@ package viewController;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import modelo.GestorMenuPrincipal;
 
@@ -19,6 +20,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel bomber2;
     private JLabel bomber3;
     private JLabel bomber4;
+    private JPanel opciones;
     private GestorMenuPrincipal menu;
     private ControladorTeclado controladorTeclado;
     private ControladorRaton controladorRaton;
@@ -68,6 +70,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         contentPane.add(getBomber2());
         contentPane.add(getBomber3());
         contentPane.add(getBomber4());
+        contentPane.add(getOpciones());
 
         this.addKeyListener(getControladorTeclado());
         bomber1.addMouseListener(getControladorRaton());
@@ -82,7 +85,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         if (bomber1 == null) {
             bomber1 = new JLabel();
             bomber1.setBounds(getBounds().width/10, getBounds().height/3, 60, 82);
-            bomber1.setIcon(new ImageIcon(getClass().getResource("bomber1.png")));
+            //bomber1.setIcon(new ImageIcon(getClass().getResource("bomber1.png")));
         }
         return bomber1;
     }
@@ -90,7 +93,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         if (bomber2 == null) {
             bomber2 = new JLabel();
             bomber2.setIcon(new ImageIcon(getClass().getResource("bomber2.png")));
-            bomber2.setBounds(getBounds().width/2, getBounds().height/4, 58, 107);
+            //bomber2.setBounds(getBounds().width/2, getBounds().height/4, 58, 107);
         }
         return bomber2;
     }
@@ -99,7 +102,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         if (bomber3 == null) {
             bomber3 = new JLabel();
             bomber3.setIcon(new ImageIcon(getClass().getResource("bomber3.png")));
-            bomber3.setBounds(getBounds().width/2+getBounds().width/5, getBounds().height/3, 47, 92);
+            //bomber3.setBounds(getBounds().width/2+getBounds().width/4, getBounds().height/3, 47, 92);
         }
         return bomber3;
     }
@@ -108,9 +111,41 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         if (bomber4 == null) {
             bomber4 = new JLabel();
             bomber4.setIcon(new ImageIcon(getClass().getResource("bomber4.png")));
-            bomber4.setBounds(getBounds().width/2, getBounds().height/2, 114, 100);
+            //bomber4.setBounds(getBounds().width/2+getBounds().width/25, getBounds().height/2, 114, 100);
         }
         return bomber4;
+    }
+
+    private JPanel getOpciones(){
+        if (opciones == null) {
+            opciones = new JPanel();
+            Border borde = BorderFactory.createLineBorder(Color.BLACK, 1);
+            opciones.setLayout(new GridLayout(3,1,0,0));
+                JLabel Classic = new JLabel("Classic");
+                Classic.setBorder(borde);
+                //Classic.setFont(new Font("Arial", Font.BOLD, 5));
+                Classic.setHorizontalAlignment(SwingConstants.CENTER);
+                Classic.setForeground(new Color(255, 20, 100));
+                Classic.addMouseListener(getControladorRaton());
+                opciones.add(Classic);
+                JLabel Soft = new JLabel("Soft");
+                Soft.setBorder(borde);
+                //Soft.setFont(new Font("Arial", Font.BOLD, 5));
+                Soft.addMouseListener(getControladorRaton());
+                Soft.setHorizontalAlignment(SwingConstants.CENTER);
+                Soft.setForeground(new Color(20, 255, 100));
+                opciones.add(Soft);
+                JLabel Empty = new JLabel("Empty");
+                Empty.setBorder(borde);
+                //Empty.setFont(new Font("Arial", Font.BOLD, 5));
+                Empty.addMouseListener(getControladorRaton());
+                Empty.setHorizontalAlignment(SwingConstants.CENTER);
+                Empty.setForeground(new Color(20, 100, 255));
+                opciones.add(Empty);
+                opciones.setVisible(false);
+            //opciones.setBounds(getBounds().width-getBounds().width/10, getBounds().height/20, 50, 100);
+        }
+        return opciones;
     }
 
     private ImageIcon escalarImagen(ImageIcon icono, int ancho, int alto) {
@@ -158,12 +193,18 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
             bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
             ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomber3.png"));
             bomber3.setIcon(escalarImagen(sprite3,bomber3.getWidth(),bomber3.getHeight()));
-            bomber3.setLocation(getBounds().width/2+getBounds().width/5, getBounds().height/3);
+            bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
             //Reescalar bomber4
             bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
             ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomber4.png"));
             bomber4.setIcon(escalarImagen(sprite4,bomber4.getWidth(),bomber4.getHeight()));
-            bomber4.setLocation(getBounds().width/2, getBounds().height/2);
+            bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+            //Reescaler opciones
+            opciones.setSize((50*getBounds().width)/900, (100*getBounds().height)/600);
+            for(int i=0; i<3; i++){
+                opciones.getComponent(i).setFont(new Font("Arial", Font.BOLD, (5*opciones.getSize().width/50)));
+            }
+            opciones.setLocation(getBounds().width-getBounds().width/10, getBounds().height/20);
         }
 
         @Override
@@ -202,7 +243,10 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
                 menu.iniciarJuego();
             }
             else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}
-            else if (keyCode==KeyEvent.VK_O){/*Opciones*/}
+            else if (keyCode==KeyEvent.VK_O){
+                if(opciones.isVisible()){opciones.setVisible(false);}
+                else{opciones.setVisible(true);}
+            }
         }
 
         @Override
@@ -216,6 +260,11 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         public void mouseClicked(MouseEvent e) {
             if(e.getComponent()==bomber1){System.out.println("bomber1");menu.cambiarJugador("blanco");}
             else if(e.getComponent()==bomber2){System.out.println("bomber2");menu.cambiarJugador("negro");}
+
+            //Botones opciones
+            else if (e.getComponent()==opciones.getComponent(0)){System.out.println("Pantalla Classic");}
+            else if (e.getComponent()==opciones.getComponent(1)){System.out.println("Pantalla Soft");}
+            else if (e.getComponent()==opciones.getComponent(2)){System.out.println("Pantalla Empty");}
         }
 
         @Override

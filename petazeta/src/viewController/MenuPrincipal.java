@@ -6,10 +6,7 @@ import javax.swing.*;
 
 import modelo.GestorMenuPrincipal;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,7 +20,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel bomber3;
     private JLabel bomber4;
     private GestorMenuPrincipal menu;
-    private Controlador controlador;
+    private ControladorTeclado controladorTeclado;
+    private ControladorRaton controladorRaton;
     private Reescaler reescaler;
 
     public static void main(String[] args) {
@@ -41,7 +39,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
 
     public MenuPrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 900, 600);
         contentPane = new JPanel() {   //AÑADIR SPRITE DE FONDO AL MENU
             @Override
             protected void paintComponent(Graphics g) {
@@ -71,7 +69,11 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         contentPane.add(getBomber3());
         contentPane.add(getBomber4());
 
-        this.addKeyListener(getControlador());
+        this.addKeyListener(getControladorTeclado());
+        bomber1.addMouseListener(getControladorRaton());
+        bomber2.addMouseListener(getControladorRaton());
+        bomber3.addMouseListener(getControladorRaton());
+        bomber4.addMouseListener(getControladorRaton());
         this.addComponentListener(getReescaler()); //Ajusta la posicion de los bombermans a la pantalla
         this.menu=GestorMenuPrincipal.getMenu();
     }
@@ -117,11 +119,18 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         return new ImageIcon(imagenEscalada);
     }
 
-    private Controlador getControlador() {
-        if (controlador == null) {
-            controlador = new Controlador();
+    private ControladorTeclado getControladorTeclado() {
+        if (controladorTeclado == null) {
+            controladorTeclado = new ControladorTeclado();
         }
-        return controlador;
+        return controladorTeclado;
+    }
+
+    private ControladorRaton getControladorRaton() {
+        if (controladorRaton == null) {
+            controladorRaton = new ControladorRaton();
+        }
+        return controladorRaton;
     }
 
     private Reescaler getReescaler() {
@@ -174,7 +183,7 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     }
 
     //CONTROLADOR KeyListener
-    private class Controlador implements KeyListener {
+    private class ControladorTeclado implements KeyListener {
 
         @Override
         public void keyTyped(KeyEvent e) {
@@ -198,6 +207,34 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
 
         @Override
         public void keyReleased(KeyEvent e) {
+
+        }
+    }
+
+    private class ControladorRaton implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(e.getComponent()==bomber1){System.out.println("bomber1");}
+            else if(e.getComponent()==bomber1){System.out.println("bomber2");}
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
 
         }
     }

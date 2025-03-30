@@ -1,10 +1,7 @@
 package viewController;
 
-import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,16 +11,11 @@ import javax.swing.border.EmptyBorder;
 import modelo.*;
 
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -35,6 +27,7 @@ public class TableroVisual extends JFrame implements Observer{
 	private JPanel contentPane; 
 	private JPanel panel;
 	private Controlador controlador;
+	private String fondo;
 
 
 	/**
@@ -63,7 +56,7 @@ public class TableroVisual extends JFrame implements Observer{
 	            @Override
 	            protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
-	                ImageIcon background = new ImageIcon(getClass().getResource("stageBack1.png"));
+	                ImageIcon background = new ImageIcon(getClass().getResource(fondo));
 	                g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
 	            }
 	        };
@@ -136,8 +129,23 @@ public class TableroVisual extends JFrame implements Observer{
 				Enemigo nuevoEnemigo = (Enemigo) param[1];
 				nuevoEnemigo.addObserver(this); // Registrar el enemigo como observable
 			}
-			/*grid.validate();
-			grid.repaint();*/
+			else if((String)param[0]=="PonerFondo") { //Elige el fondo
+				String pMapa = (String)param[1];
+				switch(pMapa) {
+				case "Classic":
+					fondo = "stageBack1.png";
+					break;
+				case "Soft":
+					fondo = "stageBack3.png";
+					break;
+				case "Empty":
+					fondo = "stageBack2.png";
+					break;
+				}
+				grid.repaint();
+				grid.validate();
+				
+			}
 		}
 		else if(o instanceof Jugador)
 		{

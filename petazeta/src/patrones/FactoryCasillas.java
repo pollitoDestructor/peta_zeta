@@ -20,22 +20,6 @@ public class FactoryCasillas {
 		return miFC;
 	}
 	
-	public Casilla genCasilla(int pI, int pJ) {
-		Casilla c;
-		Random rng = new Random();
-		if(pI%2==1&&pJ%2==1) {
-			c = new BloqueDuro(pI,pJ);
-		} else if (pI > 1 || pJ > 1){
-			if(rng.nextDouble() <= 0.7) {
-				c = new BloqueBlando(pI,pJ);				
-			} else {
-				c =  new Casilla(pI,pJ);
-			}
-		} else {
-			c = new Casilla(pI,pJ);
-		}
-		return c;
-	}
 	public Casilla genCasilla(String pType, int pX, int pY) {
 		Casilla c = null;
 		switch(pType) {

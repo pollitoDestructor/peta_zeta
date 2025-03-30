@@ -46,19 +46,19 @@ public class Tablero extends Observable{
 		return mapa[pX][pY];
 	}
 	
-	public boolean casillaDisponible(int pX, int pY, String pType) {
+	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
 		boolean disponible = false;
 		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
 			disponible = !mapa[pY][pX].estaOcupada();
 
 			if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
 				switch (pType) {
-					case "Jugador":
+					case "Jugador": // Si jugador se mueve a una casilla explosion
 						System.out.println("Explota muere Dios quï¿½ horror.");
 						this.pantallaFinal(false);
 						break;
-					case "EnemigoNormal":
-						Enemigo enemigo = getEnemigo(pX, pY);
+					case "EnemigoNormal": // Si EnemigoNormal se mueve a una casilla explosion
+						Enemigo enemigo = getEnemigo(pXOld, pYOld);
 						if (enemigo != null) {
 							enemigo.destruir();
 							disponible = false;
@@ -67,12 +67,20 @@ public class Tablero extends Observable{
 				}
 			}
 			Enemigo enemigo = getEnemigo(pX, pY);
-			if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
+			if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) { // Si
 				switch (pType) {
-					case "EnemigoNormal":
+					case "EnemigoNormal": //Si enemigo se mueve donde hay otro enemigo
 						disponible = false;
 						break;
-					case "Jugador":
+					case "Jugador": // Si jugador se mueve donde hay un enemigo
+						System.out.println("Explota muere Dios quï¿½ horror.");
+						this.pantallaFinal(false);
+						break;
+				}
+			}
+			if(Jugador.getJugador().estaEnCasilla(pX, pY)) { // Si un enemigo se mueve donde esta jugador
+				switch (pType) {
+					case "EnemigoNormal":
 						System.out.println("Explota muere Dios quï¿½ horror.");
 						this.pantallaFinal(false);
 						break;
@@ -101,7 +109,7 @@ public class Tablero extends Observable{
 			int y = rng.nextInt(mapa.length);
 			int x = rng.nextInt(mapa[0].length);
 
-			if(casillaDisponible(x, y,"Normal")) {
+			if(casillaDisponible(x,y,x, y,"Normal")) {
 				if(x > 1 || y > 1) {
 					System.out.println("Generando enemigo en x:" + x + " y:" + y);
 					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("EnemigoNormal", x, y);

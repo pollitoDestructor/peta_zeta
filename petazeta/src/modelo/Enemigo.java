@@ -54,7 +54,7 @@ public abstract class Enemigo extends Observable {
 
     //movimiento del enemigo
     public void mover(int x, int y, String pType) {
-        if (Tablero.getTablero().casillaDisponible(posX+x,posY+y, pType)) {
+        if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y, pType)) {
             setChanged();
             notifyObservers(new Object[] {"mover",posX,posY,posX+x,posY+y,tipoEnemigo()}); //le manda la pos
             posX = posX + x;

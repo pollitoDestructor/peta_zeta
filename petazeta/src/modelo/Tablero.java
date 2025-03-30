@@ -6,39 +6,46 @@ import java.util.Random;
 
 import patrones.FactoryCasillas;
 import patrones.FactoryEnemigos;
+import patrones.StrategyTablero;
 
 @SuppressWarnings("deprecation")
-public abstract class Tablero extends Observable{
-	protected static Tablero miTablero;
-	protected Casilla[][] mapa;
-	protected ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
-	protected Random rng = new Random();
-	protected boolean finPartida = false;
+public class Tablero extends Observable{
+	private static Tablero miTablero;
+	private Casilla[][] mapa;
+	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
+	private Random rng = new Random();
+	private boolean finPartida = false;
+	private static StrategyTablero stratTablero;
 	
 	protected Tablero() { 
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 	}
 	
 	public static Tablero getTablero() {
+		if (miTablero == null){
+			miTablero = new Tablero();
+		}
 		return miTablero;
 	}
 	
 	//Para generar el Tablero correspondiente
-	public static void setTablero(String pTipo)
+	public static void setStrategyTablero(StrategyTablero pStrat)
 	{
-		if (miTablero == null) { // Solo permite definir el tablero una vez
-            switch (pTipo) {
-                case "Classic":
-                    miTablero = TableroClassic.getTablero();
-                    break;
-                case "Soft":
-                    miTablero = TableroSoft.getTablero();
-                    break;
-                case "Empty":
-                    miTablero = TableroEmpty.getTablero();
-                    break;
-            }
-        }
+		stratTablero = pStrat;
+	}
+	
+	public void ponerBloques()
+	{
+		setChanged();
+		notifyObservers(new Object[]{"PonerFondo", stratTablero.tipoTablero()});
+		for (int i = 0; i < mapa.length; i++) {
+			for (int j = 0; j < mapa[i].length; j++) {
+				setChanged();
+				mapa[i][j] = stratTablero.ponerBloques(i,j);
+				notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
+			}
+		}
+		
 	}
 
 	public ArrayList<Enemigo> getListaEnemigos() {
@@ -103,8 +110,6 @@ public abstract class Tablero extends Observable{
 		return disponible;
 	}
 
-//	Con pMapa opta por Classic, Soft o Empty
-	public abstract void ponerBloques();
 	
 	public void ponerEnemigos() {
 		int cantE = rng.nextInt(3)+2; // 2-4 enemigos

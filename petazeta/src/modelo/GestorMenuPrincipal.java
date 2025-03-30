@@ -1,5 +1,8 @@
 package modelo;
 
+import patrones.TableroClassic;
+import patrones.TableroEmpty;
+import patrones.TableroSoft;
 import patrones.PonerBombaGigante;
 import patrones.PonerBombaNormal;
 import viewController.TableroVisual;
@@ -17,7 +20,7 @@ public class GestorMenuPrincipal {
     }
 
     public void iniciarJuego() {
-    	Tablero.setTablero("Empty"); //TODO con el String se cambia el tipo de tablero
+    	Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
         Tablero tablero = Tablero.getTablero();
         TableroVisual f = new TableroVisual();
         tablero.ponerBloques();

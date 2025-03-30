@@ -284,18 +284,24 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-        	JLabel pBomber = (JLabel) e.getComponent();
-        	char pNum = e.getComponent().getName().charAt(6);
-        	ImageIcon sprite=new ImageIcon(getClass().getResource("bomber"+pNum+".png"));
-        	pBomber.setIcon(escalarImagen(sprite,pBomber.getWidth(),pBomber.getHeight()));
+            if(e.getComponent()==bomber1||e.getComponent()==bomber2
+             ||e.getComponent()==bomber3||e.getComponent()==bomber4) {
+                JLabel pBomber = (JLabel) e.getComponent();
+                char pNum = e.getComponent().getName().charAt(6);
+                ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + ".png"));
+                pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-        	JLabel pBomber = (JLabel) e.getComponent();
-        	char pNum = e.getComponent().getName().charAt(6);
-        	ImageIcon sprite=new ImageIcon(getClass().getResource("bomberUnknown"+pNum+".png"));
-        	pBomber.setIcon(escalarImagen(sprite,pBomber.getWidth(),pBomber.getHeight()));
+            if(e.getComponent()==bomber1||e.getComponent()==bomber2
+             ||e.getComponent()==bomber3||e.getComponent()==bomber4) {
+                JLabel pBomber = (JLabel) e.getComponent();
+                char pNum = e.getComponent().getName().charAt(6);
+                ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
+                pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+            }
         }
     }
 }

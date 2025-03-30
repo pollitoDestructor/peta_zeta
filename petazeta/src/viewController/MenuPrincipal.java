@@ -84,7 +84,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel getBomber1() { //Bomber1 (blanco) - pj default
         if (bomber1 == null) {
             bomber1 = new JLabel();
-            bomber1.setBounds(getBounds().width/10, getBounds().height/3, 60, 82);
+            bomber1.setBounds(getBounds().width/10, getBounds().height/3, 60, 82); //TODO Es necesario?
+            bomber1.setName("bomber1");
             //bomber1.setIcon(new ImageIcon(getClass().getResource("bomber1.png")));
         }
         return bomber1;
@@ -92,7 +93,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel getBomber2() { //Bomber2 (negro)
         if (bomber2 == null) {
             bomber2 = new JLabel();
-            bomber2.setIcon(new ImageIcon(getClass().getResource("bomber2.png")));
+            bomber2.setIcon(new ImageIcon(getClass().getResource("bomberUnknown2.png")));
+            bomber2.setName("bomber2");
             //bomber2.setBounds(getBounds().width/2, getBounds().height/4, 58, 107);
         }
         return bomber2;
@@ -101,7 +103,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel getBomber3() { //Bomber3
         if (bomber3 == null) {
             bomber3 = new JLabel();
-            bomber3.setIcon(new ImageIcon(getClass().getResource("bomber3.png")));
+            bomber3.setIcon(new ImageIcon(getClass().getResource("bomberUnknown3.png")));
+            bomber3.setName("bomber3");
             //bomber3.setBounds(getBounds().width/2+getBounds().width/4, getBounds().height/3, 47, 92);
         }
         return bomber3;
@@ -110,7 +113,8 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
     private JLabel getBomber4() { //Bomber4
         if (bomber4 == null) {
             bomber4 = new JLabel();
-            bomber4.setIcon(new ImageIcon(getClass().getResource("bomber4.png")));
+            bomber4.setIcon(new ImageIcon(getClass().getResource("bomberUnknown4.png")));
+            bomber4.setName("bomber4");
             //bomber4.setBounds(getBounds().width/2+getBounds().width/25, getBounds().height/2, 114, 100);
         }
         return bomber4;
@@ -181,22 +185,23 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
         public void componentResized(ComponentEvent e) {
             //Reescalar bomber1
             bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
-            ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomber1.png"));
+            ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
+            sprite1.setDescription("bomber1.png"); 
             bomber1.setIcon(escalarImagen(sprite1,bomber1.getWidth(),bomber1.getHeight()));
             bomber1.setLocation(getBounds().width/10, getBounds().height/3);
             //Reescalar bomber2
             bomber2.setSize((58*getBounds().width)/450, (107*getBounds().height)/300);
             bomber2.setLocation(getBounds().width/4, getBounds().height/2);
-            ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomber2.png"));
+            ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomberUnknown2.png"));
             bomber2.setIcon(escalarImagen(sprite2,bomber2.getWidth(),bomber2.getHeight()));
             //Reescalar bomber3
             bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
-            ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomber3.png"));
+            ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomberUnknown3.png"));
             bomber3.setIcon(escalarImagen(sprite3,bomber3.getWidth(),bomber3.getHeight()));
             bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
             //Reescalar bomber4
             bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
-            ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomber4.png"));
+            ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
             bomber4.setIcon(escalarImagen(sprite4,bomber4.getWidth(),bomber4.getHeight()));
             bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
             //Reescaler opciones
@@ -279,12 +284,18 @@ public class MenuPrincipal extends JFrame /*implements Observer*/{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-
+        	JLabel pBomber = (JLabel) e.getComponent();
+        	char pNum = e.getComponent().getName().charAt(6);
+        	ImageIcon sprite=new ImageIcon(getClass().getResource("bomber"+pNum+".png"));
+        	pBomber.setIcon(escalarImagen(sprite,pBomber.getWidth(),pBomber.getHeight()));
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-
+        	JLabel pBomber = (JLabel) e.getComponent();
+        	char pNum = e.getComponent().getName().charAt(6);
+        	ImageIcon sprite=new ImageIcon(getClass().getResource("bomberUnknown"+pNum+".png"));
+        	pBomber.setIcon(escalarImagen(sprite,pBomber.getWidth(),pBomber.getHeight()));
         }
     }
 }

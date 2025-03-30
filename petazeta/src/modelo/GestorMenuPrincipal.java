@@ -15,9 +15,10 @@ public class GestorMenuPrincipal {
     }
 
     public void iniciarJuego() {
+    	Tablero.setTablero("Empty"); //TODO con el String se cambia el tipo de tablero
         Tablero tablero = Tablero.getTablero();
         TableroVisual f = new TableroVisual();
-        tablero.ponerBloques("Classic");
+        tablero.ponerBloques();
         tablero.ponerEnemigos();
         Jugador jugador = Jugador.getJugador();
         jugador.inicio(); //para imprimir el primer Bomberman nada mas

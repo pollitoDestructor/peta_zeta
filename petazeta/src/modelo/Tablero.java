@@ -8,23 +8,37 @@ import patrones.FactoryCasillas;
 import patrones.FactoryEnemigos;
 
 @SuppressWarnings("deprecation")
-public class Tablero extends Observable{
-	private static Tablero miTablero;
-	private Casilla[][] mapa;
-	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
-	private Random rng = new Random();
-	private boolean finPartida = false;
+public abstract class Tablero extends Observable{
+	protected static Tablero miTablero;
+	protected Casilla[][] mapa;
+	protected ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
+	protected Random rng = new Random();
+	protected boolean finPartida = false;
 	
-	private Tablero() { 
+	protected Tablero() { 
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 	}
 	
 	public static Tablero getTablero() {
-		if (miTablero == null){
-			miTablero = new Tablero();
-			
-		}
 		return miTablero;
+	}
+	
+	//Para generar el Tablero correspondiente
+	public static void setTablero(String pTipo)
+	{
+		if (miTablero == null) { // Solo permite definir el tablero una vez
+            switch (pTipo) {
+                case "Classic":
+                    miTablero = TableroClassic.getTablero();
+                    break;
+                case "Soft":
+                    miTablero = TableroSoft.getTablero();
+                    break;
+                case "Empty":
+                    miTablero = TableroEmpty.getTablero();
+                    break;
+            }
+        }
 	}
 
 	public ArrayList<Enemigo> getListaEnemigos() {
@@ -90,61 +104,7 @@ public class Tablero extends Observable{
 	}
 
 //	Con pMapa opta por Classic, Soft o Empty
-	public void ponerBloques(String pMapa) {
-		switch (pMapa) {
-		case "Classic":
-			setChanged();
-			notifyObservers(new Object[]{"PonerFondo", "Classic"});
-			for (int i = 0; i < mapa.length; i++) {
-				for (int j = 0; j < mapa[i].length; j++) {
-					setChanged();
-					if(j%2==1&&i%2==1) {
-						mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("BloqueDuro", i, j);
-					} else if (j > 1 || i > 1){
-						if(rng.nextDouble() <= 0.7) {
-							mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("BloqueBlando", i, j);				
-						} else {
-							mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
-						}
-					} else {
-						mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
-					}
-					notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
-				}
-			}
-			break;
-		case "Soft":
-			setChanged();
-			notifyObservers(new Object[]{"PonerFondo", "Soft"});
-			for (int i = 0; i < mapa.length; i++) {
-				for (int j = 0; j < mapa[i].length; j++) {
-					setChanged();
-					if (j > 1 || i > 1){
-						if(rng.nextDouble() <= 0.7) {
-							mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("BloqueBlando", i, j);				
-						} else {
-							mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
-						}
-					} else {
-						mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
-					}
-					notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
-				}
-			}
-			break;
-		case "Empty":
-			setChanged();
-			notifyObservers(new Object[]{"PonerFondo", "Empty"});
-			for (int i = 0; i < mapa.length; i++) {
-				for (int j = 0; j < mapa[i].length; j++) {
-					setChanged();
-					mapa[i][j] = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
-					notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
-				}
-			}
-			break;
-		}
-	}
+	public abstract void ponerBloques();
 	
 	public void ponerEnemigos() {
 		int cantE = rng.nextInt(3)+2; // 2-4 enemigos

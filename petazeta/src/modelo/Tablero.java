@@ -85,7 +85,9 @@ public class Tablero extends Observable{
 	                    System.out.println("¡El jugador ha muerto!");
 	                    this.pantallaFinal(false); // Llamar pantalla de derrota
 	                    break;
-	                case "EnemigoNormal":
+					case "Pass":
+					case "Doria":
+	                case "Globo":
 	                    Enemigo enemigo = getEnemigo(pXOld, pYOld);
 	                    if (enemigo != null) {
 	                        enemigo.destruir();
@@ -106,7 +108,9 @@ public class Tablero extends Observable{
 	        Enemigo enemigo = getEnemigo(pX, pY);
 	        if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
 	            switch (pType) {
-	                case "EnemigoNormal": // Si enemigo se mueve donde hay otro enemigo
+					case "Pass":
+					case "Doria":
+	                case "Globo": // Si enemigo se mueve donde hay otro enemigo
 	                    disponible = false;
 	                    break;
 	                case "Jugador": // Si jugador se mueve donde hay un enemigo
@@ -118,7 +122,9 @@ public class Tablero extends Observable{
 
 	        if (Jugador.getJugador().estaEnCasilla(pX, pY)) { // Si un enemigo se mueve donde está el jugador
 	            switch (pType) {
-	                case "EnemigoNormal":
+					case "Pass":
+					case "Doria":
+	                case "Globo":
 	                    System.out.println("Explota muere Dios qué horror.");
 	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 	                    break;
@@ -131,19 +137,19 @@ public class Tablero extends Observable{
 
 	
 	public void ponerEnemigos() {
-		int cantE = rng.nextInt(3)+2; // 2-4 enemigos
+		int cantE = rng.nextInt(3)+4; // 4-6 enemigos
 		int cantEC = 0;
 		while(cantEC < cantE) {
 			int y = rng.nextInt(mapa.length);
 			int x = rng.nextInt(mapa[0].length);
 
-			if(casillaDisponible(x,y,x, y,"Normal")) {
+			if(casillaDisponible(x,y,x, y,"Globo")) {
 				if(x > 1 || y > 1) {
 					System.out.println("Generando enemigo en x:" + x + " y:" + y);
-					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("EnemigoNormal", x, y);
+					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("Globo", x, y);
 					ListaEnemigos.add(enemigo);
 					setChanged();
-					notifyObservers(new Object[] {"PonerImagen", x, y, "Enemigo"});
+					notifyObservers(new Object[] {"PonerImagen", x, y, "Globo"});
 					setChanged();
 					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
 					cantEC++;

@@ -6,7 +6,11 @@ import java.util.Random;
 
 import patrones.FactoryCasillas;
 import patrones.FactoryEnemigos;
+import patrones.StateJugador;
+import patrones.StateVivo;
+import patrones.StateMuerto;
 import patrones.StrategyTablero;
+import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
 public class Tablero extends Observable{
@@ -14,11 +18,14 @@ public class Tablero extends Observable{
 	private Casilla[][] mapa;
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
-	private boolean finPartida = false;
+	private static boolean finPartida = false; //TODO static?
 	private static StrategyTablero stratTablero;
+	private StateJugador state;  
+  
 	
-	protected Tablero() { 
+	private Tablero() { 
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
+		state = new StateVivo();  // El juego comienza con el estado "vivo"
 	}
 	
 	public static Tablero getTablero() {
@@ -67,48 +74,60 @@ public class Tablero extends Observable{
 	}
 	
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
-		boolean disponible = false;
-		if(pX>=0 && pX<mapa[0].length && pY>=0 && pY<mapa.length) {
-			disponible = !mapa[pY][pX].estaOcupada();
+	    boolean disponible = false;
+	    
+	    if (pX >= 0 && pX < mapa[0].length && pY >= 0 && pY < mapa.length) {
+	        disponible = !mapa[pY][pX].estaOcupada();
 
-			if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
-				switch (pType) {
-					case "Jugador": // Si jugador se mueve a una casilla explosion
-						System.out.println("Explota muere Dios quï¿½ horror.");
-						this.pantallaFinal(false);
-						break;
-					case "EnemigoNormal": // Si EnemigoNormal se mueve a una casilla explosion
-						Enemigo enemigo = getEnemigo(pXOld, pYOld);
-						if (enemigo != null) {
-							enemigo.destruir();
-							disponible = false;
-						}
-						break;
-				}
-			}
-			Enemigo enemigo = getEnemigo(pX, pY);
-			if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) { // Si
-				switch (pType) {
-					case "EnemigoNormal": //Si enemigo se mueve donde hay otro enemigo
-						disponible = false;
-						break;
-					case "Jugador": // Si jugador se mueve donde hay un enemigo
-						System.out.println("Explota muere Dios quï¿½ horror.");
-						this.pantallaFinal(false);
-						break;
-				}
-			}
-			if(Jugador.getJugador().estaEnCasilla(pX, pY)) { // Si un enemigo se mueve donde esta jugador
-				switch (pType) {
-					case "EnemigoNormal":
-						System.out.println("Explota muere Dios quï¿½ horror.");
-						this.pantallaFinal(false);
-						break;
-				}
-			}
-		}
-		return disponible;
+	        if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
+	            switch (pType) {
+	                case "Jugador": 
+	                    System.out.println("¡El jugador ha muerto!");
+	                    this.pantallaFinal(false); // Llamar pantalla de derrota
+	                    break;
+	                case "EnemigoNormal":
+	                    Enemigo enemigo = getEnemigo(pXOld, pYOld);
+	                    if (enemigo != null) {
+	                        enemigo.destruir();
+	                        disponible = false;
+	                        if (ListaEnemigos.isEmpty()) 
+	        				{
+	        					if(jugadorHaGanado()) 
+	        					{
+	        						this.pantallaFinal(true);
+	        					}
+	        				}
+	                    }
+	                    break;
+	            }
+	        }
+
+
+	        Enemigo enemigo = getEnemigo(pX, pY);
+	        if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
+	            switch (pType) {
+	                case "EnemigoNormal": // Si enemigo se mueve donde hay otro enemigo
+	                    disponible = false;
+	                    break;
+	                case "Jugador": // Si jugador se mueve donde hay un enemigo
+	                    System.out.println("Explota muere Dios qué horror.");
+	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+	                    break;
+	            }
+	        }
+
+	        if (Jugador.getJugador().estaEnCasilla(pX, pY)) { // Si un enemigo se mueve donde está el jugador
+	            switch (pType) {
+	                case "EnemigoNormal":
+	                    System.out.println("Explota muere Dios qué horror.");
+	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+	                    break;
+	            }
+	        }
+	    }
+	    return disponible;
 	}
+
 
 	
 	public void ponerEnemigos() {
@@ -166,9 +185,18 @@ public class Tablero extends Observable{
 
 		ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 
-		for (Enemigo enemigo : copiaEnemigos) {
-			if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
+		for (Enemigo enemigo : copiaEnemigos)
+		{
+			if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) 
+			{
 				enemigo.destruir();
+				if (ListaEnemigos.isEmpty()) 
+				{
+					if(jugadorHaGanado()) 
+					{
+						this.pantallaFinal(true);
+					}
+				}
 			}
 		}
 
@@ -215,20 +243,33 @@ public class Tablero extends Observable{
         notifyObservers(new Object[] {"PonerImagen", pX, pY, "Casilla"});
 	}
 	
-	private void pantallaFinal(boolean pEstadoPartida)
-	{
-		if(!finPartida)
-		{
-			/*finPartida = true;
-			System.out.println("Fin");
-			setChanged();
-
-			notifyObservers(new Object[] {"Muerte"});
-			FinalVisual fv = new FinalVisual(pEstadoPartida);
-			fv.setVisible(true);*/
-			System.out.println("Cerramos main");
-			System.exit(0);
-		}
+	private void pantallaFinal(boolean pEstadoPartida) {
+	    if (!finPartida) {
+	        finPartida = true; // Evita que se muestre más de una vez
+	        System.out.println("Fin de la partida.");
+	        setChanged();
+	        notifyObservers(new Object[]{"Muerte"});
+	        
+	        // Mostrar la pantalla de final con el estado correspondiente
+	        FinalVisual fv = new FinalVisual(pEstadoPartida);
+	        fv.setVisible(true);
+	    }
 	}
+
+	 public void changeState(StateJugador pState) { 
+	        state = pState; 
+	        state.manejarEstado(this);  
+	    }
+	 public static void setFinPartida(boolean fin) { //TODO no se si es static
+	        finPartida = fin;
+	    }
+	 public boolean isFinPartida() {
+	        return finPartida;
+	    }
+	 public boolean jugadorHaGanado() {
+		    // Si no hay enemigos restantes, el jugador ha ganado
+		    return ListaEnemigos.isEmpty();
+		}
+
 	
 }

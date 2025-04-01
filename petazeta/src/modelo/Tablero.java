@@ -160,25 +160,27 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-
-	    // Direcciones: arriba, abajo, izquierda, derecha
-	    int[] dx = {0,0, 0, -1, 1};
-	    int[] dy = {0,-1, 1, 0, 0};
+	    int[] dx = {0, 0, 0, -1, 1};
+	    int[] dy = {0, -1, 1, 0, 0};
 
 	    for (int i = 0; i < 5; i++) {
 	        int newX = pX + dx[i];
 	        int newY = pY + dy[i];
 
 	        if (esValido(newX, newY)) {
-                Jugador.getJugador().addBomba();
+	            Jugador.getJugador().addBomba();
 	            procesarExplosion(newX, newY, i);
-	            if(Jugador.getJugador().estaEnCasilla(newX, newY))
-	            {
-	            	pantallaFinal(false);
+	            if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
+	                pantallaFinal(false);
 	            }
 	        }
 	    }
+
+	    if (ListaEnemigos.isEmpty()) { // Verificar victoria después de todas las explosiones
+	        pantallaFinal(true);
+	    }
 	}
+
 
 	// MÃ©todo para verificar si la posiciÃ³n estÃ¡ dentro del mapa
 	private boolean esValido(int x, int y) {
@@ -188,51 +190,46 @@ public class Tablero extends Observable{
 	// MÃ©todo auxiliar para manejar la explosiÃ³n en una casilla
 	private void procesarExplosion(int x, int y, int pItr) {
 	    String tipo = mapa[y][x].tipoCasilla();
+	    ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 
-		ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
+	    for (Enemigo enemigo : copiaEnemigos) {
+	        if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
+	            enemigo.destruir();
+	            ListaEnemigos.remove(enemigo); // Asegura que se elimine de la lista
+	        }
+	    }
 
-		for (Enemigo enemigo : copiaEnemigos)
-		{
-			if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) 
-			{
-				enemigo.destruir();
-				if (ListaEnemigos.isEmpty()) 
-				{
-					if(jugadorHaGanado()) 
-					{
-						this.pantallaFinal(true);
-					}
-				}
-			}
-		}
+	    if (ListaEnemigos.isEmpty()) { // Comprobar después de actualizar la lista
+	        pantallaFinal(true);
+	    }
 
 	    switch (tipo) {
-	    	case "Casilla":
+	        case "Casilla":
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
 	            setChanged();
-	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);;
-	            notifyObservers(new Object[] {"PonerImagen", x, y, "Explosion"});
+	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+	            notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
 	            break;
-	        case "Bomba": // TambiÃ©n explota si es bomba
-	        	if(pItr == 0) {
-	        		setChanged();
-		            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-		            notifyObservers(new Object[] {"PonerImagen", x, y, "Explosion"});
-	        	} else {
-	        		mapa[y][x].destruir();
-	        		this.detonarBomba(x, y, "Normal");
-	        	}
-	        	break;
+	        case "Bomba":
+	            if (pItr == 0) {
+	                setChanged();
+	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+	                notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
+	            } else {
+	                mapa[y][x].destruir();
+	                detonarBomba(x, y, "Normal");
+	            }
+	            break;
 	        case "BloqueDuro":
-	            // No hace nada, la explosiÃ³n no pasa a travÃ©s de un bloque duro.
 	            break;
 	        case "Explosion":
-	        	Explosion e = (Explosion) mapa[y][x];
-	        	e.iniciarTimer();
-	        	break;
+	            Explosion e = (Explosion) mapa[y][x];
+	            e.iniciarTimer();
+	            break;
 	    }
 	}
+
 	
 	
 	public void ponerBomba(int pX, int pY)

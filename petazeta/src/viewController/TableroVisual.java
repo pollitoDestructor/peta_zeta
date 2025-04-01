@@ -108,6 +108,9 @@ public class TableroVisual extends JFrame implements Observer{
 				case "Bomba":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb1.png"))); //Bomba
 					break;
+				case "BombaUltra":
+					pCasilla.setIcon(new ImageIcon(getClass().getResource("whitewithbomb2.png"))); //Bomba
+					break;
 				case "Explosion":
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
 					break;
@@ -165,7 +168,8 @@ public class TableroVisual extends JFrame implements Observer{
 			}
 			if(pCasilla.getIcon() != null) //Para evitar errores
 			{
-				if(((ImageIcon) pCasilla.getIcon()).getDescription().contains("whitewithbomb1.png"))
+				String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
+				if(descr.contains("whitewithbomb1.png") || descr.contains("whitewithbomb2.png")) //TODO
 				{
 					//Si DEJAMOS bomba (el anterior es Bomberman con bomba
 					pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));

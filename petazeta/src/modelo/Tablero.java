@@ -10,6 +10,7 @@ import patrones.StateJugador;
 import patrones.StateVivo;
 import patrones.StateMuerto;
 import patrones.StrategyTablero;
+import patrones.TableroClassic;
 import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
@@ -19,7 +20,7 @@ public class Tablero extends Observable{
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
 	private static boolean finPartida = false; //TODO static?
-	private static StrategyTablero stratTablero;
+	private static StrategyTablero stratTablero = new TableroClassic();
 	private StateJugador state;  
   
 	
@@ -160,47 +161,49 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-	    // Definir el radio de explosión según el tipo de bomba
-	    int RADIO_EXPLOSION = 1;
-	    if (pTipo.equals("BombaUltra")) {
-	        RADIO_EXPLOSION = 20;
-	    }
+		int radio = 1;
+		if(pTipo.equals("BombaUltra"))
+		{
+			radio = 20;
+		}
+		int[] dx = {0, 0, 0, -1, 1};
+		int[] dy = {0, -1, 1, 0, 0};
 
-	    int[] dx = {0, 0, -1, 1}; // Direcciones: arriba, abajo, izquierda, derecha
-	    int[] dy = {-1, 1, 0, 0};
+		for (int i = 0; i < 5; i++) {
+			for(int j=0; j<=radio;j++)
+			{
+				int newX = pX + dx[i]*j;
+				int newY = pY + dy[i]*j;
+				
+				if (!esValido(newX, newY)) {
+				    break; // Evita acceder fuera del array
+				}
+				if (mapa[newY][newX].tipoCasilla().equals("BloqueDuro")) {
+				    break;
+				}
+				
+				if (esValido(newX, newY)) {
+					Jugador.getJugador().addBomba();
+					procesarExplosion(newX, newY, i);
+					if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
+						pantallaFinal(false);
+					}
+				}
+			}
+		}
 
-	    // Explosión en 4 direcciones
-	    for (int i = 0; i < 4; i++) {
-	        for (int j = 1; j <= RADIO_EXPLOSION; j++) {
-	            int newX = pX + dx[i] * j;
-	            int newY = pY + dy[i] * j;
+		// La explosión central
+		procesarExplosion(pX, pY, -1);
 
-	            if (!esValido(newX, newY)) {
-	                break;
-	            }
+		// Verificar si el jugador ha sido alcanzado
+		if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
+			pantallaFinal(false);
+		}
 
-	            String tipo = getCasilla(newX, newY).tipoCasilla();
-
-	            if (tipo.equals("BloqueDuro")) {
-	                break; // La explosión se detiene al encontrar un BloqueDuro
-	            }
-
-	            procesarExplosion(newX, newY, i);
-	        }
-	    }
-
-	    // La explosión central
-	    procesarExplosion(pX, pY, -1);
-
-	    // Verificar si el jugador ha sido alcanzado
-	    if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
-	        pantallaFinal(false);
-	    }
-
-	    // Verificar victoria después de todas las explosiones
-	    if (ListaEnemigos.isEmpty()) {
-	        pantallaFinal(true);
-	    }
+		// Verificar victoria después de todas las explosiones
+		if (ListaEnemigos.isEmpty()) {
+			pantallaFinal(true);
+		}
 	}
 
 
@@ -234,12 +237,13 @@ public class Tablero extends Observable{
 	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
 	            notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
 	            break;
+	        case "BombaUltra":
 	        case "Bomba":
-	            if (pItr == 0) {
+	            if (pItr == 0) { //La propia bomba
 	                setChanged();
 	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
 	                notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
-	            } else {
+	            } else { //Bombas que encuentra en su explosion
 	                mapa[y][x].destruir();
 	                detonarBomba(x, y, "Normal");
 	            }
@@ -255,11 +259,11 @@ public class Tablero extends Observable{
 
 	
 	
-	public void ponerBomba(int pX, int pY)
+	public void ponerBomba(int pX, int pY, String pTipo)
 	{
 		setChanged();
-		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla("Bomba", pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,"Bomba"});
+		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(pTipo, pX, pY); //Pone la bomba en esas coords
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,pTipo});
 	}
 	
 	public void explosionTerminada(int pX, int pY)

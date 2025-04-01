@@ -22,6 +22,6 @@ public class BombaUltra extends Bomba {
     protected void explotar() {
         destruir(); // Destruye la bomba 
         // Llama al método de Tablero 
-        Tablero.getTablero().detonarBomba(coordX, coordY, "BombaUltra");
+        Tablero.getTablero().detonarBomba(coordX, coordY, tipoCasilla());
     }
 }

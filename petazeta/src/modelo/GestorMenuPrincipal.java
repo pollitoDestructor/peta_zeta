@@ -9,6 +9,7 @@ import viewController.TableroVisual;
 
 public class GestorMenuPrincipal {
     private static GestorMenuPrincipal miMenu;
+    private String ultimo_mapa_elegido = "Classic";
 
     private GestorMenuPrincipal(){}
 
@@ -20,7 +21,7 @@ public class GestorMenuPrincipal {
     }
 
     public void iniciarJuego() {
-    	Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
+    	//Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
         Tablero tablero = Tablero.getTablero();
         TableroVisual f = new TableroVisual();
         tablero.ponerBloques();
@@ -44,6 +45,28 @@ public class GestorMenuPrincipal {
                 System.out.println("Cambio de estrategia a: PonerBombaGigante");
             }
         }
+    }
+    
+    public void cambiarMapa(String pMapa)
+    {
+    	if(!pMapa.equals(ultimo_mapa_elegido)) {
+    		switch(pMapa)
+    		{
+    		case "Classic":
+    			Tablero.setStrategyTablero(new TableroClassic());
+    			System.out.println("Cambio de estrategia a: TableroClassic");
+    			break;
+    		case "Soft":
+    			Tablero.setStrategyTablero(new TableroSoft());
+    			System.out.println("Cambio de estrategia a: TableroSoft");
+    			break;
+    		case "Empty":
+    			Tablero.setStrategyTablero(new TableroEmpty());
+    			System.out.println("Cambio de estrategia a: TableroEmpty");
+    			break;
+    		}
+    		ultimo_mapa_elegido=pMapa;
+    	}
     }
 
     public void end() {

@@ -10,6 +10,7 @@ import patrones.StateJugador;
 import patrones.StateVivo;
 import patrones.StateMuerto;
 import patrones.StrategyTablero;
+import patrones.TableroClassic;
 import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
@@ -19,7 +20,7 @@ public class Tablero extends Observable{
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
 	private static boolean finPartida = false; //TODO static?
-	private static StrategyTablero stratTablero;
+	private static StrategyTablero stratTablero = new TableroClassic();
 	private StateJugador state;  
   
 	

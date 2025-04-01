@@ -10,7 +10,6 @@ import patrones.StateJugador;
 import patrones.StateVivo;
 import patrones.StateMuerto;
 import patrones.StrategyTablero;
-import patrones.TableroClassic;
 import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
@@ -20,7 +19,7 @@ public class Tablero extends Observable{
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
 	private static boolean finPartida = false; //TODO static?
-	private static StrategyTablero stratTablero = new TableroClassic();
+	private static StrategyTablero stratTablero;
 	private StateJugador state;  
   
 	
@@ -161,26 +160,49 @@ public class Tablero extends Observable{
 	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
-	    int[] dx = {0, 0, 0, -1, 1};
-	    int[] dy = {0, -1, 1, 0, 0};
+	    // Definir el radio de explosión según el tipo de bomba
+	    int RADIO_EXPLOSION = 1;
+	    if (pTipo.equals("BombaUltra")) {
+	        RADIO_EXPLOSION = 20;
+	    }
 
-	    for (int i = 0; i < 5; i++) {
-	        int newX = pX + dx[i];
-	        int newY = pY + dy[i];
+	    int[] dx = {0, 0, -1, 1}; // Direcciones: arriba, abajo, izquierda, derecha
+	    int[] dy = {-1, 1, 0, 0};
 
-	        if (esValido(newX, newY)) {
-	            Jugador.getJugador().addBomba();
-	            procesarExplosion(newX, newY, i);
-	            if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
-	                pantallaFinal(false);
+	    // Explosión en 4 direcciones
+	    for (int i = 0; i < 4; i++) {
+	        for (int j = 1; j <= RADIO_EXPLOSION; j++) {
+	            int newX = pX + dx[i] * j;
+	            int newY = pY + dy[i] * j;
+
+	            if (!esValido(newX, newY)) {
+	                break;
 	            }
+
+	            String tipo = getCasilla(newX, newY).tipoCasilla();
+
+	            if (tipo.equals("BloqueDuro")) {
+	                break; // La explosión se detiene al encontrar un BloqueDuro
+	            }
+
+	            procesarExplosion(newX, newY, i);
 	        }
 	    }
 
-	    if (ListaEnemigos.isEmpty()) { // Verificar victoria después de todas las explosiones
+	    // La explosión central
+	    procesarExplosion(pX, pY, -1);
+
+	    // Verificar si el jugador ha sido alcanzado
+	    if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
+	        pantallaFinal(false);
+	    }
+
+	    // Verificar victoria después de todas las explosiones
+	    if (ListaEnemigos.isEmpty()) {
 	        pantallaFinal(true);
 	    }
 	}
+
 
 
 	// MÃ©todo para verificar si la posiciÃ³n estÃ¡ dentro del mapa

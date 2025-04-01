@@ -1,7 +1,7 @@
 package modelo;
 
 import java.util.Observable;
-import patrones.PonerBombaGigante;
+
 import patrones.PonerBombaNormal;
 import patrones.StrategyPonerBomba;
 
@@ -41,7 +41,7 @@ public class Jugador extends Observable {
 	
 	public void addBomba() {
 		if (this.bombas<10) {
-			this.bombas++;
+			this.bombas += strategyBomba.valorBomba();
 		}
 	}
 	
@@ -66,7 +66,7 @@ public class Jugador extends Observable {
 	public void ponerBomba()
 	{ 
 		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(posX,posY,this.posX, this.posY,"Jugador")) {
-			bombas--;
+			bombas -= strategyBomba.valorBomba();
 			strategyBomba.ponerBomba(posX, posY);
 		}
 	}

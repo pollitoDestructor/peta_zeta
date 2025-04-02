@@ -84,7 +84,7 @@ public class Tablero extends Observable{
 	            switch (pType) {
 	                case "Jugador": 
 	                    System.out.println("¡El jugador ha muerto!");
-	                    this.pantallaFinal(false); // Llamar pantalla de derrota
+						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 	                    break;
 					case "Pass":
 					case "Doria":
@@ -112,8 +112,9 @@ public class Tablero extends Observable{
 	                    disponible = false;
 	                    break;
 	                case "Jugador": // Si jugador se mueve donde hay un enemigo
-	                    System.out.println("Explota muere Dios qué horror.");
+	                    System.out.println("Se choca con un enemigo muere Dios qué horror.");
 	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+
 	                    break;
 	            }
 	        }
@@ -123,8 +124,9 @@ public class Tablero extends Observable{
 					case "Pass":
 					case "Doria":
 	                case "Globo":
-	                    System.out.println("Explota muere Dios qué horror.");
+	                    System.out.println("Se lo come un enemigo Dios qué horror.");
 	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+
 	                    break;
 	            }
 	        }
@@ -183,7 +185,7 @@ public class Tablero extends Observable{
 					Jugador.getJugador().addBomba();
 					procesarExplosion(newX, newY, i);
 					if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
-						pantallaFinal(false);
+						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 					}
 				}
 			}
@@ -194,12 +196,12 @@ public class Tablero extends Observable{
 
 		// Verificar si el jugador ha sido alcanzado
 		if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
-			pantallaFinal(false);
+			this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 		}
 
 		// Verificar victoria después de todas las explosiones
 		if (ListaEnemigos.isEmpty()) {
-			pantallaFinal(true);
+			pantallaFinal(true); //TODO poner que gane mediante state, para cohesion con cuando pierde
 		}
 	}
 
@@ -260,7 +262,7 @@ public class Tablero extends Observable{
 	{
 		setChanged();
 		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(pTipo, pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,pTipo});
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,pTipo,Jugador.getJugador().getColor()});
 	}
 	
 	public void explosionTerminada(int pX, int pY)
@@ -287,8 +289,9 @@ public class Tablero extends Observable{
 	        state = pState; 
 	        state.manejarEstado(this);  
 	    }
-	 public static void setFinPartida(boolean fin) { //TODO no se si es static
+	 public void setFinPartida(boolean fin) { //TODO no se si es static.    TO2 yo lo he quitado para que acabe bien la partida, no se si esta bien
 	        finPartida = fin;
+		    this.pantallaFinal(false); // Llamar pantalla de derrota
 	    }
 	 public boolean isFinPartida() {
 	        return finPartida;

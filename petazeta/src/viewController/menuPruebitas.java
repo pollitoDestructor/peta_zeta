@@ -11,12 +11,7 @@ import modelo.GestorMenuPrincipal;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
@@ -45,6 +40,7 @@ public class menuPruebitas extends JFrame {
 	private ControladorTeclado controladorTeclado;
 	private ControladorBoton controladorBoton;
 	private ControladorRaton controladorRaton;
+	private Reescaler reescaler;
 	
 	private CardLayout diapositiva; //Para transicionar entre mapas y jugadores
 	private int diapo=0; // Para intercambiar entre menus, tal vez con bool basta
@@ -101,6 +97,7 @@ public class menuPruebitas extends JFrame {
 		diapositiva.show(Fondo, "Selector_Pj"); //Ejemplo de uso: pone en pantalla el Fondo Mapas
 		
 		this.addKeyListener(getControladorTeclado());
+		this.addComponentListener(getReescaler()); //Ajusta la posicion de los bombermans a la pantalla
 	}
 	
 	//===================================================SELECTOR PJ=============================================================
@@ -364,4 +361,56 @@ public class menuPruebitas extends JFrame {
   			}
   		}
   	}
+
+	//========================================CONTROLADOR COMPONENTES=========================================
+	private Reescaler getReescaler() {
+		if (reescaler == null) {
+			reescaler = new Reescaler();
+		}
+		return reescaler;
+	}
+
+	private class Reescaler implements ComponentListener {
+
+		@Override
+		//REPOSICIONA Y REESCALA LOS SPRITES DE LOS BOMBERMANS CON EL TAMAÑO DE PANTALLA
+		public void componentResized(ComponentEvent e) {
+			//Reescalar bomber1
+			Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
+			ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
+			sprite1.setDescription("bomber1.png");
+			Bomber1.setIcon(escalarImagen(sprite1,Bomber1.getWidth(),Bomber1.getHeight()));
+			Bomber1.setLocation(getBounds().width/10, getBounds().height/3);
+			//Reescalar bomber2
+			Bomber2.setSize((58*getBounds().width)/450, (107*getBounds().height)/300);
+			Bomber2.setLocation(getBounds().width/4, getBounds().height/2);
+			ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomberUnknown2.png"));
+			Bomber2.setIcon(escalarImagen(sprite2,Bomber2.getWidth(),Bomber2.getHeight()));
+			//Reescalar bomber3
+			Bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
+			ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomberUnknown3.png"));
+			Bomber3.setIcon(escalarImagen(sprite3,Bomber3.getWidth(),Bomber3.getHeight()));
+			Bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
+			//Reescalar bomber4
+			Bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
+			ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
+			Bomber4.setIcon(escalarImagen(sprite4,Bomber4.getWidth(),Bomber4.getHeight()));
+			Bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {
+
+		}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent e) {
+
+		}
+	}
 }

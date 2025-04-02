@@ -287,7 +287,7 @@ public class Tablero extends Observable{
 
 	 public void changeState(StateJugador pState) { 
 	        state = pState; 
-	        state.manejarEstado(this);  
+	        state.manejarEstado();  
 	    }
 	 public void setFinPartida(boolean fin) { //TODO no se si es static.    TO2 yo lo he quitado para que acabe bien la partida, no se si esta bien
 	        finPartida = fin;

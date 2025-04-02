@@ -12,7 +12,7 @@ public class Jugador extends Observable {
 	private int posX;
 	private int posY;
 	private int bombas=10;
-	private String color="blanco";
+	private String color="white";
 	private StrategyPonerBomba strategyBomba = new PonerBombaNormal(); //Bomba default normal
 
 	private Jugador() {

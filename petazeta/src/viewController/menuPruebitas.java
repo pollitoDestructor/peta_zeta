@@ -321,11 +321,11 @@ public class menuPruebitas extends JFrame {
   		public void mouseClicked(MouseEvent e) {
   			if(e.getComponent()==Bomber1){
   				System.out.println("bomber1");
-  				GestorMenuPrincipal.getMenu().cambiarJugador("blanco");
+  				GestorMenuPrincipal.getMenu().cambiarJugador("white");
   			}
   			else if(e.getComponent()==Bomber2){
   				System.out.println("bomber2");
-  				GestorMenuPrincipal.getMenu().cambiarJugador("negro");
+  				GestorMenuPrincipal.getMenu().cambiarJugador("black");
   			}
   		}
 

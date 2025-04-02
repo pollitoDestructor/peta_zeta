@@ -56,7 +56,7 @@ public class Jugador extends Observable {
 	public void inicio() //para imprimir la primera pos
 	{
 		setChanged();
-		notifyObservers(new Object[] {posX,posY,0,0});
+		notifyObservers(new Object[] {posX,posY,0,0,color});
 	}
 
 	public void changeStrategyPonerBomba(StrategyPonerBomba spb){
@@ -76,7 +76,7 @@ public class Jugador extends Observable {
 	public void mover(int x, int y) {
 		if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y,"Jugador")) {
 			setChanged();
-			notifyObservers(new Object[] {posX,posY,x,y}); //le manda la pos SIN ACTUALIZAR
+			notifyObservers(new Object[] {posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
 			this.posX=posX+x; this.posY=posY+y;
 			
 		}

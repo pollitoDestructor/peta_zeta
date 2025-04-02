@@ -265,7 +265,7 @@ public class Tablero extends Observable{
 	{
 		setChanged();
 		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(pTipo, pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,pTipo});
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,pTipo,Jugador.getJugador().getColor()});
 	}
 	
 	public void explosionTerminada(int pX, int pY)

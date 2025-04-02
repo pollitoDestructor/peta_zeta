@@ -37,10 +37,10 @@ public class GestorMenuPrincipal {
         } else {
             Jugador.getJugador().setColor(pColor);
             System.out.println("Cambio de color a: "+pColor);
-            if (pColor == "blanco") {
+            if (pColor == "white") {
                 Jugador.getJugador().changeStrategyPonerBomba(new PonerBombaNormal());
                 System.out.println("Cambio de estrategia a: PonerBombaNormal");
-            } else if (pColor == "negro") {
+            } else if (pColor == "black") {
                 Jugador.getJugador().changeStrategyPonerBomba(new PonerBombaGigante());
                 System.out.println("Cambio de estrategia a: PonerBombaGigante");
             }

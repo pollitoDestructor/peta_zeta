@@ -7,7 +7,7 @@ import viewController.TableroVisual;
 
 public class Main { 
 
-	/**s
+	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {

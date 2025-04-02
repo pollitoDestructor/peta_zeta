@@ -56,6 +56,30 @@ public class Tablero extends Observable{
 		
 	}
 
+	public void ponerEnemigos() {
+		int cantE = rng.nextInt(3)+4; // 4-6 enemigos
+		int cantEC = 0;
+		while(cantEC < cantE) {
+			int y = rng.nextInt(mapa.length);
+			int x = rng.nextInt(mapa[0].length);
+
+			if(casillaDisponible(x,y,x, y,"Globo")) {
+				if(x > 1 || y > 1) {
+					System.out.println("Generando enemigo en x:" + x + " y:" + y);
+					Enemigo enemigo = stratTablero.ponerEnemigos(x,y);
+					ListaEnemigos.add(enemigo);
+					String Tipo = enemigo.tipoEnemigo();
+					setChanged();
+					notifyObservers(new Object[] {"PonerImagen", x, y, Tipo});
+					setChanged();
+					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
+					cantEC++;
+				}
+			}
+		}
+		System.out.println("Total enemigos generados: " + cantEC);
+	}
+
 	public ArrayList<Enemigo> getListaEnemigos() {
 		return ListaEnemigos;
 	}
@@ -135,29 +159,6 @@ public class Tablero extends Observable{
 	}
 
 
-	
-	public void ponerEnemigos() {
-		int cantE = rng.nextInt(3)+4; // 4-6 enemigos
-		int cantEC = 0;
-		while(cantEC < cantE) {
-			int y = rng.nextInt(mapa.length);
-			int x = rng.nextInt(mapa[0].length);
-
-			if(casillaDisponible(x,y,x, y,"Globo")) {
-				if(x > 1 || y > 1) {
-					System.out.println("Generando enemigo en x:" + x + " y:" + y);
-					Enemigo enemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("Globo", x, y);
-					ListaEnemigos.add(enemigo);
-					setChanged();
-					notifyObservers(new Object[] {"PonerImagen", x, y, "Globo"});
-					setChanged();
-					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
-					cantEC++;
-				}
-			}
-		}
-		System.out.println("Total enemigos generados: " + cantEC);
-	}
 	
 	public void detonarBomba(int pX, int pY, String pTipo) {
 		int radio = 1;

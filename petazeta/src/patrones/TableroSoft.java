@@ -3,6 +3,7 @@ package patrones;
 import java.util.Random;
 
 import modelo.Casilla;
+import modelo.Enemigo;
 
 public class TableroSoft implements StrategyTablero{
 
@@ -20,6 +21,13 @@ public class TableroSoft implements StrategyTablero{
 			c = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
 		}
 		return c;
+	}
+
+	public Enemigo ponerEnemigos(int i, int j) {
+		Enemigo myEnemigo;
+		myEnemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("Doria", i, j);
+
+		return myEnemigo;
 	}
 
 	@Override

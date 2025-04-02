@@ -93,12 +93,9 @@ public class Tablero extends Observable{
 	                    if (enemigo != null) {
 	                        enemigo.destruir();
 	                        disponible = false;
-	                        if (ListaEnemigos.isEmpty()) 
+	                        if (ListaEnemigos.isEmpty()) //Si la lista de enemigos esta vacía
 	        				{
-	        					if(jugadorHaGanado()) 
-	        					{
 	        						this.pantallaFinal(true);
-	        					}
 	        				}
 	                    }
 	                    break;
@@ -296,10 +293,4 @@ public class Tablero extends Observable{
 	 public boolean isFinPartida() {
 	        return finPartida;
 	    }
-	 public boolean jugadorHaGanado() {
-		    // Si no hay enemigos restantes, el jugador ha ganado
-		    return ListaEnemigos.isEmpty();
-		}
-
-	
 }

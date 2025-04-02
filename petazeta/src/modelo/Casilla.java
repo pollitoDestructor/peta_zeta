@@ -28,7 +28,7 @@ public class Casilla
 	}
 	public void destruir() //Destruye la casilla
 	{
-		System.out.println("Casilla"+coordX+","+coordY+"destruido.");
+		//System.out.println("Casilla"+coordX+","+coordY+"destruido.");
 	}
 
 	

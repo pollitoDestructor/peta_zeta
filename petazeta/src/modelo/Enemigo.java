@@ -59,7 +59,7 @@ public abstract class Enemigo extends Observable {
             notifyObservers(new Object[] {"mover",posX,posY,posX+x,posY+y,tipoEnemigo()}); //le manda la pos
             posX = posX + x;
             posY = posY + y;
-            System.out.println(tipoEnemigo() + " movido a (" + posX + "," + posY + ")");
+            //System.out.println(tipoEnemigo() + " movido a (" + posX + "," + posY + ")");
         }
     }
     private void detenerTimer() {

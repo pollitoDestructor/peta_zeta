@@ -25,7 +25,7 @@ public class Bomba extends Casilla {
     protected void explotar() {
         destruir(); // Aqui destruimos la bomba
         
-        tablero.detonarBomba(coordX,coordY,tipoCasilla()); //Pasa coords y nombre(para herencia)
+        tablero.detonarBomba(coordX,coordY); //Pasa coords y nombre(para herencia)
     }
     
     public void destruir() //Destruye la Bomba
@@ -33,6 +33,7 @@ public class Bomba extends Casilla {
 		System.out.println("Bomba "+coordX+", "+coordY+" destruida."); 
 		timer.cancel();
 		timer.purge();
+		
 	}
     
 }

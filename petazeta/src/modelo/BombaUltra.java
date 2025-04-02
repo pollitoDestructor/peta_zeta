@@ -18,10 +18,4 @@ public class BombaUltra extends Bomba {
         Timer timer = new Timer();
         timer.schedule(timerTask, PERIODO * 1000); //3 segundos
     }
-    
-    protected void explotar() {
-        destruir(); // Destruye la bomba 
-        // Llama al método de Tablero 
-        Tablero.getTablero().detonarBomba(coordX, coordY, tipoCasilla());
-    }
 }

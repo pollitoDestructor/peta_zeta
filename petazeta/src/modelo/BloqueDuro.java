@@ -10,7 +10,7 @@ public class BloqueDuro extends Casilla{
 	
 	public void destruir() //Destruye el BloqueBlando
 	{
-		System.out.println("BloqueDuro"+coordX+","+coordY+"destruido.");
+//		System.out.println("BloqueDuro"+coordX+","+coordY+"destruido.");
 		
 	}
 

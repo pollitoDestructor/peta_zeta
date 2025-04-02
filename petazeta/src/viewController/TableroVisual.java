@@ -163,7 +163,7 @@ public class TableroVisual extends JFrame implements Observer{
 			int x = (int)movimiento[2];
 			int y = (int)movimiento[3];
 			String color = (String)movimiento[4];
-			System.out.println(color);
+			//System.out.println(color);
 
 			int index = 17*posY+posX; //la pos que dejamos atr�s
 			JLabel pCasilla = (JLabel) grid.getComponent(index);
@@ -243,7 +243,7 @@ public class TableroVisual extends JFrame implements Observer{
 					int newX = (int) params[3];
 					int newY = (int) params[4];
 					String tipo = (String) params[5];
-					System.out.println("Enemigo movido de (" + oldX + "," + oldY + ") a (" + newX + "," + newY + ")");
+//					System.out.println("Enemigo movido de (" + oldX + "," + oldY + ") a (" + newX + "," + newY + ")");
 
 					// Borrar posición anterior
 					int oldIndex = oldY * 17 + oldX;

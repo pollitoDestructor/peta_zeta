@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Random;
 
 import patrones.FactoryCasillas;
-import patrones.FactoryEnemigos;
 import patrones.PonerBombaNormal;
 import patrones.StateGanar;
 import patrones.StateJugador;
@@ -20,14 +19,16 @@ import viewController.FinalVisual;
 public class Tablero extends Observable{
 	private static Tablero miTablero;
 	private Casilla[][] mapa;
+
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
-	private static boolean finPartida = false; //TODO static?
+	
+	//Patrones
 	private static StrategyTablero stratTablero = new TableroClassic();
 	private static StrategyPonerBomba stratBomba = new PonerBombaNormal();
 	private StateJugador state;  
   
-	
+	//==================================SINGLETON==================================
 	private Tablero() { 
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 		state = new StateVivo();  // El juego comienza con el estado "vivo"
@@ -40,54 +41,11 @@ public class Tablero extends Observable{
 		return miTablero;
 	}
 	
-	//Para generar el Tablero correspondiente
-	public static void setStrategyTablero(StrategyTablero pStrat)
-	{
-		stratTablero = pStrat;
-	}
-	
-	public void ponerBloques()
-	{
-		setChanged();
-		notifyObservers(new Object[]{"PonerFondo", stratTablero.tipoTablero()});
-		for (int i = 0; i < mapa.length; i++) {
-			for (int j = 0; j < mapa[i].length; j++) {
-				setChanged();
-				mapa[i][j] = stratTablero.ponerBloques(i,j);
-				notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
-			}
-		}
-		
-	}
-
-	public void ponerEnemigos() {
-		int cantE = rng.nextInt(1)+1; // 4-6 enemigos
-		int cantEC = 0;
-		while(cantEC < cantE) {
-			int y = rng.nextInt(mapa.length);
-			int x = rng.nextInt(mapa[0].length);
-
-			if(casillaDisponible(x,y,x, y,"Globo")) {
-				if(x > 1 || y > 1) {
-					System.out.println("Generando enemigo en x:" + x + " y:" + y);
-					Enemigo enemigo = stratTablero.ponerEnemigos(x,y);
-					ListaEnemigos.add(enemigo);
-					String Tipo = enemigo.tipoEnemigo();
-					setChanged();
-					notifyObservers(new Object[] {"PonerImagen", x, y, Tipo});
-					setChanged();
-					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
-					cantEC++;
-				}
-			}
-		}
-		System.out.println("Total enemigos generados: " + cantEC);
-	}
-
+	//==================================METODOS AUXILIARES==================================
 	public ArrayList<Enemigo> getListaEnemigos() {
 		return ListaEnemigos;
 	}
-
+	
 	public Enemigo getEnemigo(int pX, int pY) {
 		Enemigo enemigoB = null;
 		for (Enemigo enemigo : ListaEnemigos) {
@@ -97,9 +55,13 @@ public class Tablero extends Observable{
 		}
 		return enemigoB;
 	}
-
+	
 	public Casilla getCasilla(int pX, int pY) {
-		return mapa[pX][pY];
+		Casilla c = null;
+		if (esValido(pX, pY)) { 
+			c = mapa[pY][pX];
+		}
+		return c;
 	}
 	
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
@@ -130,7 +92,6 @@ public class Tablero extends Observable{
 	            }
 	        }
 
-
 	        Enemigo enemigo = getEnemigo(pX, pY);
 	        if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
 	            switch (pType) {
@@ -142,7 +103,6 @@ public class Tablero extends Observable{
 	                case "Jugador": // Si jugador se mueve donde hay un enemigo
 	                    System.out.println("Se choca con un enemigo muere Dios qué horror.");
 	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
-
 	                    break;
 	            }
 	        }
@@ -154,41 +114,75 @@ public class Tablero extends Observable{
 	                case "Globo":
 	                    System.out.println("Se lo come un enemigo Dios qué horror.");
 	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
-
 	                    break;
 	            }
 	        }
 	    }
 	    return disponible;
 	}
+	
+	//==================================STRATEGY TABLERO==================================
+	//Para generar el Tablero correspondiente
+	public static void changeStrategyTablero(StrategyTablero pStrat)
+	{
+		stratTablero = pStrat;
+	}
+	
+	public void ponerBloques()
+	{
+		setChanged();
+		notifyObservers(new Object[]{"PonerFondo", stratTablero.tipoTablero()});
+		for (int i = 0; i < mapa.length; i++) {
+			for (int j = 0; j < mapa[i].length; j++) {
+				setChanged();
+				mapa[i][j] = stratTablero.ponerBloques(i,j);
+				notifyObservers(new Object[]{"PonerImagen", j, i, mapa[i][j].tipoCasilla()});
+			}
+		}
+	}
 
+	public void ponerEnemigos() {
+		int cantE = rng.nextInt(3)+4; // 4-6 enemigos
+		int cantEC = 0;
+		while(cantEC < cantE) {
+			int y = rng.nextInt(mapa.length);
+			int x = rng.nextInt(mapa[0].length);
 
+			if(x > 1 || y > 1) {
+				if(casillaDisponible(x,y,x, y,"Globo")) {
+					System.out.println("Generando enemigo en x:" + x + " y:" + y);
+					Enemigo enemigo = stratTablero.ponerEnemigos(x,y);
+					ListaEnemigos.add(enemigo);
+					String Tipo = enemigo.tipoEnemigo();
+					setChanged();
+					notifyObservers(new Object[] {"PonerImagen", x, y, Tipo});
+					setChanged();
+					notifyObservers(new Object[] {"NuevoEnemigo", enemigo});
+					cantEC++;
+				}
+			}
+		}
+		System.out.println("Total enemigos generados: " + cantEC);
+	}
+
+	
+	//==================================STRATEGY BOMBA==================================
+	public static void changeStrategyBomba(StrategyPonerBomba pStrat){
+		stratBomba = pStrat;
+	}
+	
+	public void ponerBomba(int pX, int pY)
+	{
+		setChanged();
+		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipo(), pX, pY); //Pone la bomba en esas coords
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipo(),Jugador.getJugador().getColor()});
+	}
 	
 	public void detonarBomba(int pX, int pY) {
 		stratBomba.detonarBomba(pX, pY);
 	}
-	
-	public static void changeStrategyBomba(StrategyPonerBomba pStrat){
-		stratBomba = pStrat;
-	}
 
-	// MÃ©todo para verificar si la posiciÃ³n estÃ¡ dentro del mapa
-	public boolean esValido(int x, int y) {
-	    return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length;
-	}
-	
-	public boolean esDuro(int x, int y) {
-		return mapa[y][x].tipoCasilla().equals("BloqueDuro");
-	}
-	
-	public void verificarVictoria() {
-		if (ListaEnemigos.isEmpty()) {
-			changeState(new StateGanar()); //TODO poner que gane mediante state, para cohesion con cuando pierde
-		}
-	}
-
-
-	// MÃ©todo auxiliar para manejar la explosiÃ³n en una casilla
+	// Metodo auxiliar para manejar la explosion en una casilla
 	public void procesarExplosion(int x, int y, int pOriginalX, int pOriginalY) {
 	    String tipo = mapa[y][x].tipoCasilla();
 	    ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
@@ -232,15 +226,6 @@ public class Tablero extends Observable{
 	    }
 	}
 
-	
-	
-	public void ponerBomba(int pX, int pY)
-	{
-		setChanged();
-		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipo(), pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipo(),Jugador.getJugador().getColor()});
-	}
-	
 	public void explosionTerminada(int pX, int pY)
 	{
         setChanged();
@@ -248,19 +233,16 @@ public class Tablero extends Observable{
         notifyObservers(new Object[] {"PonerImagen", pX, pY, "Casilla"});
 	}
 	
-	public void pantallaFinal(boolean pEstadoPartida) {
-		
-//	    if (!finPartida) {
-//	        finPartida = true; // Evita que se muestre más de una vez
-	        System.out.println("Fin de la partida.");
-	        setChanged();
-	        notifyObservers(new Object[]{"Muerte"});
-	        
-	        // Mostrar la pantalla de final con el estado correspondiente
-	       
-	   // }
+	// Metodo para verificar si la posicion esta dentro del mapa
+	public boolean esValido(int x, int y) {
+	    return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length;
 	}
-
+	
+	public boolean esDuro(int x, int y) {
+		return mapa[y][x].tipoCasilla().equals("BloqueDuro");
+	}
+	
+	//===================================STATE JUGADOR===================================
 	public void changeState(StateJugador pState) {
 	    if (state.getClass() != pState.getClass()) //TODO preguntar si esto se puede hacer.
 	    {
@@ -268,11 +250,19 @@ public class Tablero extends Observable{
 	        state.manejarEstado();
 	    }
 	}
-//	 public void setFinPartida(boolean fin) { //TODO no se si es static.    TO2 yo lo he quitado para que acabe bien la partida, no se si esta bien
-//	        finPartida = fin;
-//		    this.pantallaFinal(false); // Llamar pantalla de derrota
-//	    }
-//	 public boolean isFinPartida() {
-//	        return finPartida;
-//	    }
+	
+	public void pantallaFinal(boolean pEstadoPartida) {
+		System.out.println("Fin de la partida.");
+		setChanged();
+		notifyObservers(new Object[]{"Muerte"});
+
+		GestorFinalVisual.getFinal(pEstadoPartida);
+		FinalVisual f = new FinalVisual(pEstadoPartida);  // TODO parametros?
+	}
+
+	public void verificarVictoria() {
+		if (ListaEnemigos.isEmpty()) {
+			changeState(new StateGanar()); //TODO poner que gane mediante state, para cohesion con cuando pierde
+		}
+	}
 }

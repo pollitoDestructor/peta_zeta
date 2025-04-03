@@ -66,6 +66,8 @@ public class FinalVisual extends JFrame implements Observer{
 		contentPane.add(getSubtitulo());
 		
 		GestorFinalVisual.getFinal(pPartida).addObserver(this);
+		
+		setVisible(true);
 	}
 
 	

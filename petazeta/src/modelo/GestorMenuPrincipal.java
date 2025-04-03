@@ -53,15 +53,15 @@ public class GestorMenuPrincipal {
     		switch(pMapa)
     		{
     		case "Classic":
-    			Tablero.setStrategyTablero(new TableroClassic());
+    			Tablero.changeStrategyTablero(new TableroClassic());
     			System.out.println("Cambio de estrategia a: TableroClassic");
     			break;
     		case "Soft":
-    			Tablero.setStrategyTablero(new TableroSoft());
+    			Tablero.changeStrategyTablero(new TableroSoft());
     			System.out.println("Cambio de estrategia a: TableroSoft");
     			break;
     		case "Empty":
-    			Tablero.setStrategyTablero(new TableroEmpty());
+    			Tablero.changeStrategyTablero(new TableroEmpty());
     			System.out.println("Cambio de estrategia a: TableroEmpty");
     			break;
     		}

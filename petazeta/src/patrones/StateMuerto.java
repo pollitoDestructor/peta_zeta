@@ -8,6 +8,6 @@ public class StateMuerto implements StateJugador {
     public void manejarEstado() {
         System.out.println("El jugador ha muerto, fin del juego.");
         Tablero.getTablero().pantallaFinal(false);  // Marcamos la partida como finalizada
-       new FinalVisual(false).setVisible(true);  // Mostramos la pantalla de derrota
+//       new FinalVisual(false).setVisible(true);  // Mostramos la pantalla de derrota
     }
 }

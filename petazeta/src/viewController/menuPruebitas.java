@@ -229,8 +229,9 @@ public class menuPruebitas extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof GestorMenuPrincipal){
-			if((String)arg=="Inicio"){setVisible(true);}
-			if((String)arg=="Opciones"){
+			String accion = (String)arg;
+			if(accion=="Inicio"){setVisible(true);}
+			if(accion=="Opciones"){
 				if(diapo==0) //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
 				{
 					diapositiva.show(Fondo, "Mapas");
@@ -240,7 +241,52 @@ public class menuPruebitas extends JFrame implements Observer {
 					diapo=0;
 				}
 			}
-			if((String)arg=="Cerrar"){setVisible(false);}
+			if(accion=="Cerrar"){setVisible(false);}
+
+			if(accion.matches("bomber\\d+Entered")){
+				char pNum = accion.charAt(6);
+				JLabel pBomber=null;
+				if(pNum=='1'){pBomber = Bomber1;}
+				else if(pNum=='2'){pBomber = Bomber2;}
+				else if(pNum=='3'){pBomber = Bomber3;}
+				else if(pNum=='4'){pBomber = Bomber4;}
+					ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + ".png"));
+					pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+				}
+
+			if(accion.matches("bomber\\d+Exited")){
+				char pNum = accion.charAt(6);
+				JLabel pBomber=null;
+				if(pNum=='1'){pBomber = Bomber1;}
+				else if(pNum=='2'){pBomber = Bomber2;}
+				else if(pNum=='3'){pBomber = Bomber3;}
+				else if(pNum=='4'){pBomber = Bomber4;}
+				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
+				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+			}
+
+			if(accion.matches("Reescale")){
+				//Reescalar bomber1
+				Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
+				ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
+				Bomber1.setIcon(escalarImagen(sprite1,Bomber1.getWidth(),Bomber1.getHeight()));
+				Bomber1.setLocation(getBounds().width/10, getBounds().height/3);
+				//Reescalar bomber2
+				Bomber2.setSize((58*getBounds().width)/450, (107*getBounds().height)/300);
+				ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomberUnknown2.png"));
+				Bomber2.setIcon(escalarImagen(sprite2,Bomber2.getWidth(),Bomber2.getHeight()));
+				Bomber2.setLocation(getBounds().width/4, getBounds().height/2);
+				//Reescalar bomber3
+				Bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
+				ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomberUnknown3.png"));
+				Bomber3.setIcon(escalarImagen(sprite3,Bomber3.getWidth(),Bomber3.getHeight()));
+				Bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
+				//Reescalar bomber4
+				Bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
+				ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
+				Bomber4.setIcon(escalarImagen(sprite4,Bomber4.getWidth(),Bomber4.getHeight()));
+				Bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+			}
 		}
 	}
 
@@ -361,10 +407,7 @@ public class menuPruebitas extends JFrame implements Observer {
   		public void mouseEntered(MouseEvent e) {
   			if(e.getComponent()==Bomber1||e.getComponent()==Bomber2
   					||e.getComponent()==Bomber3||e.getComponent()==Bomber4) {
-  				JLabel pBomber = (JLabel) e.getComponent();
-  				char pNum = e.getComponent().getName().charAt(6);
-  				ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + ".png"));
-  				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+  				menu.opcionesMenu(e.getComponent().getName()+"Entered");
   			}
   		}
 
@@ -372,10 +415,7 @@ public class menuPruebitas extends JFrame implements Observer {
   		public void mouseExited(MouseEvent e) {
   			if(e.getComponent()==Bomber1||e.getComponent()==Bomber2
   					||e.getComponent()==Bomber3||e.getComponent()==Bomber4) {
-  				JLabel pBomber = (JLabel) e.getComponent();
-  				char pNum = e.getComponent().getName().charAt(6);
-  				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
-  				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+  				menu.opcionesMenu(e.getComponent().getName()+"Exited");
   			}
   		}
   	}
@@ -396,7 +436,6 @@ public class menuPruebitas extends JFrame implements Observer {
 			//Reescalar bomber1
 			Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
 			ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
-			sprite1.setDescription("bomber1.png");
 			Bomber1.setIcon(escalarImagen(sprite1,Bomber1.getWidth(),Bomber1.getHeight()));
 			Bomber1.setLocation(getBounds().width/10, getBounds().height/3);
 			//Reescalar bomber2

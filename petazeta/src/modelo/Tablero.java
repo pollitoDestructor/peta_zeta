@@ -7,6 +7,7 @@ import java.util.Random;
 import patrones.FactoryCasillas;
 import patrones.FactoryEnemigos;
 import patrones.PonerBombaNormal;
+import patrones.StateGanar;
 import patrones.StateJugador;
 import patrones.StateVivo;
 import patrones.StrategyPonerBomba;
@@ -60,7 +61,7 @@ public class Tablero extends Observable{
 	}
 
 	public void ponerEnemigos() {
-		int cantE = rng.nextInt(3)+4; // 4-6 enemigos
+		int cantE = rng.nextInt(1)+1; // 4-6 enemigos
 		int cantEC = 0;
 		while(cantEC < cantE) {
 			int y = rng.nextInt(mapa.length);
@@ -122,7 +123,7 @@ public class Tablero extends Observable{
 	                        disponible = false;
 	                        if (ListaEnemigos.isEmpty()) //Si la lista de enemigos esta vacía
 	        				{
-	        						this.pantallaFinal(true);
+	        						changeState(new StateGanar());
 	        				}
 	                    }
 	                    break;
@@ -182,7 +183,7 @@ public class Tablero extends Observable{
 	
 	public void verificarVictoria() {
 		if (ListaEnemigos.isEmpty()) {
-			pantallaFinal(true); //TODO poner que gane mediante state, para cohesion con cuando pierde
+			changeState(new StateGanar()); //TODO poner que gane mediante state, para cohesion con cuando pierde
 		}
 	}
 
@@ -200,7 +201,7 @@ public class Tablero extends Observable{
 	    }
 
 	    if (ListaEnemigos.isEmpty()) { // Comprobar después de actualizar la lista
-	        pantallaFinal(true);
+	        changeState(new StateGanar());
 	    }
 
 	    switch (tipo) {
@@ -247,28 +248,31 @@ public class Tablero extends Observable{
         notifyObservers(new Object[] {"PonerImagen", pX, pY, "Casilla"});
 	}
 	
-	private void pantallaFinal(boolean pEstadoPartida) {
-	    if (!finPartida) {
-	        finPartida = true; // Evita que se muestre más de una vez
+	public void pantallaFinal(boolean pEstadoPartida) {
+		
+//	    if (!finPartida) {
+//	        finPartida = true; // Evita que se muestre más de una vez
 	        System.out.println("Fin de la partida.");
 	        setChanged();
 	        notifyObservers(new Object[]{"Muerte"});
 	        
 	        // Mostrar la pantalla de final con el estado correspondiente
-	        FinalVisual fv = new FinalVisual(pEstadoPartida);
-	        fv.setVisible(true);
-	    }
+	       
+	   // }
 	}
 
-	 public void changeState(StateJugador pState) { 
-	        state = pState; 
-	        state.manejarEstado();  
+	public void changeState(StateJugador pState) {
+	    if (state.getClass() != pState.getClass()) //TODO preguntar si esto se puede hacer.
+	    {
+	        state = pState;
+	        state.manejarEstado();
 	    }
-	 public void setFinPartida(boolean fin) { //TODO no se si es static.    TO2 yo lo he quitado para que acabe bien la partida, no se si esta bien
-	        finPartida = fin;
-		    this.pantallaFinal(false); // Llamar pantalla de derrota
-	    }
-	 public boolean isFinPartida() {
-	        return finPartida;
-	    }
+	}
+//	 public void setFinPartida(boolean fin) { //TODO no se si es static.    TO2 yo lo he quitado para que acabe bien la partida, no se si esta bien
+//	        finPartida = fin;
+//		    this.pantallaFinal(false); // Llamar pantalla de derrota
+//	    }
+//	 public boolean isFinPartida() {
+//	        return finPartida;
+//	    }
 }

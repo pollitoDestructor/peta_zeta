@@ -18,7 +18,7 @@ public class PonerBombaGigante implements StrategyPonerBomba {
 		Tablero tab = Tablero.getTablero();
 
 		Jugador.getJugador().addBomba();
-		
+
 		int[] dx = {0, 0, 0, -1, 1};
 		int[] dy = {0, -1, 1, 0, 0};
 
@@ -29,14 +29,11 @@ public class PonerBombaGigante implements StrategyPonerBomba {
 				int newY = pY + dy[i]*j;
 
 				if (!tab.esValido(newX, newY)||tab.esDuro(newX, newY)) break; // Evita acceder fuera del array
-
-	            tab.procesarExplosion(newX, newY, pX,pY);
+				// Verificar si el jugador ha sido alcanzado
+				if (Jugador.getJugador().estaEnCasilla(newX, newY)) tab.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+				
+				tab.procesarExplosion(newX, newY, pX,pY);
 			}
-		}
-
-		// Verificar si el jugador ha sido alcanzado
-		if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
-			tab.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 		}
 
 		// Verificar victoria después de todas las explosiones

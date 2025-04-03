@@ -30,11 +30,6 @@ public class PonerBombaNormal implements StrategyPonerBomba {
 			}
 		}
 
-		// Verificar si el jugador ha sido alcanzado
-		if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
-			tab.changeState(new StateMuerto());  // Cambiamos a estado de muerte
-		}
-
 		// Verificar victoria después de todas las explosiones
 		tab.verificarVictoria();
 	}

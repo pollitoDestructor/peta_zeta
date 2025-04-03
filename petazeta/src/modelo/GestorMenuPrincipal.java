@@ -7,7 +7,9 @@ import patrones.PonerBombaGigante;
 import patrones.PonerBombaNormal;
 import viewController.TableroVisual;
 
-public class GestorMenuPrincipal {
+import java.util.Observable;
+
+public class GestorMenuPrincipal extends Observable {
     private static GestorMenuPrincipal miMenu;
     private String ultimo_mapa_elegido = "Classic";
 
@@ -20,6 +22,11 @@ public class GestorMenuPrincipal {
         return miMenu;
     }
 
+    public void opcionesMenu(String accion) {
+        setChanged();
+        notifyObservers(accion);
+    }
+
     public void iniciarJuego() {
     	//Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
         Tablero tablero = Tablero.getTablero();
@@ -29,7 +36,7 @@ public class GestorMenuPrincipal {
         Jugador jugador = Jugador.getJugador();
         jugador.inicio(); //para imprimir el primer Bomberman nada mas
         System.out.println("El jugador esta en: "+jugador.getPosX()+" "+jugador.getPosY());
-        f.setVisible(true);
+        this.opcionesMenu("Juego");
     }
 
     public void cambiarJugador(String pColor) {

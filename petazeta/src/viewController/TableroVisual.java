@@ -47,6 +47,7 @@ public class TableroVisual extends JFrame implements Observer{
 
 		Tablero.getTablero().addObserver(this);
 		Jugador.getJugador().addObserver(this);
+		GestorMenuPrincipal.getMenu().addObserver(this);
 		this.addKeyListener(getControlador());
 	}
 
@@ -83,6 +84,7 @@ public class TableroVisual extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if(o instanceof GestorMenuPrincipal&&(String)arg=="Juego"){setVisible(true);}
 		if(o instanceof Tablero) {
 			Object[] param = (Object[])arg; //[accion:String, pX:int, pY:int, tipoBloque:String]
 

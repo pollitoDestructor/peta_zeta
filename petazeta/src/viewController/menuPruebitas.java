@@ -19,8 +19,10 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
+import java.util.Observable;
+import java.util.Observer;
 
-public class menuPruebitas extends JFrame {
+public class menuPruebitas extends JFrame implements Observer {
 
 	private static final long serialVersionUID = -1526416068663302084L;
 	private JPanel Fondo;
@@ -41,6 +43,8 @@ public class menuPruebitas extends JFrame {
 	private ControladorBoton controladorBoton;
 	private ControladorRaton controladorRaton;
 	private Reescaler reescaler;
+	//Gestor
+	private GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
 	
 	private CardLayout diapositiva; //Para transicionar entre mapas y jugadores
 	private int diapo=0; // Para intercambiar entre menus, tal vez con bool basta
@@ -98,6 +102,8 @@ public class menuPruebitas extends JFrame {
 		
 		this.addKeyListener(getControladorTeclado());
 		this.addComponentListener(getReescaler()); //Ajusta la posicion de los bombermans a la pantalla
+
+		menu.addObserver(this);
 	}
 	
 	//===================================================SELECTOR PJ=============================================================
@@ -217,8 +223,27 @@ public class menuPruebitas extends JFrame {
 		}
 		return descr_Mapa;
 	}
-	
-	
+
+	//=============================================OBSERVER=========================================
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof GestorMenuPrincipal){
+			if((String)arg=="Inicio"){setVisible(true);}
+			if((String)arg=="Opciones"){
+				if(diapo==0) //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
+				{
+					diapositiva.show(Fondo, "Mapas");
+					diapo=1;
+				}else {
+					diapositiva.show(Fondo, "Selector_Pj");
+					diapo=0;
+				}
+			}
+			if((String)arg=="Cerrar"){setVisible(false);}
+		}
+	}
+
 	//=============================================CONTROLADOR TECLADO=========================================
 	
 	private ControladorTeclado getControladorTeclado() {
@@ -235,29 +260,22 @@ public class menuPruebitas extends JFrame {
 
         }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            if(keyCode==KeyEvent.VK_ESCAPE){
-                //setVisible(false);
-            }
-            else if(keyCode==KeyEvent.VK_SPACE){
-            		setVisible(false); //TODO preguntar
-            		GestorMenuPrincipal.getMenu().iniciarJuego();
-            	
-            }
-            else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}
-            else if (keyCode==KeyEvent.VK_O){
-            	if(diapo==0) //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
-            	{
-            		diapositiva.show(Fondo, "Mapas");
-            		diapo=1;
-            	}else {
-            		diapositiva.show(Fondo, "Selector_Pj");
-            		diapo=0;
-            	}
-            }
-        }
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int keyCode = e.getKeyCode();
+			if(keyCode==KeyEvent.VK_ESCAPE){
+				//setVisible(false);
+			}
+			else if(keyCode==KeyEvent.VK_SPACE){
+				menu.opcionesMenu("Cerrar");
+				menu.iniciarJuego();
+
+			}
+			else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}
+			else if (keyCode==KeyEvent.VK_O){
+				menu.opcionesMenu("Opciones");
+			}
+		}
 
         @Override
         public void keyReleased(KeyEvent e) {

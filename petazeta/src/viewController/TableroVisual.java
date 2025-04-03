@@ -186,7 +186,14 @@ public class TableroVisual extends JFrame implements Observer{
 				if(descr.contains(color+"withbomb1.png") || descr.contains(color+"withbomb2.png")) //TODO
 				{
 					//Si DEJAMOS bomba (el anterior es Bomberman con bomba
-					pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+					switch (color) {
+						case "white":
+							pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+							break;
+						case "black":
+							pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
+							break;
+					}
 				}
 				else
 				{

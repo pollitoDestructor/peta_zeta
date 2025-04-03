@@ -90,7 +90,7 @@ public class menuPruebitas extends JFrame implements Observer {
                 g.drawImage(boss3.getImage(), getWidth()-getWidth()/12, getHeight()/3, getWidth()/7, getHeight()/2, this);
                 g.drawImage(boss4.getImage(), getWidth()/12-getWidth()/9, getHeight()-getHeight()/3, getWidth()/7, getHeight()/2, this);
                 g.drawString("<Choose your player>", getWidth()-200, getHeight()-25);
-                g.drawString("<space> to start, <m>usic, <o>ptions & <esc> to exit", getWidth()-300, getHeight()-10);
+                g.drawString("<space> start, <m> music, <o> options & <esc> exit", getWidth()-290, getHeight()-10);
             }
         };
 		Fondo.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -200,7 +200,11 @@ public class menuPruebitas extends JFrame implements Observer {
 	}
 	private JButton getAnterior_Mapa() {
 		if (anterior_Mapa == null) {
-			anterior_Mapa = new JButton("<");
+			anterior_Mapa = new JButton("◄");
+			anterior_Mapa.setFont(new Font("Arial", Font.BOLD, 24));
+			anterior_Mapa.setForeground(Color.WHITE);
+			anterior_Mapa.setBackground(new Color(170, 170, 170));
+			anterior_Mapa.setFocusPainted(false);
 			anterior_Mapa.addActionListener(getControladorBoton());
 			anterior_Mapa.setFocusable(false);
 		}
@@ -208,7 +212,11 @@ public class menuPruebitas extends JFrame implements Observer {
 	}
 	private JButton getSiguiente_Mapa() {
 		if (siguiente_Mapa == null) {
-			siguiente_Mapa = new JButton(">");
+			siguiente_Mapa = new JButton("►");
+			siguiente_Mapa.setFont(new Font("Arial", Font.BOLD, 24));
+			siguiente_Mapa.setForeground(Color.WHITE);
+			siguiente_Mapa.setBackground(new Color(170, 170, 170));
+			siguiente_Mapa.setFocusPainted(false);
 			siguiente_Mapa.addActionListener(getControladorBoton());
 			siguiente_Mapa.setFocusable(false);
 		}
@@ -218,6 +226,7 @@ public class menuPruebitas extends JFrame implements Observer {
 		if (descr_Mapa == null) {
 			descr_Mapa = new JLabel("Classic");
 			descr_Mapa.setFont(new Font("Nirmala UI", Font.BOLD, 35));
+			descr_Mapa.setBackground(new Color(255, 255, 255));
 			descr_Mapa.setHorizontalAlignment(SwingConstants.CENTER);
 			descr_Mapa.setOpaque(true);
 		}

@@ -15,28 +15,30 @@ public class PonerBombaGigante implements StrategyPonerBomba {
 	
 	@Override
 	public void detonarBomba(int pX, int pY) {
-		Tablero tab = Tablero.getTablero();
+	    Tablero tab = Tablero.getTablero();
+	    Jugador.getJugador().addBomba();
 
-		Jugador.getJugador().addBomba();
+	    int[] dx = {0, 0, 0, -1, 1};
+	    int[] dy = {0, -1, 1, 0, 0};
 
-		int[] dx = {0, 0, 0, -1, 1};
-		int[] dy = {0, -1, 1, 0, 0};
+	    for (int i = 0; i < 5; i++) {
+	        for (int j = 1; j <= 20; j++) {
+	            int newX = pX + dx[i] * j;
+	            int newY = pY + dy[i] * j;
 
-		for (int i = 0; i < 5; i++) {
-			for(int j=1; j<=20;j++)
-			{
-				int newX = pX + dx[i]*j;
-				int newY = pY + dy[i]*j;
+	            // 🛑 Verificación antes de acceder a `mapa[y][x]`
+	            if (!tab.esValido(newX, newY)) break; 
+	            if (tab.esDuro(newX, newY)) break; 
 
-				if (!tab.esValido(newX, newY)||tab.esDuro(newX, newY)) break; // Evita acceder fuera del array
-				// Verificar si el jugador ha sido alcanzado
-				if (Jugador.getJugador().estaEnCasilla(newX, newY)) tab.changeState(new StateMuerto());  // Cambiamos a estado de muerte
-				
-				tab.procesarExplosion(newX, newY, pX,pY);
-			}
-		}
+	            // Si el jugador está en la explosión, cambiar estado a muerto
+	            if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
+	                tab.changeState(new StateMuerto());
+	            }
 
-		// Verificar victoria después de todas las explosiones
-		tab.verificarVictoria();
+	            tab.procesarExplosion(newX, newY, pX, pY);
+	        }
+	    }
+
+	    tab.verificarVictoria();
 	}
-}
+	}

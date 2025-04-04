@@ -239,6 +239,7 @@ public class menuPruebitas extends JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 		if(o instanceof GestorMenuPrincipal){
 			String accion = (String)arg;
+			//Teclas
 			if(accion=="Inicio"){setVisible(true);}
 			if(accion=="Opciones"){
 				if(diapo==0) //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
@@ -252,6 +253,28 @@ public class menuPruebitas extends JFrame implements Observer {
 			}
 			if(accion=="Cerrar"){setVisible(false);}
 
+			//Botones
+			if(accion.matches("Boton\\d")) {
+				int pNum = Character.getNumericValue(accion.charAt(5));
+				System.out.println(pNum);
+				mapa_Preview.setName("prev" + pNum);
+				//System.out.println("Cambio de mapa"+pNum);
+				ImageIcon prescalada = new ImageIcon(getClass().getResource("mappreview" + pNum + ".png"));
+				mapa_Preview.setIcon(escalarImagen(prescalada, mapa_Preview.getWidth(), mapa_Preview.getHeight()));
+				switch (pNum) {
+					case 1:
+						descr_Mapa.setText("Classic");
+						break;
+					case 2:
+						descr_Mapa.setText("Soft");
+						break;
+					case 3:
+						descr_Mapa.setText("Empty");
+						break;
+				}
+			}
+			//Mouse
+			//Apariencia sprites bombers
 			if(accion.matches("bomber\\d+Entered")){
 				char pNum = accion.charAt(6);
 				JLabel pBomber=null;
@@ -262,7 +285,7 @@ public class menuPruebitas extends JFrame implements Observer {
 					ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + ".png"));
 					pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
 				}
-
+			//Apariencia sprites bombers
 			if(accion.matches("bomber\\d+Exited")){
 				char pNum = accion.charAt(6);
 				JLabel pBomber=null;
@@ -273,7 +296,8 @@ public class menuPruebitas extends JFrame implements Observer {
 				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
 				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
 			}
-
+			//Pantalla
+			//Reescalar y ajustar a la pantalla labels
 			if(accion.matches("Reescale")){
 				//Reescalar bomber1
 				Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
@@ -319,12 +343,12 @@ public class menuPruebitas extends JFrame implements Observer {
 		public void keyPressed(KeyEvent e) {
 			int keyCode = e.getKeyCode();
 			if(keyCode==KeyEvent.VK_ESCAPE){
-				//setVisible(false);
+				menu.opcionesMenu("Cerrar");
 			}
 			else if(keyCode==KeyEvent.VK_SPACE){
 				menu.opcionesMenu("Cerrar");
 				menu.iniciarJuego();
-
+				menu.end();
 			}
 			else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}
 			else if (keyCode==KeyEvent.VK_O){
@@ -352,32 +376,17 @@ public class menuPruebitas extends JFrame implements Observer {
   		public void actionPerformed(ActionEvent e) {
 
   			if(e.getSource()==siguiente_Mapa || e.getSource()==anterior_Mapa) {
-  				int pNum =Character.getNumericValue(mapa_Preview.getName().charAt(4));
-  				if(e.getSource()==siguiente_Mapa){
-  					pNum = (pNum%3)+1;
-  				}
-  				else if(e.getSource()==anterior_Mapa){
-  					pNum = pNum == 1 ? 3 : pNum-1; //Si es 1, pasa al 3, si no, resta 1
-  				}
-  				mapa_Preview.setName("prev"+pNum);
-  				//System.out.println("Cambio de mapa"+pNum);
-  				ImageIcon prescalada = new ImageIcon(getClass().getResource("mappreview"+pNum+".png"));
-  				mapa_Preview.setIcon(escalarImagen(prescalada, mapa_Preview.getWidth(), mapa_Preview.getHeight()));
-  				switch (pNum){
-  				case 1:
-  					descr_Mapa.setText("Classic");
-  					break;
-  				case 2:
-  					descr_Mapa.setText("Soft");
-  					break;
-  				case 3:
-  					descr_Mapa.setText("Empty");
-  					break;
-  				}
-  			}else if(e.getSource() == mapa_Preview)
-  			{
-  				GestorMenuPrincipal.getMenu().cambiarMapa(descr_Mapa.getText());
-  			}
+				int pNum = Character.getNumericValue(mapa_Preview.getName().charAt(4));
+				if (e.getSource() == siguiente_Mapa) {
+					pNum = (pNum % 3) + 1;
+					menu.opcionesMenu(String.valueOf("Boton"+pNum));
+				} else if (e.getSource() == anterior_Mapa) {
+					pNum = pNum == 1 ? 3 : pNum - 1; //Si es 1, pasa al 3, si no, resta 1
+					menu.opcionesMenu(String.valueOf("Boton"+pNum));
+				} else if(e.getSource() == mapa_Preview) {
+				GestorMenuPrincipal.getMenu().cambiarMapa(descr_Mapa.getText());
+				}
+			}
   		}
   	}
 
@@ -442,26 +451,7 @@ public class menuPruebitas extends JFrame implements Observer {
 		@Override
 		//REPOSICIONA Y REESCALA LOS SPRITES DE LOS BOMBERMANS CON EL TAMAÑO DE PANTALLA
 		public void componentResized(ComponentEvent e) {
-			//Reescalar bomber1
-			Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
-			ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
-			Bomber1.setIcon(escalarImagen(sprite1,Bomber1.getWidth(),Bomber1.getHeight()));
-			Bomber1.setLocation(getBounds().width/10, getBounds().height/3);
-			//Reescalar bomber2
-			Bomber2.setSize((58*getBounds().width)/450, (107*getBounds().height)/300);
-			Bomber2.setLocation(getBounds().width/4, getBounds().height/2);
-			ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomberUnknown2.png"));
-			Bomber2.setIcon(escalarImagen(sprite2,Bomber2.getWidth(),Bomber2.getHeight()));
-			//Reescalar bomber3
-			Bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
-			ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomberUnknown3.png"));
-			Bomber3.setIcon(escalarImagen(sprite3,Bomber3.getWidth(),Bomber3.getHeight()));
-			Bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
-			//Reescalar bomber4
-			Bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
-			ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
-			Bomber4.setIcon(escalarImagen(sprite4,Bomber4.getWidth(),Bomber4.getHeight()));
-			Bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+
 		}
 
 		@Override

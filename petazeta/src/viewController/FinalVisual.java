@@ -150,18 +150,14 @@ public class FinalVisual extends JFrame implements Observer{
 				205, 127, 50     // Bronce
 		};
 
-		getRankingPanel().removeAll(); // Limpiar antes de actualizar
-		// Ajustar el GridLayout para incluir espacios adicionales (filas * 2 + 1)
+		getRankingPanel().removeAll();
 		getRankingPanel().setLayout(new GridLayout(ranking.obtenerRankingOrdenado().size() * 2 + 1, 1));
 
-		// Cabecera (igual que antes)
 		JLabel cabecera = new JLabel(String.format("%-4s %-6s %s", "RANK", "NAME", "SCORE"));
 		cabecera.setForeground(Color.YELLOW);
 		cabecera.setFont(new Font("Monospaced", Font.BOLD, 28));
 		cabecera.setHorizontalAlignment(SwingConstants.CENTER);
 		rankingPanel.add(cabecera);
-
-		// Espacio después de la cabecera (más grande)
 		rankingPanel.add(crearEspacioGrande());
 
 		int fila = 1;
@@ -169,14 +165,12 @@ public class FinalVisual extends JFrame implements Observer{
 			String jugador = entrada.getKey();
 			int puntos = entrada.getValue();
 
-			// Fila de jugador (igual que antes)
 			String texto = String.format("%-4d %-6s %7d", fila, jugador.toUpperCase(), puntos);
 			JLabel filaLabel = new JLabel(texto);
 			filaLabel.setFont(new Font("Monospaced", Font.PLAIN, 22));
 			filaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			filaLabel.setForeground(Color.WHITE);
 
-			// Colores especiales para los 3 primeros (igual que antes)
 			if (fila <= 3) {
 				filaLabel.setForeground(new Color(
 						colores[(fila - 1) * 3],
@@ -187,7 +181,6 @@ public class FinalVisual extends JFrame implements Observer{
 
 			rankingPanel.add(filaLabel);
 
-			// Espacio después de cada jugador (excepto el último)
 			if (fila < ranking.obtenerRankingOrdenado().size()) {
 				rankingPanel.add(crearEspacioGrande());
 			}

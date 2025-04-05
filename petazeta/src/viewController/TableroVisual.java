@@ -1,6 +1,6 @@
 package viewController;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -10,12 +10,10 @@ import javax.swing.border.EmptyBorder;
 
 import modelo.*;
 
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.BorderLayout;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -26,6 +24,7 @@ public class TableroVisual extends JFrame implements Observer{
 	private JPanel grid;
 	private JPanel contentPane;
 	private JPanel panel;
+	private JLabel lblPuntuacion;
 	private Controlador controlador;
 	private String fondo;
 
@@ -38,10 +37,19 @@ public class TableroVisual extends JFrame implements Observer{
 		setBounds(100, 100, 850, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 
+		JPanel panelPuntuacion = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		panelPuntuacion.setOpaque(true);
+		lblPuntuacion = new JLabel("Puntuación: 0");
+		lblPuntuacion.setForeground(Color.WHITE);
+		panelPuntuacion.setBackground(new Color(170, 170, 170));
+		lblPuntuacion.setFont(new Font("Arial", Font.BOLD, 18));
+		lblPuntuacion.setFocusable(false);
+		panelPuntuacion.add(lblPuntuacion);
+
+		contentPane.add(panelPuntuacion, BorderLayout.NORTH);
 		contentPane.add(getPanel());
 		contentPane.add(getPanel_Casillas(), BorderLayout.CENTER);
 
@@ -159,86 +167,94 @@ public class TableroVisual extends JFrame implements Observer{
 		}
 		else if(o instanceof Jugador)
 		{
-			Object[] movimiento = (Object[]) arg; //[posX:int, posY:int, x:int, y:int]
-			int posX = (int)movimiento[0];
-			int posY = (int)movimiento[1];
-			int x = (int)movimiento[2];
-			int y = (int)movimiento[3];
-			String color = (String)movimiento[4];
-			//System.out.println(color);
+			Object[] params = (Object[]) arg; //[posX:int, posY:int, x:int, y:int]
+			String accion = (String) params[0];
+				switch (accion) {
+					case "mover":
+						int posX = (int)params[1];
+						int posY = (int)params[2];
+						int x = (int)params[3];
+						int y = (int)params[4];
+						String color = (String)params[5];
+						//System.out.println(color);
 
-			int index = 17*posY+posX; //la pos que dejamos atr�s
-			JLabel pCasilla = (JLabel) grid.getComponent(index);
-			String[] partes = null;
-			if(x != 0 || y != 0) {
-				if(pCasilla.getIcon() != null) {
-					String imagenActual = pCasilla.getIcon().toString();
-					String nombreImagen = imagenActual.substring(imagenActual.lastIndexOf("/") + 1);
-					partes = nombreImagen.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\.)");
-				} else {
-					// Manejar el caso cuando no hay icono (por ejemplo, establecer partes a un valor por defecto)
-					partes = new String[]{color+"right", "1"}; // Ejemplo de valor por defecto
-				}
-			}
-			if(pCasilla.getIcon() != null) //Para evitar errores
-			{
-				String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
-				if(descr.contains(color+"withbomb1.png") || descr.contains(color+"withbomb2.png")) //TODO
-				{
-					//Si DEJAMOS bomba (el anterior es Bomberman con bomba
-					switch (color) {
-						case "white":
-							pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
-							break;
-						case "black":
-							pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
-							break;
-					}
-				}
-				else
-				{
-					//Si no es null y NO dejamos atr�s bomba (anda normal)
-					pCasilla.setIcon(null);
-				}
-			}
+						int index = 17*posY+posX; //la pos que dejamos atr�s
+						JLabel pCasilla = (JLabel) grid.getComponent(index);
+						String[] partes = null;
+						if(x != 0 || y != 0) {
+							if(pCasilla.getIcon() != null) {
+								String imagenActual = pCasilla.getIcon().toString();
+								String nombreImagen = imagenActual.substring(imagenActual.lastIndexOf("/") + 1);
+								partes = nombreImagen.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\.)");
+							} else {
+								// Manejar el caso cuando no hay icono (por ejemplo, establecer partes a un valor por defecto)
+								partes = new String[]{color+"right", "1"}; // Ejemplo de valor por defecto
+							}
+						}
+						if(pCasilla.getIcon() != null) //Para evitar errores
+						{
+							String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
+							if(descr.contains(color+"withbomb1.png") || descr.contains(color+"withbomb2.png")) //TODO
+							{
+								//Si DEJAMOS bomba (el anterior es Bomberman con bomba
+								switch (color) {
+									case "white":
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+										break;
+									case "black":
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
+										break;
+								}
+							}
+							else
+							{
+								//Si no es null y NO dejamos atr�s bomba (anda normal)
+								pCasilla.setIcon(null);
+							}
+						}
 
-			index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
-			pCasilla = (JLabel) grid.getComponent(index);
-			if(x != 0 || y != 0) {
-				if (x == 1) {
-					if(partes[0].equals(color+"right")) {
-						int frame = Integer.parseInt(partes[1])%5;
-						frame = frame+1;
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right"+String.valueOf(frame)+".png")));//derecha
-					} else {
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right1.png")));//derecha
+						index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
+						pCasilla = (JLabel) grid.getComponent(index);
+						if(x != 0 || y != 0) {
+							if (x == 1) {
+								if(partes[0].equals(color+"right")) {
+									int frame = Integer.parseInt(partes[1])%5;
+									frame = frame+1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right"+String.valueOf(frame)+".png")));//derecha
+								} else {
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right1.png")));//derecha
+								}
+							} else if (x == -1) {
+								if(partes[0].equals(color+"left")) {
+									int frame = Integer.parseInt(partes[1]);
+									frame = frame%5+1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left"+String.valueOf(frame)+".png")));//derecha
+								} else {
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left1.png")));//derecha
+								}
+							} else if (y == 1) {
+								if(partes[0].equals(color+"down")) {
+									int frame = Integer.parseInt(partes[1]);
+									frame = frame%4+1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down"+String.valueOf(frame)+".png")));//derecha
+								} else {
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down1.png")));//derecha
+								}
+							} else if (y == -1) {
+								if(partes[0].equals(color+"up")) {
+									int frame = Integer.parseInt(partes[1]);
+									frame = frame%5+1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up"+String.valueOf(frame)+".png")));//derecha
+								} else {
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up1.png")));//derecha
+								}
+							} else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
+						}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
+								break;
+					case "punt":
+						int punt = (int) params[1];
+						lblPuntuacion.setText("Puntuación: " + punt);
 					}
-				} else if (x == -1) {
-					if(partes[0].equals(color+"left")) {
-						int frame = Integer.parseInt(partes[1]);
-						frame = frame%5+1;
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left"+String.valueOf(frame)+".png")));//derecha
-					} else {
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left1.png")));//derecha
-					}
-				} else if (y == 1) {
-					if(partes[0].equals(color+"down")) {
-						int frame = Integer.parseInt(partes[1]);
-						frame = frame%4+1;
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down"+String.valueOf(frame)+".png")));//derecha
-					} else {
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down1.png")));//derecha
-					}
-				} else if (y == -1) {
-					if(partes[0].equals(color+"up")) {
-						int frame = Integer.parseInt(partes[1]);
-						frame = frame%5+1;
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up"+String.valueOf(frame)+".png")));//derecha
-					} else {
-						pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up1.png")));//derecha
-					}
-				} else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
-			}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
 		}
 		else if(o instanceof Enemigo)
 		{

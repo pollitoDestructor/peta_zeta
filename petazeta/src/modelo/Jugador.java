@@ -59,7 +59,7 @@ public class Jugador extends Observable {
 	public void inicio() //para imprimir la primera pos
 	{
 		setChanged();
-		notifyObservers(new Object[] {posX,posY,0,0,color});
+		notifyObservers(new Object[] {"mover",posX,posY,0,0,color});
 	}
 
 	public void ponerBomba()
@@ -75,7 +75,7 @@ public class Jugador extends Observable {
 	public void mover(int x, int y) {
 		if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y,"Jugador")) {
 			setChanged();
-			notifyObservers(new Object[] {posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
+			notifyObservers(new Object[] {"mover",posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
 			this.posX=posX+x; this.posY=posY+y;
 
 		}
@@ -84,6 +84,8 @@ public class Jugador extends Observable {
 
 	public void actualizarPuntuacion(int newP) {
 		Jugador.getJugador().puntuacion = puntuacion + newP;
+		setChanged();
+		notifyObservers(new Object[] {"punt",puntuacion});
 	}
 	public void guardarPuntuacion() {
 		Ranking.getRanking().anadirJugador(color, puntuacion);

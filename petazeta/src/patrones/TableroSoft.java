@@ -5,7 +5,7 @@ import java.util.Random;
 import modelo.Casilla;
 import modelo.Enemigo;
 
-public class TableroSoft implements StrategyTablero{
+public class TableroSoft extends TableroAbstract{
 
 	@Override
 	public Casilla ponerBloques(int i, int j) {
@@ -13,19 +13,19 @@ public class TableroSoft implements StrategyTablero{
 		Casilla c;
 		if (j > 1 || i > 1){
 			if(rng.nextDouble() <= 0.7) {
-				c = FactoryCasillas.getFactoryCasillas().genCasilla("BloqueBlando", i, j);				
+				c = genCasilla("BloqueBlando", i, j);				
 			} else {
-				c = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
+				c = genCasilla("Casilla", i, j);
 			}
 		} else {
-			c = FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", i, j);
+			c = genCasilla("Casilla", i, j);
 		}
 		return c;
 	}
 
 	public Enemigo ponerEnemigos(int i, int j) {
 		Enemigo myEnemigo;
-		myEnemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo("Doria", i, j);
+		myEnemigo = genEnemigo("Doria", i, j);
 
 		return myEnemigo;
 	}

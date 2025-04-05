@@ -5,11 +5,11 @@ import modelo.Enemigo;
 
 import java.util.Random;
 
-public class TableroEmpty implements StrategyTablero{
+public class TableroEmpty extends TableroAbstract{
 
 	@Override
 	public Casilla ponerBloques(int x, int y) {
-		return FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", x, y);
+		return genCasilla("Casilla", x, y);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class TableroEmpty implements StrategyTablero{
 				break;
 		}
 		Enemigo myEnemigo;
-		myEnemigo = FactoryEnemigos.getFactoryEnemigos().genEnemigo(Tipo, i, j);
+		myEnemigo = genEnemigo(Tipo, i, j);
 
 		return myEnemigo;
 	}

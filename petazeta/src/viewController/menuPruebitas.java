@@ -239,6 +239,7 @@ public class menuPruebitas extends JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 		if(o instanceof GestorMenuPrincipal){
 			String accion = (String)arg;
+
 			//Teclas
 			if(accion=="Inicio"){setVisible(true);}
 			if(accion=="Opciones"){
@@ -256,7 +257,7 @@ public class menuPruebitas extends JFrame implements Observer {
 			//Botones
 			if(accion.matches("Boton\\d")) {
 				int pNum = Character.getNumericValue(accion.charAt(5));
-				System.out.println(pNum);
+				//System.out.println(pNum);
 				mapa_Preview.setName("prev" + pNum);
 				//System.out.println("Cambio de mapa"+pNum);
 				ImageIcon prescalada = new ImageIcon(getClass().getResource("mappreview" + pNum + ".png"));
@@ -273,6 +274,7 @@ public class menuPruebitas extends JFrame implements Observer {
 						break;
 				}
 			}
+
 			//Mouse
 			//Apariencia sprites bombers
 			if(accion.matches("bomber\\d+Entered")){
@@ -296,6 +298,7 @@ public class menuPruebitas extends JFrame implements Observer {
 				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
 				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
 			}
+
 			//Pantalla
 			//Reescalar y ajustar a la pantalla labels
 			if(accion.matches("Reescale")){
@@ -344,6 +347,7 @@ public class menuPruebitas extends JFrame implements Observer {
 			int keyCode = e.getKeyCode();
 			if(keyCode==KeyEvent.VK_ESCAPE){
 				menu.opcionesMenu("Cerrar");
+				menu.end();
 			}
 			else if(keyCode==KeyEvent.VK_SPACE){
 				menu.opcionesMenu("Cerrar");

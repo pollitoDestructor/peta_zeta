@@ -24,6 +24,7 @@ public class GestorMenuPrincipal extends Observable {
 
     public void opcionesMenu(String accion) {
         setChanged();
+//        System.out.println(accion);
         notifyObservers(accion);
     }
 

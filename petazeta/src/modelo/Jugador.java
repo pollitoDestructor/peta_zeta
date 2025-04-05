@@ -86,7 +86,7 @@ public class Jugador extends Observable {
 		Jugador.getJugador().puntuacion = puntuacion + newP;
 	}
 	public void guardarPuntuacion() {
-		Ranking.getRanking().añadirJugador(color, puntuacion);
+		Ranking.getRanking().anadirJugador(color, puntuacion);
 	}
 
 }

@@ -20,7 +20,7 @@ public class Ranking {
         return miRanking;
     }
 
-    public void añadirJugador(String color, int puntuacion) {
+    public void anadirJugador(String color, int puntuacion) {
         // Verificar si el jugador ya está en el ranking
         if (listaPuntuaciones.containsKey(color)) {
             int puntuacionRanking = listaPuntuaciones.get(color);
@@ -43,7 +43,7 @@ public class Ranking {
     }
 
     public Map<String, Integer> obtenerRankingOrdenado() {
-        añadirJugador(Jugador.getJugador().getColor(), Jugador.getJugador().getPuntuacion());
+        anadirJugador(Jugador.getJugador().getColor(), Jugador.getJugador().getPuntuacion());
         return listaPuntuaciones.entrySet()
                 .stream()
                 .sorted((a, b) -> b.getValue().compareTo(a.getValue())) // Orden descendente

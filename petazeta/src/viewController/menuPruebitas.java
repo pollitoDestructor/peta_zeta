@@ -239,7 +239,6 @@ public class menuPruebitas extends JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 		if(o instanceof GestorMenuPrincipal){
 			String accion = (String)arg;
-
 			//Teclas
 			if(accion=="Inicio"){setVisible(true);}
 			if(accion=="Opciones"){

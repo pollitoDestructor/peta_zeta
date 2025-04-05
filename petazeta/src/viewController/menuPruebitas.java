@@ -387,7 +387,7 @@ public class menuPruebitas extends JFrame implements Observer {
 					pNum = pNum == 1 ? 3 : pNum - 1; //Si es 1, pasa al 3, si no, resta 1
 					menu.opcionesMenu(String.valueOf("Boton"+pNum));
 				} else if(e.getSource() == mapa_Preview) {
-					GestorMenuPrincipal.getMenu().cambiarMapa(descr_Mapa.getText());
+					GestorMenuPrincipal.getMenu().cambiarMapa(descr_Mapa.getText()); 
 				}
 			}
   		}

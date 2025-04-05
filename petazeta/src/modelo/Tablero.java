@@ -22,30 +22,30 @@ public class Tablero extends Observable{
 
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
 	private Random rng = new Random();
-	
+
 	//Patrones
 	private static StrategyTablero stratTablero = new TableroClassic();
 	private static StrategyPonerBomba stratBomba = new PonerBombaNormal();
-	private StateJugador state;  
-  
+	private StateJugador state;
+
 	//==================================SINGLETON==================================
-	private Tablero() { 
+	private Tablero() {
 		mapa = new Casilla[11][17]; //NOTA: las matrices funcionan mediante Object[y][x]
 		state = new StateVivo();  // El juego comienza con el estado "vivo"
 	}
-	
+
 	public static Tablero getTablero() {
 		if (miTablero == null){
 			miTablero = new Tablero();
 		}
 		return miTablero;
 	}
-	
+
 	//==================================METODOS AUXILIARES==================================
 	public ArrayList<Enemigo> getListaEnemigos() {
 		return ListaEnemigos;
 	}
-	
+
 	public Enemigo getEnemigo(int pX, int pY) {
 		Enemigo enemigoB = null;
 		for (Enemigo enemigo : ListaEnemigos) {
@@ -55,24 +55,24 @@ public class Tablero extends Observable{
 		}
 		return enemigoB;
 	}
-	
+
 	public Casilla getCasilla(int pX, int pY) {
 		Casilla c = null;
-		if (esValido(pX, pY)) { 
+		if (esValido(pX, pY)) {
 			c = mapa[pY][pX];
 		}
 		return c;
 	}
-	
+
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
 	    boolean disponible = false;
-	    
+
 	    if (pX >= 0 && pX < mapa[0].length && pY >= 0 && pY < mapa.length) {
 	        disponible = !mapa[pY][pX].estaOcupada();
 
 	        if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
 	            switch (pType) {
-	                case "Jugador": 
+	                case "Jugador":
 	                    System.out.println("¡El jugador ha muerto!");
 						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 	                    break;
@@ -82,6 +82,7 @@ public class Tablero extends Observable{
 	                    Enemigo enemigo = getEnemigo(pXOld, pYOld);
 	                    if (enemigo != null) {
 	                        enemigo.destruir();
+							Jugador.getJugador().actualizarPuntuacion(250);
 	                        disponible = false;
 	                        if (ListaEnemigos.isEmpty()) //Si la lista de enemigos esta vacía
 	        				{
@@ -120,14 +121,14 @@ public class Tablero extends Observable{
 	    }
 	    return disponible;
 	}
-	
+
 	//==================================STRATEGY TABLERO==================================
 	//Para generar el Tablero correspondiente
 	public static void changeStrategyTablero(StrategyTablero pStrat)
 	{
 		stratTablero = pStrat;
 	}
-	
+
 	public void ponerBloques()
 	{
 		setChanged();
@@ -165,19 +166,19 @@ public class Tablero extends Observable{
 		System.out.println("Total enemigos generados: " + cantEC);
 	}
 
-	
+
 	//==================================STRATEGY BOMBA==================================
 	public static void changeStrategyBomba(StrategyPonerBomba pStrat){
 		stratBomba = pStrat;
 	}
-	
+
 	public void ponerBomba(int pX, int pY)
 	{
 		setChanged();
 		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipo(), pX, pY); //Pone la bomba en esas coords
 		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipo(),Jugador.getJugador().getColor()});
 	}
-	
+
 	public void detonarBomba(int pX, int pY) {
 		stratBomba.detonarBomba(pX, pY);
 	}
@@ -191,6 +192,7 @@ public class Tablero extends Observable{
 	        if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
 	            enemigo.destruir();
 	            ListaEnemigos.remove(enemigo); // Asegura que se elimine de la lista
+				Jugador.getJugador().actualizarPuntuacion(500);
 	        }
 	    }
 
@@ -232,16 +234,16 @@ public class Tablero extends Observable{
         mapa[pY][pX] =  FactoryCasillas.getFactoryCasillas().genCasilla("Casilla", pX, pY);
         notifyObservers(new Object[] {"PonerImagen", pX, pY, "Casilla"});
 	}
-	
+
 	// Metodo para verificar si la posicion esta dentro del mapa
 	public boolean esValido(int x, int y) {
 	    return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length;
 	}
-	
+
 	public boolean esDuro(int x, int y) {
 		return mapa[y][x].tipoCasilla().equals("BloqueDuro");
 	}
-	
+
 	//===================================STATE JUGADOR===================================
 	public void changeState(StateJugador pState) {
 	    if (state.getClass() != pState.getClass()) //TODO preguntar si esto se puede hacer.
@@ -250,7 +252,7 @@ public class Tablero extends Observable{
 	        state.manejarEstado();
 	    }
 	}
-	
+
 	public void pantallaFinal(boolean pEstadoPartida) {
 		System.out.println("Fin de la partida.");
 		setChanged();

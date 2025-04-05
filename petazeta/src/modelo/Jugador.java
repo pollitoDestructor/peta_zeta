@@ -12,6 +12,7 @@ public class Jugador extends Observable {
 	private int posX;
 	private int posY;
 	private int bombas=10;
+	private int puntuacion=0;
 	private String color="white";
 
 	private Jugador() {
@@ -36,6 +37,7 @@ public class Jugador extends Observable {
 	}
 
 	public String getColor() {return this.color;}
+	public int getPuntuacion() {return this.puntuacion;}
 	public void setColor(String pColor){
 		this.color=pColor;
 		if(color.equals("white")) {this.bombas=10;}
@@ -79,4 +81,12 @@ public class Jugador extends Observable {
 		}
 		//else {System.out.println("El movimiento no se ha podido efectuar");}
 	}
+
+	public void actualizarPuntuacion(int newP) {
+		Jugador.getJugador().puntuacion = puntuacion + newP;
+	}
+	public void guardarPuntuacion() {
+		Ranking.getRanking().añadirJugador(color, puntuacion);
+	}
+
 }

@@ -1,20 +1,16 @@
 package viewController;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import modelo.GestorFinalVisual;
+import modelo.Ranking;
 
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,7 +23,7 @@ public class FinalVisual extends JFrame implements Observer{
 	private JLabel Titulo;
 	private boolean estadoPartida;
 	private JLabel lblPartidaEstado;
-	private JLabel espacio;
+	private JPanel rankingPanel;
 	private Controlador controlador = null;
 
 	/**
@@ -51,26 +47,31 @@ public class FinalVisual extends JFrame implements Observer{
 	 */
 	public FinalVisual(boolean pPartida) {
 		estadoPartida= pPartida; //Atrbiuto para el texto visual
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 550, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(4, 1, 0, 0));
-		contentPane.add(getEspacio());
-		contentPane.add(getTitulo());
+		contentPane.setLayout(new GridLayout(3, 1, 0, 0));
+		if (!estadoPartida) {
+			contentPane.add(getTitulo());
+		}
 		contentPane.add(getLblPartidaEstado());
+		if (estadoPartida) { //Mostrar el ranking si se gana
+			contentPane.add(getRankingPanel());
+			actualizarRankingVisual();
+		}
 		contentPane.add(getSubtitulo());
-		
+
 		GestorFinalVisual.getFinal(pPartida).addObserver(this);
-		
+
 		setVisible(true);
 	}
 
-	
+
 	private JLabel getTitulo() {
 		if (Titulo == null) {
 			Titulo = new JLabel("Game Over");
@@ -80,7 +81,7 @@ public class FinalVisual extends JFrame implements Observer{
 		}
 		return Titulo;
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof GestorFinalVisual)
@@ -99,43 +100,114 @@ public class FinalVisual extends JFrame implements Observer{
 				String mensaje = (String) datos [1];
 				lblPartidaEstado.setText(mensaje);
 			}
-			
+
 		}
-		
+
 	}
 	private JLabel getLblPartidaEstado() {
 		if (lblPartidaEstado == null) {
 			lblPartidaEstado = new JLabel();
-			
+
 			if(estadoPartida) lblPartidaEstado.setForeground(new Color(0, 255, 0));
 			else lblPartidaEstado.setForeground(new Color(255, 0, 0));
-			
+
 			lblPartidaEstado.setHorizontalAlignment(SwingConstants.CENTER);
 			lblPartidaEstado.setFont(new Font("OCR A Extended", Font.PLAIN, 30));
 		}
 		return lblPartidaEstado;
 	}
-	
-	private JLabel getEspacio() {
-		if (espacio == null) {
-			espacio = new JLabel("");
-			espacio.setFont(new Font("Tahoma", Font.PLAIN, 5));
-		}
-		return espacio;
-	}
-	
+
+
 	private JLabel getSubtitulo() {
 		if (Subtitulo == null) {
 			Subtitulo = new JLabel("Click to return");
 			Subtitulo.setForeground(new Color(200,200,200));
 			Subtitulo.setFont(new Font("Tahoma", Font.PLAIN, 25));
 			Subtitulo.setHorizontalAlignment(SwingConstants.CENTER);
-			
+
 			Subtitulo.addMouseListener(getControlador());
 		}
 		return Subtitulo;
 	}
-	
+
+	private JPanel getRankingPanel() {
+		if (rankingPanel == null) {
+			rankingPanel = new JPanel();
+			rankingPanel.setBackground(Color.BLACK);
+			rankingPanel.setLayout(new GridLayout(6, 1)); // 5 jugadores + cabecera
+			setBounds(100, 100, 550, 600);
+
+		}
+		return rankingPanel;
+	}
+
+
+	private void actualizarRankingVisual() {
+		Ranking ranking = Ranking.getRanking();
+		int[] colores = {
+				255, 215, 0,     // Oro
+				192, 192, 192,   // Plata
+				205, 127, 50     // Bronce
+		};
+
+		getRankingPanel().removeAll(); // Limpiar antes de actualizar
+		// Ajustar el GridLayout para incluir espacios adicionales (filas * 2 + 1)
+		getRankingPanel().setLayout(new GridLayout(ranking.obtenerRankingOrdenado().size() * 2 + 1, 1));
+
+		// Cabecera (igual que antes)
+		JLabel cabecera = new JLabel(String.format("%-4s %-6s %s", "RANK", "NAME", "SCORE"));
+		cabecera.setForeground(Color.YELLOW);
+		cabecera.setFont(new Font("Monospaced", Font.BOLD, 28));
+		cabecera.setHorizontalAlignment(SwingConstants.CENTER);
+		rankingPanel.add(cabecera);
+
+		// Espacio después de la cabecera (más grande)
+		rankingPanel.add(crearEspacioGrande());
+
+		int fila = 1;
+		for (Map.Entry<String, Integer> entrada : ranking.obtenerRankingOrdenado().entrySet()) {
+			String jugador = entrada.getKey();
+			int puntos = entrada.getValue();
+
+			// Fila de jugador (igual que antes)
+			String texto = String.format("%-4d %-6s %7d", fila, jugador.toUpperCase(), puntos);
+			JLabel filaLabel = new JLabel(texto);
+			filaLabel.setFont(new Font("Monospaced", Font.PLAIN, 22));
+			filaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			filaLabel.setForeground(Color.WHITE);
+
+			// Colores especiales para los 3 primeros (igual que antes)
+			if (fila <= 3) {
+				filaLabel.setForeground(new Color(
+						colores[(fila - 1) * 3],
+						colores[(fila - 1) * 3 + 1],
+						colores[(fila - 1) * 3 + 2]
+				));
+			}
+
+			rankingPanel.add(filaLabel);
+
+			// Espacio después de cada jugador (excepto el último)
+			if (fila < ranking.obtenerRankingOrdenado().size()) {
+				rankingPanel.add(crearEspacioGrande());
+			}
+
+			fila++;
+		}
+
+		getRankingPanel().revalidate();
+		getRankingPanel().repaint();
+	}
+
+	// Método auxiliar para crear espacios grandes (igual que tu separador original)
+	private JLabel crearEspacioGrande() {
+		JLabel espacio = new JLabel(" ");
+		espacio.setPreferredSize(new Dimension(0, 40)); // Aumenté a 40 píxeles para más separación
+		return espacio;
+	}
+
+
+
 	private Controlador getControlador() {
 		if (controlador == null) {
 			controlador = new Controlador();
@@ -147,7 +219,7 @@ public class FinalVisual extends JFrame implements Observer{
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
-            GestorFinalVisual.getFinal(true).detenerTimer(); // Aseg�rate de que este m�todo existe
+            GestorFinalVisual.getFinal(true).detenerTimer(); // Aseg�rate de que este m�todo existe
             setVisible(false);
         }
         @Override

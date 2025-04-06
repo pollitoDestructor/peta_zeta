@@ -56,10 +56,10 @@ public class Tablero extends Observable{
 		return enemigoB;
 	}
 
-	public Casilla getCasilla(int pX, int pY) {
+	public Casilla getCasilla(int pCol, int pFila) {
 		Casilla c = null;
-		if (esValido(pX, pY)) {
-			c = mapa[pY][pX];
+		if (esValido(pCol, pFila)) {
+			c = mapa[pFila][pCol];
 		}
 		return c;
 	}
@@ -67,13 +67,15 @@ public class Tablero extends Observable{
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
 	    boolean disponible = false;
 
-	    if (pX >= 0 && pX < mapa[0].length && pY >= 0 && pY < mapa.length) {
+	    if (esValido(pX,pY)) {
 	        disponible = !mapa[pY][pX].estaOcupada();
 
 	        if (mapa[pY][pX].tipoCasilla().equals("Explosion")) {
+	        	
+	        	//TODO ==== Metodo matarA(pTipo, pXOld, pYOld): boolean ====
 	            switch (pType) {
 	                case "Jugador":
-	                    System.out.println("¡El jugador ha muerto!");
+	                    System.out.println("�El jugador ha muerto!");
 						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 	                    break;
 					case "Pass":
@@ -91,8 +93,10 @@ public class Tablero extends Observable{
 	                    }
 	                    break;
 	            }
+	            //TODO ==== Metodo matarA ending ===
 	        }
 
+	        //TODO ==== Metodo enemigoSeMueve(pType, pX, pY): boolean ====
 	        Enemigo enemigo = getEnemigo(pX, pY);
 	        if (enemigo != null && enemigo.estaEnCasilla(pX, pY)) {
 	            switch (pType) {
@@ -107,7 +111,7 @@ public class Tablero extends Observable{
 	                    break;
 	            }
 	        }
-
+	        
 	        if (Jugador.getJugador().estaEnCasilla(pX, pY)) { // Si un enemigo se mueve donde está el jugador
 	            switch (pType) {
 					case "Pass":
@@ -118,6 +122,7 @@ public class Tablero extends Observable{
 	                    break;
 	            }
 	        }
+	        //TODO ==== Metodo enemigoSeMueve() ending
 	    }
 	    return disponible;
 	}
@@ -175,8 +180,8 @@ public class Tablero extends Observable{
 	public void ponerBomba(int pX, int pY)
 	{
 		setChanged();
-		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipo(), pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipo(),Jugador.getJugador().getColor()});
+		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipoBomba(), pX, pY); //Pone la bomba en esas coords
+		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipoBomba(),Jugador.getJugador().getColor()});
 	}
 
 	public void detonarBomba(int pX, int pY) {
@@ -206,14 +211,14 @@ public class Tablero extends Observable{
 	            mapa[y][x].destruir();
 	            setChanged();
 	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-	            notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
+	            notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            break;
 	        case "BombaUltra":
 	        case "Bomba":
 	            if (pOriginalX == x && pOriginalY == y) { //La propia bomba
 	                setChanged();
 	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-	                notifyObservers(new Object[]{"PonerImagen", x, y, "Explosion"});
+	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            } else { //Bombas que encuentra en su explosion
 	                mapa[y][x].destruir();
 	                detonarBomba(x, y);

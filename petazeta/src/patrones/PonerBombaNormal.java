@@ -6,7 +6,12 @@ import modelo.Tablero;
 public class PonerBombaNormal implements StrategyPonerBomba {
 	
 	@Override
-	public String getTipo() {
+	public String getTipoExplosion() {
+		return "Explosion1";
+	}
+	
+	@Override
+	public String getTipoBomba() {
 		return "Bomba";
 	}
 	

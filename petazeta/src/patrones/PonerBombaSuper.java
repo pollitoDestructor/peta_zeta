@@ -3,7 +3,7 @@ package patrones;
 import modelo.Jugador;
 import modelo.Tablero;
 
-public class PonerBombaNormal implements StrategyPonerBomba {
+public class PonerBombaSuper implements StrategyPonerBomba {
 	
 	@Override
 	public String getTipoExplosion() {
@@ -12,7 +12,7 @@ public class PonerBombaNormal implements StrategyPonerBomba {
 	
 	@Override
 	public String getTipoBomba() {
-		return "Bomba";
+		return "BombaSuper";
 	}
 	
 	@Override

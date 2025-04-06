@@ -114,7 +114,7 @@ public class TableroVisual extends JFrame implements Observer{
 					case "BloqueDuro":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("hard4.png"))); //Bloque Duro
 						break;
-					case "Bomba":
+					case "BombaSuper":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb1.png"))); //Bomba
 						break;
 					case "BombaUltra":

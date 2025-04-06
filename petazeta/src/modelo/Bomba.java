@@ -3,7 +3,7 @@ package modelo;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Bomba extends Casilla {
+public abstract class Bomba extends Casilla {
     private Timer timer = null;
     private static final int PERIODO = 3; //Periodo de 3 segundos
     private Tablero tablero; //Referencia al tablero (constructora)

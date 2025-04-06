@@ -5,7 +5,7 @@ import java.util.Observable;
 import java.util.Random;
 
 import patrones.FactoryCasillas;
-import patrones.PonerBombaNormal;
+import patrones.PonerBombaSuper;
 import patrones.StateGanar;
 import patrones.StateJugador;
 import patrones.StateVivo;
@@ -25,7 +25,7 @@ public class Tablero extends Observable{
 
 	//Patrones
 	private static StrategyTablero stratTablero = new TableroClassic();
-	private static StrategyPonerBomba stratBomba = new PonerBombaNormal();
+	private static StrategyPonerBomba stratBomba = new PonerBombaSuper();
 	private StateJugador state;
 
 	//==================================SINGLETON==================================
@@ -214,7 +214,7 @@ public class Tablero extends Observable{
 	            notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            break;
 	        case "BombaUltra":
-	        case "Bomba":
+	        case "BombaSuper":
 	            if (pOriginalX == x && pOriginalY == y) { //La propia bomba
 	                setChanged();
 	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);

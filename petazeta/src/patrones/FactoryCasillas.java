@@ -5,6 +5,7 @@ import java.util.Random;
 import modelo.BloqueBlando;
 import modelo.BloqueDuro;
 import modelo.Bomba;
+import modelo.BombaSuper;
 import modelo.BombaUltra;
 import modelo.Casilla;
 import modelo.Explosion;
@@ -36,8 +37,8 @@ public class FactoryCasillas {
 			case "BloqueDuro":
 				c = new BloqueDuro(pX,pY);
 			break;
-			case "Bomba":
-				c = new Bomba(pX,pY);
+			case "BombaSuper":
+				c = new BombaSuper(pX,pY);
 			break;
 			case "BombaUltra":
 				c = new BombaUltra(pX,pY);

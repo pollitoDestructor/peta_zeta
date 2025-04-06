@@ -6,7 +6,7 @@ import java.util.Set;
 import modelo.Jugador;
 import modelo.Tablero;
 
-public class PonerBombaGigante implements StrategyPonerBomba {
+public class PonerBombaUltra implements StrategyPonerBomba {
 	
 	@Override
 	public String getTipoExplosion() {

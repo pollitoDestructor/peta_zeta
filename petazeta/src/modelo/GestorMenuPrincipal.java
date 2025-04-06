@@ -3,8 +3,8 @@ package modelo;
 import patrones.TableroClassic;
 import patrones.TableroEmpty;
 import patrones.TableroSoft;
-import patrones.PonerBombaGigante;
-import patrones.PonerBombaNormal;
+import patrones.PonerBombaUltra;
+import patrones.PonerBombaSuper;
 import viewController.TableroVisual;
 
 import java.util.Observable;
@@ -46,10 +46,10 @@ public class GestorMenuPrincipal extends Observable {
             Jugador.getJugador().setColor(pColor);
             System.out.println("Cambio de color a: "+pColor);
             if (pColor == "white") {
-            	Tablero.changeStrategyBomba(new PonerBombaNormal());
+            	Tablero.changeStrategyBomba(new PonerBombaSuper());
                 System.out.println("Cambio de estrategia a: PonerBombaNormal");
             } else if (pColor == "black") {
-            	 Tablero.changeStrategyBomba(new PonerBombaGigante());
+            	 Tablero.changeStrategyBomba(new PonerBombaUltra());
                 System.out.println("Cambio de estrategia a: PonerBombaGigante");
             }
         }

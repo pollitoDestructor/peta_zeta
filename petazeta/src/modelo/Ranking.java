@@ -43,7 +43,6 @@ public class Ranking {
     }
 
     public Map<String, Integer> obtenerRankingOrdenado() {
-        anadirJugador(Jugador.getJugador().getColor(), Jugador.getJugador().getPuntuacion());
         return listaPuntuaciones.entrySet()
                 .stream()
                 .sorted((a, b) -> b.getValue().compareTo(a.getValue())) // Orden descendente

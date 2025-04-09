@@ -335,6 +335,24 @@ public class menuPruebitas extends JFrame implements Observer {
 				ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
 				Bomber4.setIcon(escalarImagen(sprite4,Bomber4.getWidth(),Bomber4.getHeight()));
 				Bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+				//Sprites mapa
+				int pNum = Character.getNumericValue(mapa_Preview.getName().charAt(4));
+				//System.out.println(pNum);
+				mapa_Preview.setName("prev" + pNum);
+				//System.out.println("Cambio de mapa"+pNum);
+				ImageIcon prescalada = new ImageIcon(getClass().getResource("mappreview" + pNum + ".png"));
+				mapa_Preview.setIcon(escalarImagen(prescalada, mapa_Preview.getWidth(), mapa_Preview.getHeight()));
+				switch (pNum) {
+					case 1:
+						descr_Mapa.setText("Classic");
+						break;
+					case 2:
+						descr_Mapa.setText("Soft");
+						break;
+					case 3:
+						descr_Mapa.setText("Empty");
+						break;
+				}
 			}
 		}
 	}
@@ -479,7 +497,7 @@ public class menuPruebitas extends JFrame implements Observer {
 		@Override
 		//REPOSICIONA Y REESCALA LOS SPRITES DE LOS BOMBERMANS CON EL TAMAÑO DE PANTALLA
 		public void componentResized(ComponentEvent e) {
-
+			menu.opcionesMenu("Reescale");
 		}
 
 		@Override

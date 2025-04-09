@@ -1,5 +1,7 @@
 package modelo;
 
+import com.sun.tools.javac.Main;
+
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,7 +17,7 @@ public class GestorFinalVisual extends Observable {
 	private int r=200,g=200,b=200;
 	
 	private String mensaje; //El mensaje a imprimir, en <<constructor>>
-	private String montaje = ""; //Donde se añade letra a letra
+	private String montaje = ""; //Donde se aï¿½ade letra a letra
 	private int numLetra = 0; //Para el charAt()
 	
 	private static GestorFinalVisual miFinal;
@@ -62,8 +64,6 @@ public class GestorFinalVisual extends Observable {
 		return miFinal;
 	}
 	
-	
-	
 	private void actualizarLetras()
 	{
 		if (numLetra < mensaje.length())
@@ -97,7 +97,7 @@ public class GestorFinalVisual extends Observable {
 			b=b-5;
 		}
 		//System.out.println(r+" "+g+" "+b);
-		if(r==255 || r==120) //Una vez alcanza un límite, invierte
+		if(r==255 || r==120) //Una vez alcanza un lï¿½mite, invierte
 		{
 			asc=!asc;
 		}
@@ -111,7 +111,13 @@ public class GestorFinalVisual extends Observable {
             timer.purge();
         }
 		
-		System.out.println("AQUÍ SE DETIENE EL MAIN!!!!!"); //TODO
-        System.exit(0);
+		System.out.println("AQUI SE VUELVE AL MENU PRINCIPAL!!!!!"); //TODO
+        volverMenu();
+	}
+
+	private void volverMenu(){
+		setChanged();
+		notifyObservers(new Object[] {2});
+		GestorMenuPrincipal.getMenu().opcionesMenu("Inicio");
 	}
 }

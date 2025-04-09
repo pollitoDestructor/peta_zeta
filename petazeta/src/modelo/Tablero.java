@@ -75,7 +75,7 @@ public class Tablero extends Observable{
 	        	//TODO ==== Metodo matarA(pTipo, pXOld, pYOld): boolean ====
 	            switch (pType) {
 	                case "Jugador":
-	                    System.out.println("¡El jugador ha muerto!");
+	                    System.out.println("ï¿½El jugador ha muerto!");
 						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
 	                    break;
 					case "Pass":
@@ -201,9 +201,7 @@ public class Tablero extends Observable{
 	        }
 	    }
 
-	    if (ListaEnemigos.isEmpty()) { // Comprobar despuÃ©s de actualizar la lista
-	        changeState(new StateGanar());
-	    }
+		verificarVictoria();
 
 	    switch (tipo) {
 	        case "Casilla":
@@ -269,6 +267,7 @@ public class Tablero extends Observable{
 
 	public void verificarVictoria() {
 		if (ListaEnemigos.isEmpty()) {
+			Jugador.getJugador().guardarPuntuacion();
 			changeState(new StateGanar()); //TODO poner que gane mediante state, para cohesion con cuando pierde
 		}
 	}

@@ -100,6 +100,10 @@ public class FinalVisual extends JFrame implements Observer{
 				String mensaje = (String) datos [1];
 				lblPartidaEstado.setText(mensaje);
 			}
+			else if (accion == 2)
+			{
+				setVisible(false);
+			}
 
 		}
 
@@ -213,7 +217,6 @@ public class FinalVisual extends JFrame implements Observer{
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
             GestorFinalVisual.getFinal(true).detenerTimer(); // Aseg�rate de que este m�todo existe
-            setVisible(false);
         }
         @Override
         public void mousePressed(MouseEvent e) {}

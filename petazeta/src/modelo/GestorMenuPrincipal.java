@@ -30,7 +30,7 @@ public class GestorMenuPrincipal extends Observable {
     public void iniciarJuego() {
     	//Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
         Tablero tablero = Tablero.getTablero();
-        TableroVisual f = new TableroVisual();
+        this.opcionesMenu("Crear TableroVisual");
         tablero.ponerBloques();
         tablero.ponerEnemigos();
         Jugador jugador = Jugador.getJugador();

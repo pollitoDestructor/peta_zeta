@@ -240,16 +240,49 @@ public class menuPruebitas extends JFrame implements Observer {
 		if(o instanceof GestorMenuPrincipal){
 			String accion = (String)arg;
 			//Teclas
-			if(accion=="Inicio"){setVisible(true);}
-			if(accion=="Opciones"){
-				if(diapo==0) //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
-				{
-					diapositiva.show(Fondo, "Mapas");
-					diapo=1;
-				}else {
-					diapositiva.show(Fondo, "Selector_Pj");
-					diapo=0;
-				}
+			switch(accion) {
+				case "Inicio":
+					setVisible(true);
+					break;
+				case "Crear TableroVisual":
+					TableroVisual f = new TableroVisual();
+					break;
+				case "Opciones":
+					if (diapo == 0) { //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)
+						diapositiva.show(Fondo, "Mapas");
+						diapo = 1;
+					} else {
+						diapositiva.show(Fondo, "Selector_Pj");
+						diapo = 0;
+					}
+					break;
+				case "Cerrar":
+					setVisible(false);
+					break;
+				case "Reescale":
+					//Reescalar bomber1
+					Bomber1.setSize((60*getBounds().width)/450, (82*getBounds().height)/300);
+					ImageIcon sprite1 = new ImageIcon(getClass().getResource("bomberUnknown1.png"));
+					Bomber1.setIcon(escalarImagen(sprite1,Bomber1.getWidth(),Bomber1.getHeight()));
+					Bomber1.setLocation(getBounds().width/10, getBounds().height/3);
+					//Reescalar bomber2
+					Bomber2.setSize((58*getBounds().width)/450, (107*getBounds().height)/300);
+					ImageIcon sprite2 = new ImageIcon(getClass().getResource("bomberUnknown2.png"));
+					Bomber2.setIcon(escalarImagen(sprite2,Bomber2.getWidth(),Bomber2.getHeight()));
+					Bomber2.setLocation(getBounds().width/4, getBounds().height/2);
+					//Reescalar bomber3
+					Bomber3.setSize((47*getBounds().width)/450, (92*getBounds().height)/300);
+					ImageIcon sprite3 = new ImageIcon(getClass().getResource("bomberUnknown3.png"));
+					Bomber3.setIcon(escalarImagen(sprite3,Bomber3.getWidth(),Bomber3.getHeight()));
+					Bomber3.setLocation(getBounds().width/2+getBounds().width/4, getBounds().height/3);
+					//Reescalar bomber4
+					Bomber4.setSize((114*getBounds().width)/450, (100*getBounds().height)/300);
+					ImageIcon sprite4 = new ImageIcon(getClass().getResource("bomberUnknown4.png"));
+					Bomber4.setIcon(escalarImagen(sprite4,Bomber4.getWidth(),Bomber4.getHeight()));
+					Bomber4.setLocation(getBounds().width/2+getBounds().width/25, getBounds().height/2);
+					break;
+				default:
+					break;
 			}
 			if(accion=="Cerrar"){setVisible(false);}
 

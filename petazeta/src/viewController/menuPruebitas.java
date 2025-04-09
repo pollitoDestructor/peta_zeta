@@ -294,7 +294,21 @@ public class menuPruebitas extends JFrame implements Observer {
 				else if(pNum=='2'){pBomber = Bomber2;}
 				else if(pNum=='3'){pBomber = Bomber3;}
 				else if(pNum=='4'){pBomber = Bomber4;}
+
 				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
+				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+				
+			//Al hacer click
+				}
+			if(accion.matches("bomber\\d+Click")) 
+			{
+				char pNum = accion.charAt(6);
+				JLabel pBomber=null;
+				if(pNum=='1'){pBomber = Bomber1;}
+				else if(pNum=='2'){pBomber = Bomber2;}
+				else if(pNum=='3'){pBomber = Bomber3;}
+				else if(pNum=='4'){pBomber = Bomber4;}
+				ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + "Ex.png"));
 				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
 			}
 
@@ -406,10 +420,22 @@ public class menuPruebitas extends JFrame implements Observer {
   			if(e.getComponent()==Bomber1){
   				System.out.println("bomber1");
   				GestorMenuPrincipal.getMenu().cambiarJugador("white");
+  				menu.opcionesMenu(e.getComponent().getName()+"Click");
   			}
   			else if(e.getComponent()==Bomber2){
   				System.out.println("bomber2");
   				GestorMenuPrincipal.getMenu().cambiarJugador("black");
+  				menu.opcionesMenu(e.getComponent().getName()+"Click");
+  			}
+  			else if(e.getComponent()==Bomber3){
+  				System.out.println("bomber2");
+//  				GestorMenuPrincipal.getMenu().cambiarJugador("black");
+  				menu.opcionesMenu(e.getComponent().getName()+"Click");
+  			}
+  			else if(e.getComponent()==Bomber4){
+  				System.out.println("bomber2");
+//  				GestorMenuPrincipal.getMenu().cambiarJugador("black");
+  				menu.opcionesMenu(e.getComponent().getName()+"Click");
   			}
   		}
 

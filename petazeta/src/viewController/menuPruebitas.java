@@ -453,7 +453,7 @@ public class menuPruebitas extends JFrame implements Observer {
 		@Override
 		//REPOSICIONA Y REESCALA LOS SPRITES DE LOS BOMBERMANS CON EL TAMAÑO DE PANTALLA
 		public void componentResized(ComponentEvent e) {
-
+			menu.opcionesMenu("Reescale");
 		}
 
 		@Override

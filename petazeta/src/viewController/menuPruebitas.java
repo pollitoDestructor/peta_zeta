@@ -514,5 +514,5 @@ public class menuPruebitas extends JFrame implements Observer {
 		public void componentHidden(ComponentEvent e) {
 
 		}
-	}
+	} 
 }

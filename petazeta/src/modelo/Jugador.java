@@ -9,13 +9,15 @@ public class Jugador extends Observable {
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
 	private int posY;
-	private int bombas=10;
-	private int puntuacion=0;
-	private String color="white";
+	private int bombas;
+	private int puntuacion;
+	private String color;
 
 	private Jugador() {
 		this.posX=0;
 		this.posY=0;
+		this.puntuacion=0;
+		this.bombas=10;
 	}
 
 	//obtener obj estatico
@@ -68,6 +70,11 @@ public class Jugador extends Observable {
 		}
 	}
 
+	public void reinicio(){
+		this.posX=0;
+		this.posY=0;
+		this.puntuacion=0;
+	}
 
 	//movimiento del jugador
 	public void mover(int x, int y) {

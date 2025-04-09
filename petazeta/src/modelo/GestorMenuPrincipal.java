@@ -29,14 +29,18 @@ public class GestorMenuPrincipal extends Observable {
 
     public void iniciarJuego() {
     	//Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
-        Tablero tablero = Tablero.getTablero();
-        this.opcionesMenu("Crear TableroVisual");
-        tablero.ponerBloques();
-        tablero.ponerEnemigos();
-        Jugador jugador = Jugador.getJugador();
-        jugador.inicio(); //para imprimir el primer Bomberman nada mas
-        System.out.println("El jugador esta en: "+jugador.getPosX()+" "+jugador.getPosY());
-        this.opcionesMenu("Juego");
+        if(Jugador.getJugador().getColor()==null){System.out.println("SELECCIONA UN JUGADOR");}
+        else {
+            opcionesMenu("Cerrar");
+            Tablero tablero = Tablero.getTablero();
+            this.opcionesMenu("Crear TableroVisual");
+            tablero.ponerBloques();
+            tablero.ponerEnemigos();
+            Jugador jugador = Jugador.getJugador();
+            jugador.inicio(); //para imprimir el primer Bomberman nada mas
+            System.out.println("El jugador esta en: " + jugador.getPosX() + " " + jugador.getPosY());
+            this.opcionesMenu("Juego");
+        }
     }
 
     public void cambiarJugador(String pColor) {

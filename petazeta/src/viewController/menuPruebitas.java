@@ -414,7 +414,6 @@ public class menuPruebitas extends JFrame implements Observer {
 				menu.end();
 			}
 			else if(keyCode==KeyEvent.VK_SPACE){
-				menu.opcionesMenu("Cerrar");
 				menu.iniciarJuego();
 			}
 			else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}

@@ -22,7 +22,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
-public class menuPruebitas extends JFrame implements Observer {
+public class MenuPrincipalVisual extends JFrame implements Observer {
 
 	private static final long serialVersionUID = -1526416068663302084L;
 	private JPanel Fondo;
@@ -56,7 +56,7 @@ public class menuPruebitas extends JFrame implements Observer {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					menuPruebitas frame = new menuPruebitas();
+					MenuPrincipalVisual frame = new MenuPrincipalVisual();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +69,7 @@ public class menuPruebitas extends JFrame implements Observer {
 	 * Create the frame.
 	 */
 	@SuppressWarnings("serial")
-	public menuPruebitas() {
+	public MenuPrincipalVisual() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 841, 574);
 		diapositiva = new CardLayout();

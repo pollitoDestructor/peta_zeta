@@ -33,6 +33,7 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 	private JLabel Bomber2;
 	private JLabel Bomber3;
 	private JLabel Bomber4;
+	private int seleccionado=0;
 	//Contenido del selector de mapas
 	private JPanel Mapas;
 	private JButton mapa_Preview;
@@ -313,24 +314,30 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 			if(accion.matches("bomber\\d+Entered")){
 				char pNum = accion.charAt(6);
 				JLabel pBomber=null;
-				if(pNum=='1'){pBomber = Bomber1;}
-				else if(pNum=='2'){pBomber = Bomber2;}
-				else if(pNum=='3'){pBomber = Bomber3;}
-				else if(pNum=='4'){pBomber = Bomber4;}
+				if(pNum=='1'&&seleccionado!=1){pBomber = Bomber1;}
+				else if(pNum=='2'&&seleccionado!=2){pBomber = Bomber2;}
+				else if(pNum=='3'&&seleccionado!=3){pBomber = Bomber3;}
+				else if(pNum=='4'&&seleccionado!=4){pBomber = Bomber4;}
+				//if(pNum==1||pNum==2||pNum==3||pNum==4) //TODO esto se puede poner de otra manera ? xd pq con null no va
+			//	{
+				if (pBomber!=null) {
 					ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + ".png"));
 					pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
 				}
+				//}
+		}
 			//Apariencia sprites bombers
 			if(accion.matches("bomber\\d+Exited")){
 				char pNum = accion.charAt(6);
 				JLabel pBomber=null;
-				if(pNum=='1'){pBomber = Bomber1;}
-				else if(pNum=='2'){pBomber = Bomber2;}
-				else if(pNum=='3'){pBomber = Bomber3;}
-				else if(pNum=='4'){pBomber = Bomber4;}
-
+				if(pNum=='1'&&seleccionado!=1){pBomber = Bomber1;}
+				else if(pNum=='2'&&seleccionado!=2){pBomber = Bomber2;}
+				else if(pNum=='3'&&seleccionado!=3){pBomber = Bomber3;}
+				else if(pNum=='4'&&seleccionado!=4){pBomber = Bomber4;}
+				if (pBomber!=null) {
 				ImageIcon sprite = new ImageIcon(getClass().getResource("bomberUnknown" + pNum + ".png"));
 				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+				}
 				
 			//Al hacer click
 				}
@@ -338,12 +345,27 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 			{
 				char pNum = accion.charAt(6);
 				JLabel pBomber=null;
-				if(pNum=='1'){pBomber = Bomber1;}
-				else if(pNum=='2'){pBomber = Bomber2;}
-				else if(pNum=='3'){pBomber = Bomber3;}
-				else if(pNum=='4'){pBomber = Bomber4;}
+				if(pNum=='1'){pBomber = Bomber1;seleccionado=1;
+				Bomber2.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown2.png")), Bomber2.getWidth(), Bomber2.getHeight()));
+				Bomber3.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown3.png")), Bomber3.getWidth(), Bomber3.getHeight()));
+				Bomber4.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown4.png")), Bomber4.getWidth(), Bomber4.getHeight()));
+				}
+				else if(pNum=='2'){pBomber = Bomber2;seleccionado=2;
+				Bomber1.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown1.png")), Bomber1.getWidth(), Bomber1.getHeight()));
+				Bomber3.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown3.png")), Bomber3.getWidth(), Bomber3.getHeight()));
+				Bomber4.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown4.png")), Bomber4.getWidth(), Bomber4.getHeight()));}
+				else if(pNum=='3'){pBomber = Bomber3;seleccionado=3;
+				Bomber1.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown1.png")), Bomber1.getWidth(), Bomber1.getHeight()));
+				Bomber2.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown2.png")), Bomber2.getWidth(), Bomber2.getHeight()));
+				Bomber4.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown4.png")), Bomber4.getWidth(), Bomber4.getHeight()));}
+				else if(pNum=='4'){pBomber = Bomber4;seleccionado=4;
+				Bomber1.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown1.png")), Bomber1.getWidth(), Bomber1.getHeight()));
+				Bomber3.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown3.png")), Bomber3.getWidth(), Bomber3.getHeight()));
+				Bomber2.setIcon(escalarImagen(new ImageIcon(getClass().getResource("bomberUnknown2.png")), Bomber2.getWidth(), Bomber2.getHeight()));}
+				if (pBomber!=null) {
 				ImageIcon sprite = new ImageIcon(getClass().getResource("bomber" + pNum + "Ex.png"));
 				pBomber.setIcon(escalarImagen(sprite, pBomber.getWidth(), pBomber.getHeight()));
+				}
 			}
 
 			//Pantalla

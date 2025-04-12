@@ -6,8 +6,8 @@ import java.util.TimerTask;
 
 @SuppressWarnings("deprecation")
 public abstract class Enemigo extends Observable {
-    protected int posX;
-    protected int posY;
+    private int posX;
+    private int posY;
     private boolean estaVivo;
     private Timer timer;
     private static final int INTERVALO_MOVIMIENTO = 2000; // 3 segundo en milisegundos

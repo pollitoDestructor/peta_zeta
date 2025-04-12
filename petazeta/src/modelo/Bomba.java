@@ -8,7 +8,7 @@ public abstract class Bomba extends Casilla {
     private static final int PERIODO = 3; //Periodo de 3 segundos
     private Tablero tablero; //Referencia al tablero (constructora)
 
-    public Bomba(int a, int b) {
+    protected Bomba(int a, int b) {
         super(a, b);  
         ocupado = true;
         this.tablero = Tablero.getTablero(); //Puntero a Tablero (por comodidad)

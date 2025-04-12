@@ -1,9 +1,5 @@
 package modelo;
 
-import com.sun.tools.javac.Main;
-
-import viewController.FinalVisual;
-
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;

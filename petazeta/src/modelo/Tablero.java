@@ -16,7 +16,6 @@ import patrones.StrategyTablero;
 import patrones.TableroClassic;
 import patrones.TableroEmpty;
 import patrones.TableroSoft;
-import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
 public class Tablero extends Observable{

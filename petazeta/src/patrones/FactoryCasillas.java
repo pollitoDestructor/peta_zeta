@@ -1,10 +1,7 @@
 package patrones;
 
-import java.util.Random;
-
 import modelo.BloqueBlando;
 import modelo.BloqueDuro;
-import modelo.Bomba;
 import modelo.BombaSuper;
 import modelo.BombaUltra;
 import modelo.Casilla;

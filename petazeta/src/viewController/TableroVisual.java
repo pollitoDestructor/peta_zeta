@@ -59,6 +59,7 @@ public class TableroVisual extends JFrame implements Observer{
 		this.addKeyListener(getControlador());
 	}
 
+	@SuppressWarnings("serial")
 	private JPanel getPanel_Casillas() {
 		if (grid == null) {
 			grid = new JPanel() {
@@ -148,6 +149,7 @@ public class TableroVisual extends JFrame implements Observer{
 			}
 			else if((String)param[0]=="FinalVisual") 
 			{
+				@SuppressWarnings("unused")
 				FinalVisual f = new FinalVisual();
 			}
 			else if((String)param[0]=="NuevoEnemigo"){

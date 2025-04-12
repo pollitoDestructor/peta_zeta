@@ -1,7 +1,6 @@
 package patrones;
 
 import modelo.Tablero;
-import viewController.FinalVisual;  // Importamos la clase correcta
 
 public class StateMuerto implements StateJugador {
     @Override

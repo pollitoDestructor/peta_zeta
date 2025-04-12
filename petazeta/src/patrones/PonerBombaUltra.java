@@ -1,8 +1,5 @@
 package patrones;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import modelo.Jugador;
 import modelo.Tablero;
 

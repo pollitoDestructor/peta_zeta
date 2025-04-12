@@ -1,14 +1,8 @@
 package modelo;
 
-import patrones.TableroClassic;
-import patrones.TableroEmpty;
-import patrones.TableroSoft;
-import patrones.PonerBombaUltra;
-import patrones.PonerBombaSuper;
-import viewController.TableroVisual;
-
 import java.util.Observable;
 
+@SuppressWarnings("deprecation")
 public class GestorMenuPrincipal extends Observable {
     private static GestorMenuPrincipal miMenu;
     private String ultimo_mapa_elegido = "Classic";

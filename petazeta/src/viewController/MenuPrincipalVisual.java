@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("deprecation")
 public class MenuPrincipalVisual extends JFrame implements Observer {
 
 	private static final long serialVersionUID = -1526416068663302084L;
@@ -245,7 +246,7 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 					setVisible(true);
 					break;
 				case "Crear TableroVisual":
-					TableroVisual f = new TableroVisual();
+					@SuppressWarnings("unused") TableroVisual f = new TableroVisual();
 					break;
 				case "Opciones":
 					if (diapo == 0) { //Si 0 representa Selector_Pj, cambiamos a Mapas (diapo=1)

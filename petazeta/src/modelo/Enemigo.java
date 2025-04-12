@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@SuppressWarnings("deprecation")
 public abstract class Enemigo extends Observable {
     protected int posX;
     protected int posY;

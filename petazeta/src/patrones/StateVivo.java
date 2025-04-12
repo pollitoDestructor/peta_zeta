@@ -1,5 +1,5 @@
 package patrones;
-import modelo.Tablero;
+
 public class StateVivo implements StateJugador {
     @Override
     public void manejarEstado() {

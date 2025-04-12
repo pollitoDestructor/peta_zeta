@@ -1,10 +1,7 @@
 // StateGanar.java
 package patrones;
-import modelo.GestorFinalVisual;
-import modelo.Ranking;
-import modelo.Tablero;
-import viewController.FinalVisual;
 
+import modelo.Tablero;
 
 public class StateGanar implements StateJugador {
     @Override

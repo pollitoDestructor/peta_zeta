@@ -249,11 +249,17 @@ public class Tablero extends Observable{
 
 	//===================================STATE JUGADOR===================================
 	public void changeState(StateJugador pState) {
-	    if (state.getClass() != pState.getClass()) //TODO preguntar si esto se puede hacer.
+	    if (state.getClass() != pState.getClass())
 	    {
 	        state = pState;
 	        state.manejarEstado();
 	    }
+	}
+	
+	//Método para evitar dependencias
+	public void changeStateString(String pState) {
+		System.out.println("Muerte por detonacion");
+		if(pState.equals("Muerto")) changeState(new StateMuerto());
 	}
 
 	public void pantallaFinal(boolean pEstadoPartida) {
@@ -261,14 +267,16 @@ public class Tablero extends Observable{
 		setChanged();
 		notifyObservers(new Object[]{"Muerte"});
 
-		GestorFinalVisual.getFinal(pEstadoPartida);
-		FinalVisual f = new FinalVisual(pEstadoPartida);  // TODO parametros?
+		GestorFinalVisual.getFinal(); //Accede al Singleton
+		setChanged();
+		notifyObservers(new Object[]{"FinalVisual"}); //Generamos vista
+		GestorFinalVisual.getFinal().setFinal(pEstadoPartida); //Establecer booleano
 	}
 
 	public void verificarVictoria() {
 		if (ListaEnemigos.isEmpty()) {
 			Jugador.getJugador().guardarPuntuacion();
-			changeState(new StateGanar()); //TODO poner que gane mediante state, para cohesion con cuando pierde
+			changeState(new StateGanar()); 
 		}
 	}
 }

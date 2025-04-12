@@ -28,7 +28,6 @@ public class GestorMenuPrincipal extends Observable {
     }
 
     public void iniciarJuego() {
-    	//Tablero.setStrategyTablero(new TableroClassic()); //TODO elige la estrategia antes de generarlo
         if(Jugador.getJugador().getColor()==null){System.out.println("SELECCIONA UN JUGADOR");}
         else {
             opcionesMenu("Cerrar");

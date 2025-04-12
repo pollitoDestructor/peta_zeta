@@ -146,6 +146,10 @@ public class TableroVisual extends JFrame implements Observer{
 				System.out.println("Dispose paso 2.");
 
 			}
+			else if((String)param[0]=="FinalVisual") 
+			{
+				FinalVisual f = new FinalVisual();
+			}
 			else if((String)param[0]=="NuevoEnemigo"){
 				Enemigo nuevoEnemigo = (Enemigo) param[1];
 				nuevoEnemigo.addObserver(this); // Registrar el enemigo como observable

@@ -2,6 +2,8 @@ package modelo;
 
 import com.sun.tools.javac.Main;
 
+import viewController.FinalVisual;
+
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,17 +25,26 @@ public class GestorFinalVisual extends Observable {
 	private static GestorFinalVisual miFinal;
 
 	//TODO main para pruebas
-	/*public static void main(String[] args) {
-        getFinal();
-    }*/
+	public static void main(String[] args) {
+		getFinal();
+        FinalVisual f = new FinalVisual();
+        getFinal().setFinal(true);
+    }
 	
 	//Constructora
-	private GestorFinalVisual(boolean pEstadoFin)
+	private GestorFinalVisual()
 	{
-		estadoFin = pEstadoFin;
+		
+	}
+	
+	public void setFinal(boolean pEstadoPartida) {
+		estadoFin = pEstadoPartida;
 		
 		if(estadoFin) mensaje = "HAS GANADO!!!"; //Elegimos mensaje
 		else mensaje = "HAS PERDIDO!!!";
+		
+		setChanged();
+		notifyObservers(new Object[] {3,estadoFin});
 		
 		//Timer para actualizacion del color de "Click to return"
 		TimerTask timerTask = new TimerTask() {
@@ -54,12 +65,11 @@ public class GestorFinalVisual extends Observable {
 		};
 		timerLetras = new Timer();
 		timerLetras.scheduleAtFixedRate(timerTask2, 0, 250); //Cada 500ms
-		
 	}
 	
-	public static GestorFinalVisual getFinal(boolean pEstadoPartida) {
+	public static GestorFinalVisual getFinal() {
 		if (miFinal == null){
-			miFinal = new GestorFinalVisual(pEstadoPartida);	 //TODO
+			miFinal = new GestorFinalVisual();	 
 		}
 		return miFinal;
 	}

@@ -21,6 +21,7 @@ public class PonerBombaUltra implements StrategyPonerBomba {
 	@Override
 	public void detonarBomba(int pX, int pY) {
 	    Tablero tab = Tablero.getTablero();
+	    
 	    Jugador.getJugador().addBomba();
 
 	    int[] dx = {0, 0, 0, -1, 1};
@@ -37,7 +38,7 @@ public class PonerBombaUltra implements StrategyPonerBomba {
 
 	            // Si el jugador está en la explosión, cambiar estado a muerto
 	            if (Jugador.getJugador().estaEnCasilla(newX, newY)) {
-	                tab.changeState(new StateMuerto());
+	                tab.changeStateString("Muerto");
 	            }
 
 	            tab.procesarExplosion(newX, newY, pX, pY);

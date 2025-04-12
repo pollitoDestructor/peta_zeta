@@ -31,7 +31,7 @@ public class PonerBombaSuper implements StrategyPonerBomba {
 			if (tab.esValido(newX, newY)) 
 			{
 				tab.procesarExplosion(newX, newY, pX,pY);
-				if (Jugador.getJugador().estaEnCasilla(newX, newY)) tab.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+				if (Jugador.getJugador().estaEnCasilla(newX, newY)) tab.changeStateString("Muerto");  // Cambiamos a estado de muerte
 			}
 		}
 

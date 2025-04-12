@@ -27,26 +27,9 @@ public class FinalVisual extends JFrame implements Observer{
 	private Controlador controlador = null;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FinalVisual frame = new FinalVisual(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public FinalVisual(boolean pPartida) {
-		estadoPartida= pPartida; //Atrbiuto para el texto visual
+	public FinalVisual() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 500);
@@ -56,21 +39,11 @@ public class FinalVisual extends JFrame implements Observer{
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 1, 0, 0));
-		if (!estadoPartida) {
-			contentPane.add(getTitulo());
-		}
-		contentPane.add(getLblPartidaEstado());
-		if (estadoPartida) { //Mostrar el ranking si se gana
-			contentPane.add(getRankingPanel());
-			actualizarRankingVisual();
-		}
-		contentPane.add(getSubtitulo());
 
-		GestorFinalVisual.getFinal(pPartida).addObserver(this);
+		GestorFinalVisual.getFinal().addObserver(this);
 
 		setVisible(true);
 	}
-
 
 	private JLabel getTitulo() {
 		if (Titulo == null) {
@@ -103,6 +76,19 @@ public class FinalVisual extends JFrame implements Observer{
 			else if (accion == 2)
 			{
 				setVisible(false);
+			}
+			else if (accion == 3)
+			{
+				estadoPartida = (boolean) datos [1]; //Atrbiuto para el texto visual
+				if (!estadoPartida) {
+					contentPane.add(getTitulo());
+				}
+				contentPane.add(getLblPartidaEstado());
+				if (estadoPartida) { //Mostrar el ranking si se gana
+					contentPane.add(getRankingPanel());
+					actualizarRankingVisual();
+				}
+				contentPane.add(getSubtitulo());
 			}
 
 		}
@@ -216,7 +202,7 @@ public class FinalVisual extends JFrame implements Observer{
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
-            GestorFinalVisual.getFinal(true).detenerTimer(); // Aseg�rate de que este m�todo existe
+            GestorFinalVisual.getFinal().detenerTimer(); // Aseg�rate de que este m�todo existe
         }
         @Override
         public void mousePressed(MouseEvent e) {}

@@ -13,10 +13,6 @@ public class Casilla
 		ocupado = false;
 	}
 
-	public void setOcupado(boolean estado) {
-		ocupado = estado;
-	}
-
 	public String tipoCasilla() 
 	{
 		return this.getClass().getSimpleName();

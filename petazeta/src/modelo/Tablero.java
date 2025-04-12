@@ -44,10 +44,6 @@ public class Tablero extends Observable{
 	}
 
 	//==================================METODOS AUXILIARES==================================
-	public ArrayList<Enemigo> getListaEnemigos() {
-		return ListaEnemigos;
-	}
-
 	public Enemigo getEnemigo(int pX, int pY) {
 		Enemigo enemigoB = null;
 		for (Enemigo enemigo : ListaEnemigos) {

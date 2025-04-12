@@ -6,6 +6,7 @@ import java.util.Random;
 
 import patrones.FactoryCasillas;
 import patrones.PonerBombaSuper;
+import patrones.PonerBombaUltra;
 import patrones.StateGanar;
 import patrones.StateJugador;
 import patrones.StateVivo;
@@ -13,6 +14,8 @@ import patrones.StrategyPonerBomba;
 import patrones.StateMuerto;
 import patrones.StrategyTablero;
 import patrones.TableroClassic;
+import patrones.TableroEmpty;
+import patrones.TableroSoft;
 import viewController.FinalVisual;
 
 @SuppressWarnings("deprecation")
@@ -24,8 +27,8 @@ public class Tablero extends Observable{
 	private Random rng = new Random();
 
 	//Patrones
-	private static StrategyTablero stratTablero = new TableroClassic();
-	private static StrategyPonerBomba stratBomba = new PonerBombaSuper();
+	private StrategyTablero stratTablero = new TableroClassic();
+	private StrategyPonerBomba stratBomba = new PonerBombaSuper();
 	private StateJugador state;
 
 	//==================================SINGLETON==================================
@@ -133,9 +136,16 @@ public class Tablero extends Observable{
 
 	//==================================STRATEGY TABLERO==================================
 	//Para generar el Tablero correspondiente
-	public static void changeStrategyTablero(StrategyTablero pStrat)
+	public void changeStrategyTablero(StrategyTablero pStrat)
 	{
 		stratTablero = pStrat;
+	}
+	
+	public void changeStrategyTableroString(String pStrat) {
+		if(pStrat.equals("Classic")) changeStrategyTablero(new TableroClassic());
+		else if (pStrat.equals("Soft")) changeStrategyTablero(new TableroSoft());
+		else if (pStrat.equals("Empty")) changeStrategyTablero(new TableroEmpty());
+			
 	}
 
 	public void ponerBloques()
@@ -177,8 +187,13 @@ public class Tablero extends Observable{
 
 
 	//==================================STRATEGY BOMBA==================================
-	public static void changeStrategyBomba(StrategyPonerBomba pStrat){
+	public void changeStrategyBomba(StrategyPonerBomba pStrat){
 		stratBomba = pStrat;
+	}
+	
+	public void changeStrategyBombaString(String pStrat) {
+		if(pStrat.equals("Super")) changeStrategyBomba(new PonerBombaSuper());
+		else if(pStrat.equals("Ultra")) changeStrategyBomba(new PonerBombaUltra());
 	}
 
 	public void ponerBomba(int pX, int pY)

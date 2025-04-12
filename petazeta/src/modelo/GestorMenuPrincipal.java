@@ -48,10 +48,10 @@ public class GestorMenuPrincipal extends Observable {
             Jugador.getJugador().setColor(pColor);
             System.out.println("Cambio de color a: "+pColor);
             if (pColor == "white") {
-            	Tablero.changeStrategyBomba(new PonerBombaSuper());
+            	Tablero.getTablero().changeStrategyBombaString("Super");
                 System.out.println("Cambio de estrategia a: PonerBombaNormal");
             } else if (pColor == "black") {
-            	 Tablero.changeStrategyBomba(new PonerBombaUltra());
+            	 Tablero.getTablero().changeStrategyBombaString("Ultra");
                 System.out.println("Cambio de estrategia a: PonerBombaGigante");
             }
         }
@@ -63,15 +63,15 @@ public class GestorMenuPrincipal extends Observable {
     		switch(pMapa)
     		{
     		case "Classic":
-    			Tablero.changeStrategyTablero(new TableroClassic());
+    			Tablero.getTablero().changeStrategyTableroString("Classic");
     			System.out.println("Cambio de estrategia a: TableroClassic");
     			break;
     		case "Soft":
-    			Tablero.changeStrategyTablero(new TableroSoft());
+    			Tablero.getTablero().changeStrategyTableroString("Soft");
     			System.out.println("Cambio de estrategia a: TableroSoft");
     			break;
     		case "Empty":
-    			Tablero.changeStrategyTablero(new TableroEmpty());
+    			Tablero.getTablero().changeStrategyTableroString("Empty");
     			System.out.println("Cambio de estrategia a: TableroEmpty");
     			break;
     		}

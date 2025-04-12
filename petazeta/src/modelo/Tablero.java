@@ -51,7 +51,7 @@ public class Tablero extends Observable{
 	public Enemigo getEnemigo(int pX, int pY) {
 		Enemigo enemigoB = null;
 		for (Enemigo enemigo : ListaEnemigos) {
-			if (enemigo.posX == pX && enemigo.posY == pY) {
+			if (enemigo.estaEn(pX,pY)) {
 				enemigoB = enemigo;
 			}
 		}

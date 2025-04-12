@@ -98,5 +98,9 @@ public abstract class Enemigo extends Observable {
     {
         return this.getClass().getSimpleName();
     }
+    
+    public boolean estaEn(int pX, int pY) {
+    	return posX == pX && posY == pY;
+    }
 
 }

@@ -63,6 +63,10 @@ public class Tablero extends Observable{
 		}
 		return c;
 	}
+	
+	public void deleteEnemigo(Enemigo pEnemigo) {
+		ListaEnemigos.remove(pEnemigo);
+	}
 
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
 	    boolean disponible = false;
@@ -249,7 +253,7 @@ public class Tablero extends Observable{
 
 	//===================================STATE JUGADOR===================================
 	public void changeState(StateJugador pState) {
-	    if (state.getClass() != pState.getClass())
+	    if (state.getClass() != pState.getClass() && !(state.getClass() == StateMuerto.class))
 	    {
 	        state = pState;
 	        state.manejarEstado();

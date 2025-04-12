@@ -23,20 +23,18 @@ public class GestorFinalVisual extends Observable {
 	private int numLetra = 0; //Para el charAt()
 	
 	private static GestorFinalVisual miFinal;
-
-	//TODO main para pruebas
-	public static void main(String[] args) {
-		getFinal();
-        FinalVisual f = new FinalVisual();
-        getFinal().setFinal(true);
-    }
 	
 	//Constructora
-	private GestorFinalVisual()
-	{
-		
+	private GestorFinalVisual() {}
+	
+	public static GestorFinalVisual getFinal() {
+		if (miFinal == null){
+			miFinal = new GestorFinalVisual();	 
+		}
+		return miFinal;
 	}
 	
+	//Establece parametros y notifica al vista
 	public void setFinal(boolean pEstadoPartida) {
 		estadoFin = pEstadoPartida;
 		
@@ -65,13 +63,6 @@ public class GestorFinalVisual extends Observable {
 		};
 		timerLetras = new Timer();
 		timerLetras.scheduleAtFixedRate(timerTask2, 0, 250); //Cada 500ms
-	}
-	
-	public static GestorFinalVisual getFinal() {
-		if (miFinal == null){
-			miFinal = new GestorFinalVisual();	 
-		}
-		return miFinal;
 	}
 	
 	private void actualizarLetras()

@@ -72,7 +72,7 @@ public abstract class Enemigo extends Observable {
     public void destruir() {
         estaVivo = false;
         detenerTimer();
-        Tablero.getTablero().getListaEnemigos().remove(this);
+        Tablero.getTablero().deleteEnemigo(this);
         if(Tablero.getTablero().getCasilla(posX,posY).tipoCasilla() != "Explosion")
         {
             setChanged();

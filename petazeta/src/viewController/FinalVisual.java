@@ -5,8 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import modelo.GestorFinalVisual;
-import modelo.Ranking;
+import modelo.*;
+import petazeta.Main;
 
 import java.util.Map;
 import java.util.Observable;
@@ -202,7 +202,8 @@ public class FinalVisual extends JFrame implements Observer{
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
-            GestorFinalVisual.getFinal().detenerTimer(); // Aseg�rate de que este m�todo existe
+			GestorFinalVisual.getFinal().detenerTimer(); // Aseg�rate de que este m�todo existe
+			Main.main(null);
         }
         @Override
         public void mousePressed(MouseEvent e) {}

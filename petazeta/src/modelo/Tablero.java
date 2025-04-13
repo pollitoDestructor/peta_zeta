@@ -43,6 +43,10 @@ public class Tablero extends Observable{
 		return miTablero;
 	}
 
+	public static void reiniciarTablero() {
+		miTablero = new Tablero();
+	}
+
 	//==================================METODOS AUXILIARES==================================
 	public Enemigo getEnemigo(int pX, int pY) {
 		Enemigo enemigoB = null;
@@ -270,7 +274,7 @@ public class Tablero extends Observable{
 	    }
 	}
 	
-	//Método para evitar dependencias
+	//Mï¿½todo para evitar dependencias
 	public void changeStateString(String pState) {
 		System.out.println("Muerte por detonacion");
 		if(pState.equals("Muerto")) changeState(new StateMuerto());
@@ -285,6 +289,11 @@ public class Tablero extends Observable{
 		setChanged();
 		notifyObservers(new Object[]{"FinalVisual"}); //Generamos vista
 		GestorFinalVisual.getFinal().setFinal(pEstadoPartida); //Establecer booleano
+
+		detenerTimers();
+		GestorMenuPrincipal.reiniciarMenuPrincipal();
+		Tablero.reiniciarTablero();
+		Jugador.reiniciarJugador();
 	}
 
 	public void verificarVictoria() {
@@ -292,5 +301,22 @@ public class Tablero extends Observable{
 			Jugador.getJugador().guardarPuntuacion();
 			changeState(new StateGanar()); 
 		}
+	}
+
+	public void detenerTimers() {
+		ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
+		for (Enemigo enemigo : copiaEnemigos) {
+			enemigo.destruir();
+		}
+
+		for (int i = 0; i < mapa.length; i++) {
+			for (int j = 0; j < mapa[0].length; j++) {
+				Casilla casilla = mapa[i][j];
+				if (casilla.tipoCasilla()=="Explosion") {
+					casilla.destruir();
+				}
+			}
+		}
+
 	}
 }

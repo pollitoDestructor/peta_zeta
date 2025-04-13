@@ -28,6 +28,10 @@ public class Jugador extends Observable {
 		return miJugador;
 	}
 
+	public static void reiniciarJugador() {
+		miJugador = new Jugador();
+	}
+
 	//getters
 	public int getPosX() {
 		return this.posX;
@@ -70,11 +74,6 @@ public class Jugador extends Observable {
 		}
 	}
 
-	public void reinicio(){
-		this.posX=0;
-		this.posY=0;
-		this.puntuacion=0;
-	}
 
 	//movimiento del jugador
 	public void mover(int x, int y) {
@@ -93,7 +92,9 @@ public class Jugador extends Observable {
 		notifyObservers(new Object[] {"punt",puntuacion});
 	}
 	public void guardarPuntuacion() {
-		Ranking.getRanking().anadirJugador(color, puntuacion);
+		if (color != null && puntuacion > 0) {
+			Ranking.getRanking().anadirJugador(color, puntuacion);
+		}
 	}
 
 }

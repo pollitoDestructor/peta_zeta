@@ -16,6 +16,10 @@ public class GestorMenuPrincipal extends Observable {
         return miMenu;
     }
 
+    public static void reiniciarMenuPrincipal() {
+        miMenu = new GestorMenuPrincipal();
+    }
+
     public void opcionesMenu(String accion) {
         setChanged();
         notifyObservers(accion);

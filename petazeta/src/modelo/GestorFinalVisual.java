@@ -33,7 +33,10 @@ public class GestorFinalVisual extends Observable {
 	//Establece parametros y notifica al vista
 	public void setFinal(boolean pEstadoPartida) {
 		estadoFin = pEstadoPartida;
-		
+
+		numLetra = 0;
+		montaje = "";
+
 		if(estadoFin) mensaje = "HAS GANADO!!!"; //Elegimos mensaje
 		else mensaje = "HAS PERDIDO!!!";
 		
@@ -115,6 +118,5 @@ public class GestorFinalVisual extends Observable {
 	private void volverMenu(){
 		setChanged();
 		notifyObservers(new Object[] {2});
-		GestorMenuPrincipal.getMenu().opcionesMenu("Inicio");
 	}
 }

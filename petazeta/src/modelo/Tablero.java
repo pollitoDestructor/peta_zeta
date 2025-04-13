@@ -304,15 +304,27 @@ public class Tablero extends Observable{
 	}
 
 	public void detenerTimers() {
+		//Detener timers de enemigos
 		ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 		for (Enemigo enemigo : copiaEnemigos) {
 			enemigo.destruir();
 		}
 
+		//Detener timers de explosion
 		for (int i = 0; i < mapa.length; i++) {
 			for (int j = 0; j < mapa[0].length; j++) {
 				Casilla casilla = mapa[i][j];
 				if (casilla.tipoCasilla()=="Explosion") {
+					casilla.destruir();
+				}
+			}
+		}
+
+		//Detener timers de bombas
+		for (int i = 0; i < mapa.length; i++) {
+			for (int j = 0; j < mapa[0].length; j++) {
+				Casilla casilla = mapa[i][j];
+				if (casilla.tipoCasilla().equals("BombaSuper")||casilla.tipoCasilla().equals("BombaUltra")) {
 					casilla.destruir();
 				}
 			}

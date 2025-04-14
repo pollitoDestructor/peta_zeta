@@ -291,7 +291,6 @@ public class Tablero extends Observable{
 		GestorFinalVisual.getFinal().setFinal(pEstadoPartida); //Establecer booleano
 
 		detenerTimers();
-		GestorMenuPrincipal.reiniciarMenuPrincipal();
 		Tablero.reiniciarTablero();
 		Jugador.reiniciarJugador();
 	}

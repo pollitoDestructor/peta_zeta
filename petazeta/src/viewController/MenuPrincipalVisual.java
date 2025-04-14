@@ -52,22 +52,6 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 	private int diapo=0; // Para intercambiar entre menus, tal vez con bool basta
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuPrincipalVisual frame = new MenuPrincipalVisual();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	@SuppressWarnings("serial")

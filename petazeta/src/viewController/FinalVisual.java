@@ -203,7 +203,10 @@ public class FinalVisual extends JFrame implements Observer{
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
 			GestorFinalVisual.getFinal().detenerTimer(); // Aseg�rate de que este m�todo existe
-			Main.main(null);
+			GestorMenuPrincipal.reiniciarMenuPrincipal();
+			GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
+			MenuPrincipalVisual menuVisual = new MenuPrincipalVisual(); //TODO quitar
+			menu.opcionesMenu("Inicio");
         }
         @Override
         public void mousePressed(MouseEvent e) {}

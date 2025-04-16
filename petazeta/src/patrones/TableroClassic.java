@@ -5,7 +5,7 @@ import java.util.Random;
 import modelo.Casilla;
 import modelo.Enemigo;
 
-public class TableroClassic extends TableroAbstract { //TODO nombre a TableroClassic
+public class TableroClassic extends TableroAbstract { 
 
 	@Override
 	public Casilla ponerBloques(int i, int j) {

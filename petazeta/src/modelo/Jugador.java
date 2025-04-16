@@ -87,7 +87,7 @@ public class Jugador extends Observable {
 	}
 
 	public void actualizarPuntuacion(int newP) {
-		Jugador.getJugador().puntuacion = puntuacion + newP;
+		puntuacion = puntuacion + newP;
 		setChanged();
 		notifyObservers(new Object[] {"punt",puntuacion});
 	}

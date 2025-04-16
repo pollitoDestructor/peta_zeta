@@ -291,7 +291,7 @@ public class Tablero extends Observable{
 		GestorFinalVisual.getFinal().setFinal(pEstadoPartida); //Establecer booleano
 
 		detenerTimers();
-		Tablero.reiniciarTablero();
+		Tablero.reiniciarTablero(); //TODO Sprint3
 		Jugador.reiniciarJugador();
 	}
 

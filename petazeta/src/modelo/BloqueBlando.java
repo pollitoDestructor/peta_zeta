@@ -5,7 +5,7 @@ public class BloqueBlando extends Casilla {
 	public BloqueBlando(int pX, int pY) //Constructora
 	{
 		super(pX,pY);
-		ocupado = true;
+		setOcupado(true);
 	}
 	
 	public void destruir() //Destruye el BloqueBlando

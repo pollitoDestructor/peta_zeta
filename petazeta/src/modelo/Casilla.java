@@ -2,15 +2,27 @@ package modelo;
 
 public class Casilla 
 {
-	protected int coordX; // Para la interfaz igual son necesarias
-	protected int coordY; // Para la interfaz igual son necesarias
-	protected boolean ocupado;
+	private int coordX; // Para la interfaz igual son necesarias
+	private int coordY; // Para la interfaz igual son necesarias
+	private boolean ocupado;
 	
 	public Casilla(int pX, int pY) //Constructora
 	{
 		coordX = pX;
 		coordY = pY;
 		ocupado = false;
+	}
+	
+	protected int getCoordY() {
+		return coordY;
+	}
+	
+	protected int getCoordX() {
+		return coordX;
+	}
+	
+	protected void setOcupado(boolean pOcupado) {
+        this.ocupado = pOcupado;
 	}
 
 	public String tipoCasilla() 

@@ -11,7 +11,7 @@ public class Explosion extends Casilla {
 	public Explosion(int pX, int pY)
 	{
 		super(pX,pY);
-		ocupado = false;
+		setOcupado(false);
 		iniciarTimer();
 	     
 	}
@@ -21,7 +21,7 @@ public class Explosion extends Casilla {
 	            @Override
 	            public void run() {
 	            	System.out.println("Explotado");
-	            	Tablero.getTablero().explosionTerminada(coordX,coordY);
+	            	Tablero.getTablero().explosionTerminada(getCoordX(),getCoordY());
 	            	timer.cancel();
 	            	timer.purge();
 	            }       

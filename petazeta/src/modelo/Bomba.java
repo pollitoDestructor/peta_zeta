@@ -10,7 +10,7 @@ public abstract class Bomba extends Casilla {
 
     protected Bomba(int a, int b) {
         super(a, b);  
-        ocupado = true;
+        setOcupado(true);
         this.tablero = Tablero.getTablero(); //Puntero a Tablero (por comodidad)
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -25,12 +25,12 @@ public abstract class Bomba extends Casilla {
     protected void explotar() {
         destruir(); // Aqui destruimos la bomba
         
-        tablero.detonarBomba(coordX,coordY); //Pasa coords y nombre(para herencia)
+        tablero.detonarBomba(getCoordX(),getCoordY()); //Pasa coords y nombre(para herencia)
     }
     
     public void destruir() //Destruye la Bomba
 	{
-		System.out.println("Bomba "+coordX+", "+coordY+" destruida."); 
+		System.out.println("Bomba "+getCoordX()+", "+getCoordY()+" destruida."); 
 		timer.cancel();
 		timer.purge();
 		

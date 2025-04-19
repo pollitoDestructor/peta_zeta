@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import modelo.*;
+import patrones.FacadeRestart;
 import petazeta.Main;
 
 import java.util.Map;
@@ -202,11 +203,8 @@ public class FinalVisual extends JFrame implements Observer{
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("Click!");
-			GestorFinalVisual.getFinal().detenerTimer(); // Aseg�rate de que este m�todo existe
-			/*GestorMenuPrincipal.reiniciarMenuPrincipal();
-			GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
-			MenuPrincipalVisual menuVisual = new MenuPrincipalVisual(); //TODO quitar
-			menu.opcionesMenu("Inicio");*/
+			GestorFinalVisual.getFinal().detenerTimer();
+			FacadeRestart.getFacadeRestart().reiniciar();
         }
         @Override
         public void mousePressed(MouseEvent e) {}

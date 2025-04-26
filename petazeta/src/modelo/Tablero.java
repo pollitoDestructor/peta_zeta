@@ -23,6 +23,7 @@ public class Tablero extends Observable{
 	private Casilla[][] mapa;
 
 	private ArrayList<Enemigo> ListaEnemigos = new ArrayList<Enemigo>();
+	private ArrayList<Teletransporte> ListaTeletransporte = new ArrayList<Teletransporte>();
 	private Random rng = new Random();
 
 	//Patrones
@@ -65,7 +66,93 @@ public class Tablero extends Observable{
 		}
 		return c;
 	}
-	
+
+	public void addTeletransporte(String pColor) {
+		if(Jugador.getJugador().getColor().equals("red")) {
+			if (ListaTeletransporte.size() <= 2) {
+				Teletransporte tp = new Teletransporte(Jugador.getJugador().getPosX(), Jugador.getJugador().getPosY(), pColor);
+
+				if (ListaTeletransporte.size() == 0) {
+					ListaTeletransporte.add(tp);
+					mapa[tp.getCoordY()][tp.getCoordX()] = tp;
+					setChanged();
+					notifyObservers(new Object[] {"PonerImagen",tp.getCoordX(), tp.getCoordY(),pColor});
+				} else if (ListaTeletransporte.size() == 1) {
+					if(buscarMismoColor(tp.getColor())) {
+						Teletransporte antiguo = ListaTeletransporte.get(0);
+						ListaTeletransporte.remove(0);
+						mapa[antiguo.getCoordY()][antiguo.getCoordX()] = new Casilla(antiguo.getCoordX(), antiguo.getCoordY());
+						setChanged();
+						notifyObservers(new Object[] {"PonerImagen", antiguo.getCoordX(), antiguo.getCoordY(), "Casilla"});
+					}
+						ListaTeletransporte.add(tp);
+						mapa[tp.getCoordY()][tp.getCoordX()] = tp;
+						ListaTeletransporte.get(0).setOcupado(false);
+						setChanged();
+						notifyObservers(new Object[] {"PonerImagen",tp.getCoordX(), tp.getCoordY(),pColor});
+
+				} else if (ListaTeletransporte.size() == 2) {
+					if(mapa[tp.getCoordY()][tp.getCoordX()].tipoCasilla().equals("Teletransporte")) {
+						if(mapa[tp.getCoordY()][tp.getCoordX()] != tp) {
+							ListaTeletransporte.remove(mapa[tp.getCoordY()][tp.getCoordX()]);
+
+						}
+					}
+					//Verifica si ya existe un teletransporte del mismo color
+					boolean encontrado = false;
+					int i = 0;
+					while ( i < ListaTeletransporte.size() && !encontrado) {
+						if (ListaTeletransporte.get(i).getColor().equals(pColor)) {
+							Teletransporte antiguo = ListaTeletransporte.get(i); // Guardamos la referencia
+							ListaTeletransporte.remove(i);
+							mapa[antiguo.getCoordY()][antiguo.getCoordX()] = new Casilla(antiguo.getCoordX(), antiguo.getCoordY());
+							setChanged();
+							notifyObservers(new Object[] {"PonerImagen", antiguo.getCoordX(), antiguo.getCoordY(), "Casilla"});
+							ListaTeletransporte.add(i, tp);
+							mapa[tp.getCoordY()][tp.getCoordX()] = tp;
+							setChanged();
+							notifyObservers(new Object[] {"PonerImagen", tp.getCoordX(), tp.getCoordY(), pColor});
+							encontrado = true;
+						} else if (!ListaTeletransporte.get(i).getColor().equals(pColor)) {
+
+
+						}
+						i++;
+					}
+				}
+				if(ListaTeletransporte.size() == 1) {
+					ListaTeletransporte.get(0).setOcupado(true);
+				}
+			}
+
+		}
+	}
+
+	public boolean buscarMismoColor(String pColor) {
+		boolean encontrado = false;
+		for (Teletransporte tp : ListaTeletransporte) {
+			if(tp.getColor() == pColor)
+				encontrado = true;
+		}
+		return encontrado;
+	}
+	public ArrayList<Integer> buscarOtroTeletransporte(int pX, int pY) {
+		ArrayList<Integer> pos = new ArrayList<Integer>();
+		for (Teletransporte tp : ListaTeletransporte) {
+			if (tp.getCoordX() != pX || tp.getCoordY() != pY) {
+				pos.add(tp.getCoordX());
+				pos.add(tp.getCoordY());
+				if(tp.getColor().equals("blue")){
+					pos.add(0);
+				}
+				else{
+					pos.add(1);
+				}
+			}
+		}
+		return pos;
+	}
+
 	public void deleteEnemigo(Enemigo pEnemigo) {
 		ListaEnemigos.remove(pEnemigo);
 	}
@@ -197,9 +284,11 @@ public class Tablero extends Observable{
 
 	public void ponerBomba(int pX, int pY)
 	{
-		setChanged();
-		mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipoBomba(), pX, pY); //Pone la bomba en esas coords
-		notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipoBomba(),Jugador.getJugador().getColor()});
+		if(!mapa[pY][pX].tipoCasilla().equals("Teletransporte")) {
+			setChanged();
+			mapa[pY][pX] = FactoryCasillas.getFactoryCasillas().genCasilla(stratBomba.getTipoBomba(), pX, pY); //Pone la bomba en esas coords
+			notifyObservers(new Object[] {"PonerImagen",pX, pY,stratBomba.getTipoBomba(),Jugador.getJugador().getColor()});
+		}
 	}
 
 	public void detonarBomba(int pX, int pY) {

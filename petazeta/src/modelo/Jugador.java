@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -46,6 +47,7 @@ public class Jugador extends Observable {
 		this.color=pColor;
 		if(color.equals("white")) {this.bombas=10;}
 		else if(color.equals("black")) {this.bombas=1;}
+		else if(color.equals("red")) {this.bombas=10;}
 	}
 
 	public void addBomba() {
@@ -78,9 +80,19 @@ public class Jugador extends Observable {
 	//movimiento del jugador
 	public void mover(int x, int y) {
 		if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y,"Jugador")) {
-			setChanged();
-			notifyObservers(new Object[] {"mover",posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
-			this.posX=posX+x; this.posY=posY+y;
+			if(Tablero.getTablero().getCasilla(posX+x, posY+y).tipoCasilla().equals("Teletransporte")) {
+				ArrayList<Integer> pos = Tablero.getTablero().buscarOtroTeletransporte(posX+x, posY+y);
+				setChanged();
+				notifyObservers(new Object[] {"tp",posX,posY,pos.get(0),pos.get(1),pos.get(2)});
+				this.posX=pos.get(0);
+				this.posY=pos.get(1);
+			}
+			else {
+				setChanged();
+				notifyObservers(new Object[] {"mover",posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
+				this.posX=posX+x;
+				this.posY=posY+y;
+			}
 
 		}
 		//else {System.out.println("El movimiento no se ha podido efectuar");}

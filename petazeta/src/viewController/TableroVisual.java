@@ -127,6 +127,12 @@ public class TableroVisual extends JFrame implements Observer{
 					case "Explosion3":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif"))); //Explosion
 						break;
+					case "blue":
+						pCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal1.gif"))); //Portal azul
+						break;
+					case "purple":
+						pCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal2.gif"))); //Portal morado
+						break;
 					case "Globo":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("baloon1.png")));
 						break;
@@ -180,30 +186,30 @@ public class TableroVisual extends JFrame implements Observer{
 			String accion = (String) params[0];
 				switch (accion) {
 					case "mover":
-						int posX = (int)params[1];
-						int posY = (int)params[2];
-						int x = (int)params[3];
-						int y = (int)params[4];
-						String color = (String)params[5];
+						int posX = (int) params[1];
+						int posY = (int) params[2];
+						int x = (int) params[3];
+						int y = (int) params[4];
+						String color = (String) params[5];
 						//System.out.println(color);
 
-						int index = 17*posY+posX; //la pos que dejamos atr�s
+						int index = 17 * posY + posX; //la pos que dejamos atr�s
 						JLabel pCasilla = (JLabel) grid.getComponent(index);
 						String[] partes = null;
-						if(x != 0 || y != 0) {
-							if(pCasilla.getIcon() != null) {
+						if (x != 0 || y != 0) {
+							if (pCasilla.getIcon() != null) {
 								String imagenActual = pCasilla.getIcon().toString();
 								String nombreImagen = imagenActual.substring(imagenActual.lastIndexOf("/") + 1);
 								partes = nombreImagen.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\.)");
 							} else {
 								// Manejar el caso cuando no hay icono (por ejemplo, establecer partes a un valor por defecto)
-								partes = new String[]{color+"right", "1"}; // Ejemplo de valor por defecto
+								partes = new String[]{color + "right", "1"}; // Ejemplo de valor por defecto
 							}
 						}
-						if(pCasilla.getIcon() != null) //Para evitar errores
+						if (pCasilla.getIcon() != null) //Para evitar errores
 						{
 							String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
-							if(descr.contains(color+"withbomb1.png") || descr.contains(color+"withbomb2.png")) //TODO
+							if (descr.contains(color + "withbomb1.png") || descr.contains(color + "withbomb2.png")) //TODO
 							{
 								//Si DEJAMOS bomba (el anterior es Bomberman con bomba
 								switch (color) {
@@ -213,57 +219,101 @@ public class TableroVisual extends JFrame implements Observer{
 									case "black":
 										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
 										break;
+									case "red":
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+										break;
+									case "blue":
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
+										break;
 								}
-							}
-							else
-							{
+							} else if (descr.contains(color + "withportal1.gif")) {
+								pCasilla.setIcon(new ImageIcon(getClass().getResource("portal1.gif")));
+							} else if (descr.contains(color + "withportal2.gif")) {
+								pCasilla.setIcon(new ImageIcon(getClass().getResource("portal2.gif")));
+							} else {
 								//Si no es null y NO dejamos atr�s bomba (anda normal)
 								pCasilla.setIcon(null);
 							}
 						}
 
-						index = 17*(posY+y)+(posX+x); //la nueva pos (a la que avanza)
+						index = 17 * (posY + y) + (posX + x); //la nueva pos (a la que avanza)
 						pCasilla = (JLabel) grid.getComponent(index);
-						if(x != 0 || y != 0) {
+						if (x != 0 || y != 0) {
 							if (x == 1) {
-								if(partes[0].equals(color+"right")) {
-									int frame = Integer.parseInt(partes[1])%5;
-									frame = frame+1;
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right"+String.valueOf(frame)+".png")));//derecha
+								if (partes[0].equals(color + "right")) {
+									int frame = Integer.parseInt(partes[1]) % 5;
+									frame = frame + 1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "right" + String.valueOf(frame) + ".png")));//derecha
 								} else {
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"right1.png")));//derecha
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "right1.png")));//derecha
 								}
 							} else if (x == -1) {
-								if(partes[0].equals(color+"left")) {
+								if (partes[0].equals(color + "left")) {
 									int frame = Integer.parseInt(partes[1]);
-									frame = frame%5+1;
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left"+String.valueOf(frame)+".png")));//derecha
+									frame = frame % 5 + 1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "left" + String.valueOf(frame) + ".png")));//derecha
 								} else {
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"left1.png")));//derecha
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "left1.png")));//derecha
 								}
 							} else if (y == 1) {
-								if(partes[0].equals(color+"down")) {
+								if (partes[0].equals(color + "down")) {
 									int frame = Integer.parseInt(partes[1]);
-									frame = frame%4+1;
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down"+String.valueOf(frame)+".png")));//derecha
+									frame = frame % 4 + 1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "down" + String.valueOf(frame) + ".png")));//derecha
 								} else {
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"down1.png")));//derecha
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "down1.png")));//derecha
 								}
 							} else if (y == -1) {
-								if(partes[0].equals(color+"up")) {
+								if (partes[0].equals(color + "up")) {
 									int frame = Integer.parseInt(partes[1]);
-									frame = frame%5+1;
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up"+String.valueOf(frame)+".png")));//derecha
+									frame = frame % 5 + 1;
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "up" + String.valueOf(frame) + ".png")));//derecha
 								} else {
-									pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"up1.png")));//derecha
+									pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "up1.png")));//derecha
 								}
-							} else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
-						}    else if (x == 0 && y == 0)pCasilla.setIcon(new ImageIcon(getClass().getResource(color+"happy1.png")));//inicializar
-								break;
+							} else if (x == 0 && y == 0)
+								pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "happy1.png")));//inicializar
+						} else if (x == 0 && y == 0)
+							pCasilla.setIcon(new ImageIcon(getClass().getResource(color + "happy1.png")));//inicializar
+						break;
 					case "punt":
 						int punt = (int) params[1];
 						lblPuntuacion.setText("Puntuación: " + punt);
-					}
+						break;
+					case "tp":
+						int tpOldposX = (int) params[1];
+						int tpOldposY = (int) params[2];
+						int tpPosX = (int) params[3];
+						int tpPosY = (int) params[4];
+						int tpColor = (int) params[5];
+
+						int tpOldindex = 17 * tpOldposY + tpOldposX; //la pos que dejamos atras
+						JLabel tpOldCasilla = (JLabel) grid.getComponent(tpOldindex);
+
+						if (tpOldCasilla.getIcon() != null) //Para evitar errores
+						{
+							String descr = ((ImageIcon) tpOldCasilla.getIcon()).getDescription();
+							if (descr.contains("redwithbomb1.png") || descr.contains("redwithbomb2.png")) //TODO
+							{
+								tpOldCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+							}
+							else
+							{
+								tpOldCasilla.setIcon(null);
+							}
+
+							int tpIndex = 17 * tpPosY + tpPosX;
+							JLabel tpCasilla = (JLabel) grid.getComponent(tpIndex);
+							if(tpColor==0) {
+								tpCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal1.gif")));
+							}
+							else if(tpColor==1) {
+								tpCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal2.gif")));
+							}
+							break;
+						}
+				}
+
 		}
 		else if(o instanceof Enemigo)
 		{
@@ -339,41 +389,41 @@ public class TableroVisual extends JFrame implements Observer{
 	private class Controlador implements KeyListener {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			int keyCode=e.getKeyCode();
-			if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
+			int keyCode = e.getKeyCode();
+			if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) { //Movimiento arriba
 				Jugador.getJugador().mover(0, -1);
 				//System.out.println("Se mueve arriba");
-			}
-			else if(keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) { //Movimiento abajo
+			} else if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) { //Movimiento abajo
 				Jugador.getJugador().mover(0, 1);
 				//System.out.println("Se mueve abajo");
-			}
-			else if(keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) { //Movimiento izquierda
+			} else if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) { //Movimiento izquierda
 				Jugador.getJugador().mover(-1, 0);
 				//System.out.println("Se mueve a la izquierda");
-			}
-			else if(keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) { //Movimiento derecha
-				Jugador.getJugador().mover(1,0);
+			} else if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) { //Movimiento derecha
+				Jugador.getJugador().mover(1, 0);
 				//System.out.println("Se mueve a la derecha");
-			}
-			else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
+			} else if (keyCode == KeyEvent.VK_SPACE) { // Poner bomba
 				Jugador.getJugador().ponerBomba();
 				// Crear la vista de la bomba y agregarla a la interfaz
 					/*ViewBomba viewBomba = new ViewBomba(jugador.getPosX(), jugador.getPosY());
 				       f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
 				       f.revalidate(); // Refrescar la interfaz
 				       f.repaint(); */
+			} else if (keyCode == KeyEvent.VK_Z) { // Poner portal azul
+				Tablero.getTablero().addTeletransporte("blue");
+			} else if (keyCode == KeyEvent.VK_X) { // Poner portal naranja
+				Tablero.getTablero().addTeletransporte("purple");
 			}
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped (KeyEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void keyReleased (KeyEvent e) {
 			// TODO Auto-generated method stub
 
 		}

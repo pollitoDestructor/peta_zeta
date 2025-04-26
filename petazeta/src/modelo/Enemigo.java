@@ -56,11 +56,12 @@ public abstract class Enemigo extends Observable {
     //movimiento del enemigo
     public void mover(int x, int y, String pType) {
         if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y, pType)) {
-            setChanged();
-            notifyObservers(new Object[] {"mover",posX,posY,posX+x,posY+y,tipoEnemigo()}); //le manda la pos
-            posX = posX + x;
-            posY = posY + y;
-            //System.out.println(tipoEnemigo() + " movido a (" + posX + "," + posY + ")");
+            if(!Tablero.getTablero().getCasilla(posX+x, posY+y).tipoCasilla().equals("Teletransporte")) {
+                setChanged();
+                notifyObservers(new Object[] {"mover",posX,posY,posX+x,posY+y,tipoEnemigo()}); //le manda la pos
+                posX = posX + x;
+                posY = posY + y;
+            }
         }
     }
     private void detenerTimer() {

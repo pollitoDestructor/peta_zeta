@@ -25,6 +25,7 @@ public class Casilla
         this.ocupado = pOcupado;
 	}
 
+
 	public String tipoCasilla() 
 	{
 		return this.getClass().getSimpleName();

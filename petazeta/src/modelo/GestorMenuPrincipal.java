@@ -52,6 +52,14 @@ public class GestorMenuPrincipal extends Observable {
             	 Tablero.getTablero().changeStrategyBombaString("Ultra");
                 System.out.println("Cambio de estrategia a: PonerBombaGigante");
             }
+            else if (pColor == "red") {
+                Tablero.getTablero().changeStrategyBombaString("Super");
+                System.out.println("Cambio de estrategia a: PonerBombaNormal");
+            }
+            else if (pColor == "blue") {
+                Tablero.getTablero().changeStrategyBombaString("Ultra");
+                System.out.println("Cambio de estrategia a: PonerBombaGigante");
+            }
         }
     }
     

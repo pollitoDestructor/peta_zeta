@@ -486,12 +486,12 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
   			}
   			else if(e.getComponent()==Bomber3){
   				System.out.println("bomber3");
-//  				GestorMenuPrincipal.getMenu().cambiarJugador("blue");
+  				GestorMenuPrincipal.getMenu().cambiarJugador("blue");
   				menu.opcionesMenu(e.getComponent().getName()+"Click");
   			}
   			else if(e.getComponent()==Bomber4){
   				System.out.println("bomber4");
-//  				GestorMenuPrincipal.getMenu().cambiarJugador("red");
+  				GestorMenuPrincipal.getMenu().cambiarJugador("red");
   				menu.opcionesMenu(e.getComponent().getName()+"Click");
   			}
   		}

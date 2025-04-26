@@ -2,6 +2,7 @@ package patrones;
 
 import modelo.BloqueBlando;
 import modelo.BloqueDuro;
+import modelo.BombaCruz;
 import modelo.BombaSuper;
 import modelo.BombaUltra;
 import modelo.Casilla;
@@ -36,6 +37,9 @@ public class FactoryCasillas {
 			break;
 			case "BombaSuper":
 				c = new BombaSuper(pX,pY);
+			break;
+			case "BombaCruz":
+				c = new BombaCruz(pX,pY);
 			break;
 			case "BombaUltra":
 				c = new BombaUltra(pX,pY);

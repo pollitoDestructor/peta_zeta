@@ -48,6 +48,7 @@ public class Jugador extends Observable {
 		if(color.equals("white")) {this.bombas=10;}
 		else if(color.equals("black")) {this.bombas=1;}
 		else if(color.equals("red")) {this.bombas=10;}
+		else if(color.equals("blue")) {this.bombas=3;}
 	}
 
 	public void addBomba() {

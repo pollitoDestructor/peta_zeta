@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Random;
 
 import patrones.FactoryCasillas;
+import patrones.PonerBombaCruzRompeObstaculos;
 import patrones.PonerBombaSuper;
 import patrones.PonerBombaUltra;
 import patrones.StateGanar;
@@ -280,6 +281,7 @@ public class Tablero extends Observable{
 	public void changeStrategyBombaString(String pStrat) {
 		if(pStrat.equals("Super")) changeStrategyBomba(new PonerBombaSuper());
 		else if(pStrat.equals("Ultra")) changeStrategyBomba(new PonerBombaUltra());
+		else if(pStrat.equals("Cruz")) changeStrategyBomba(new PonerBombaCruzRompeObstaculos());
 	}
 
 	public void ponerBomba(int pX, int pY)
@@ -317,6 +319,16 @@ public class Tablero extends Observable{
 	            setChanged();
 	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
 	            notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
+	            break;
+	        case "BombaCruz":
+	        	if (pOriginalX == x && pOriginalY == y) { //La propia bomba
+	                setChanged();
+	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
+	            } else { //Bombas que encuentra en su explosion
+	                mapa[y][x].destruir();
+	                detonarBomba(x, y);
+	            }
 	            break;
 	        case "BombaUltra":
 	        case "BombaSuper":

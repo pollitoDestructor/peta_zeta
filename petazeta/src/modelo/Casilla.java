@@ -40,5 +40,6 @@ public class Casilla
 		//System.out.println("Casilla"+coordX+","+coordY+"destruido.");
 	}
 
+	public void actualizar(int pX, int pY) {coordX=pX;coordY=pY;}
 	
 }

@@ -69,64 +69,98 @@ public class Tablero extends Observable{
 	}
 
 	public void addTeletransporte(String pColor) {
-		if(Jugador.getJugador().getColor().equals("red")) {
-			if (ListaTeletransporte.size() <= 2) {
-				Teletransporte tp = new Teletransporte(Jugador.getJugador().getPosX(), Jugador.getJugador().getPosY(), pColor);
+		if (ListaTeletransporte.size() <= 2) {
+			Teletransporte tp = new Teletransporte(Jugador.getJugador().getPosX(), Jugador.getJugador().getPosY(), pColor);
 
-				if (ListaTeletransporte.size() == 0) {
+			if (ListaTeletransporte.size() == 0) {
+				ListaTeletransporte.add(tp);
+				mapa[tp.getCoordY()][tp.getCoordX()] = tp;
+				setChanged();
+				notifyObservers(new Object[] {"PonerImagen",tp.getCoordX(), tp.getCoordY(),pColor});
+			} else if (ListaTeletransporte.size() == 1) {
+				if(buscarMismoColor(tp.getColor())) {
+					Teletransporte antiguo = ListaTeletransporte.get(0);
+					ListaTeletransporte.remove(0);
+					mapa[antiguo.getCoordY()][antiguo.getCoordX()] = new Casilla(antiguo.getCoordX(), antiguo.getCoordY());
+					setChanged();
+					notifyObservers(new Object[] {"PonerImagen", antiguo.getCoordX(), antiguo.getCoordY(), "Casilla"});
+				}
 					ListaTeletransporte.add(tp);
 					mapa[tp.getCoordY()][tp.getCoordX()] = tp;
+					ListaTeletransporte.get(0).setOcupado(false);
 					setChanged();
 					notifyObservers(new Object[] {"PonerImagen",tp.getCoordX(), tp.getCoordY(),pColor});
-				} else if (ListaTeletransporte.size() == 1) {
-					if(buscarMismoColor(tp.getColor())) {
-						Teletransporte antiguo = ListaTeletransporte.get(0);
-						ListaTeletransporte.remove(0);
+
+			} else if (ListaTeletransporte.size() == 2) {
+				if(mapa[tp.getCoordY()][tp.getCoordX()].tipoCasilla().equals("Teletransporte")) {
+					if(mapa[tp.getCoordY()][tp.getCoordX()] != tp) {
+						ListaTeletransporte.remove(mapa[tp.getCoordY()][tp.getCoordX()]);
+
+					}
+				}
+				//Verifica si ya existe un teletransporte del mismo color
+				boolean encontrado = false;
+				int i = 0;
+				while ( i < ListaTeletransporte.size() && !encontrado) {
+					if (ListaTeletransporte.get(i).getColor().equals(pColor)) {
+						Teletransporte antiguo = ListaTeletransporte.get(i); // Guardamos la referencia
+						ListaTeletransporte.remove(i);
 						mapa[antiguo.getCoordY()][antiguo.getCoordX()] = new Casilla(antiguo.getCoordX(), antiguo.getCoordY());
 						setChanged();
 						notifyObservers(new Object[] {"PonerImagen", antiguo.getCoordX(), antiguo.getCoordY(), "Casilla"});
-					}
-						ListaTeletransporte.add(tp);
+						ListaTeletransporte.add(i, tp);
 						mapa[tp.getCoordY()][tp.getCoordX()] = tp;
-						ListaTeletransporte.get(0).setOcupado(false);
 						setChanged();
-						notifyObservers(new Object[] {"PonerImagen",tp.getCoordX(), tp.getCoordY(),pColor});
+						notifyObservers(new Object[] {"PonerImagen", tp.getCoordX(), tp.getCoordY(), pColor});
+						encontrado = true;
+					} else if (!ListaTeletransporte.get(i).getColor().equals(pColor)) {
 
-				} else if (ListaTeletransporte.size() == 2) {
-					if(mapa[tp.getCoordY()][tp.getCoordX()].tipoCasilla().equals("Teletransporte")) {
-						if(mapa[tp.getCoordY()][tp.getCoordX()] != tp) {
-							ListaTeletransporte.remove(mapa[tp.getCoordY()][tp.getCoordX()]);
 
-						}
 					}
-					//Verifica si ya existe un teletransporte del mismo color
-					boolean encontrado = false;
-					int i = 0;
-					while ( i < ListaTeletransporte.size() && !encontrado) {
-						if (ListaTeletransporte.get(i).getColor().equals(pColor)) {
-							Teletransporte antiguo = ListaTeletransporte.get(i); // Guardamos la referencia
-							ListaTeletransporte.remove(i);
-							mapa[antiguo.getCoordY()][antiguo.getCoordX()] = new Casilla(antiguo.getCoordX(), antiguo.getCoordY());
-							setChanged();
-							notifyObservers(new Object[] {"PonerImagen", antiguo.getCoordX(), antiguo.getCoordY(), "Casilla"});
-							ListaTeletransporte.add(i, tp);
-							mapa[tp.getCoordY()][tp.getCoordX()] = tp;
-							setChanged();
-							notifyObservers(new Object[] {"PonerImagen", tp.getCoordX(), tp.getCoordY(), pColor});
-							encontrado = true;
-						} else if (!ListaTeletransporte.get(i).getColor().equals(pColor)) {
-
-
-						}
-						i++;
-					}
-				}
-				if(ListaTeletransporte.size() == 1) {
-					ListaTeletransporte.get(0).setOcupado(true);
+					i++;
 				}
 			}
-
+			if(ListaTeletransporte.size() == 1) {
+				ListaTeletransporte.get(0).setOcupado(true);
+			}
 		}
+	}
+
+	public void patearBomba() {
+		int x = Jugador.getJugador().getPosX(); int y = Jugador.getJugador().getPosY();
+		String dir=null;
+		if (x>0 && mapa[y][x-1] instanceof Bomba) {dir="izq";x--;}
+		if (x<10 && mapa[y][x+1] instanceof Bomba) {dir="der";x++;}
+		if (y>0 && mapa[y-1][x] instanceof Bomba) {dir="abj";y--;}
+		if (y<10 && mapa[y+1][x] instanceof Bomba) {dir="sup";y++;}
+
+		boolean next=true;
+		if(dir==null){next = false;}
+
+		Casilla c=null;
+		Casilla b=null;
+		int bombX = x; int bombY = y;
+		int xAnt=x; int yAnt=y;
+
+		while (next) {
+			c=null;
+			xAnt=x; yAnt=y;
+			if (x>0 && dir.equals("izq")){c = mapa[y][x-1];x--;}
+			else if (x<17 && dir.equals("der")){c = mapa[y][x+1];x++;}
+			else if (y>0 && dir.equals("abj")){c = mapa[y-1][x];y--;}
+			else if (y<10 && dir.equals("sup")){c = mapa[y+1][x];y++;}
+
+			if (c==null || c.estaOcupada()) {next = false;}
+		}
+			if (xAnt!=x || yAnt!=y) {
+				b = mapa[bombY][bombX];
+				b.actualizar(xAnt, yAnt);
+				mapa[bombY][bombX] = new Casilla(bombX, bombY);
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", bombX, bombY, "Casilla"});
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", xAnt, yAnt, "Bomba"});
+			}
 	}
 
 	public boolean buscarMismoColor(String pColor) {
@@ -137,6 +171,7 @@ public class Tablero extends Observable{
 		}
 		return encontrado;
 	}
+
 	public ArrayList<Integer> buscarOtroTeletransporte(int pX, int pY) {
 		ArrayList<Integer> pos = new ArrayList<Integer>();
 		for (Teletransporte tp : ListaTeletransporte) {

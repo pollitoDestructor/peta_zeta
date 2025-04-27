@@ -145,6 +145,9 @@ public class TableroVisual extends JFrame implements Observer{
 					case "Pass":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("pass1.png")));
 						break;
+					case "Bomba":
+						pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
+						break;
 				}
 			}
 			else if((String)param[0]=="Muerte") //Ventana de muerte
@@ -412,10 +415,17 @@ public class TableroVisual extends JFrame implements Observer{
 				       f.getContentPane().add(viewBomba); // Agregar la bomba a la ventana
 				       f.revalidate(); // Refrescar la interfaz
 				       f.repaint(); */
-			} else if (keyCode == KeyEvent.VK_Z) { // Poner portal azul
-				Tablero.getTablero().addTeletransporte("blue");
-			} else if (keyCode == KeyEvent.VK_X) { // Poner portal naranja
-				Tablero.getTablero().addTeletransporte("purple");
+			} else if (keyCode == KeyEvent.VK_Z) {
+				if (Jugador.getJugador().getColor().equals("red")){// Poner portal azul
+					Tablero.getTablero().addTeletransporte("blue");
+				}
+				else if (Jugador.getJugador().getColor().equals("blue")){
+					Tablero.getTablero().patearBomba();
+				}
+			} else if (keyCode == KeyEvent.VK_X) {
+				if (Jugador.getJugador().getColor().equals("red")){// Poner portal naranja
+					Tablero.getTablero().addTeletransporte("purple");
+				}
 			}
 		}
 

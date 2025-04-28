@@ -229,7 +229,7 @@ public class TableroVisual extends JFrame implements Observer{
 										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
 										break;
 									case "blue":
-										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
 										break;
 								}
 							} else if (descr.contains(color + "withportal1.gif")) {

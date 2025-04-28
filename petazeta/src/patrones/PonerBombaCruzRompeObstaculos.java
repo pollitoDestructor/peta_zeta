@@ -24,6 +24,13 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
         // Coordenadas de movimiento para explosión en forma de cruz (diagonal)
         int[] dx = {-1, -1, 1, 1}; // Arriba-Izquierda, Arriba-Derecha, Abajo-Izquierda, Abajo-Derecha
         int[] dy = {-1, 1, -1, 1};
+        
+        //Esta en la propia bomba?
+        if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
+            tab.changeStateString("Muerto");
+        }
+        
+        tab.procesarExplosion(pX, pY, pX, pY); //Donde la propia bomba
 
         for (int i = 0; i < 4; i++) { // Las 4 direcciones diagonales
             for (int j = 1; j <= 20; j++) { // Explosión hasta un rango de 20

@@ -355,18 +355,9 @@ public class Tablero extends Observable{
 	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
 	            notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            break;
-	        case "BombaCruz":
-	        	if (pOriginalX == x && pOriginalY == y) { //La propia bomba
-	                setChanged();
-	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
-	            } else { //Bombas que encuentra en su explosion
-	                mapa[y][x].destruir();
-	                detonarBomba(x, y);
-	            }
-	            break;
 	        case "BombaUltra":
 	        case "BombaSuper":
+	        case "BombaCruz":
 	            if (pOriginalX == x && pOriginalY == y) { //La propia bomba
 	                setChanged();
 	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
@@ -377,6 +368,12 @@ public class Tablero extends Observable{
 	            }
 	            break;
 	        case "BloqueDuro":
+	        	if(stratBomba.getTipoBomba().equals("BombaCruz")) //Si es bombaCruz, lo rompe
+	        	{
+	        		setChanged();
+	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
+	        	}
 	            break;
 	        case "Explosion":
 	            Explosion e = (Explosion) mapa[y][x];

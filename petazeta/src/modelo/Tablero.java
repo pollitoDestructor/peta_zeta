@@ -129,11 +129,36 @@ public class Tablero extends Observable{
 	public void patearBomba() {
 		int x = Jugador.getJugador().getPosX(); int y = Jugador.getJugador().getPosY();
 		String dir=null;
-		if (x>0 && mapa[y][x-1] instanceof Bomba) {dir="izq";x--;}
-		if (x<10 && mapa[y][x+1] instanceof Bomba) {dir="der";x++;}
-		if (y>0 && mapa[y-1][x] instanceof Bomba) {dir="abj";y--;}
-		if (y<10 && mapa[y+1][x] instanceof Bomba) {dir="sup";y++;}
-
+		if (x>0) {
+			if(mapa[y][x-1].tipoCasilla().equals("BombaCruz")) {
+				dir = "izq";
+				BombaCruz bC = (BombaCruz) mapa[y][x-1];
+				bC.rodar(dir);
+				//this.moverBomba(dir,x--,y);
+			}
+		}
+		if (x<11) { //TODO comprobar si en el borde derecho funciona bien
+			if(mapa[y][x+1].tipoCasilla().equals("BombaCruz")) {
+				dir = "der";
+				BombaCruz bC = (BombaCruz) mapa[y][x+1];
+				bC.rodar(dir);
+			}
+		}
+		if (y>0) {
+			if(mapa[y-1][x].tipoCasilla().equals("BombaCruz")) {
+				dir = "abj";
+				BombaCruz bC = (BombaCruz) mapa[y-1][x];
+				bC.rodar(dir);
+			}
+		}
+		if (y<10) {
+			if(mapa[y+1][x].tipoCasilla().equals("BombaCruz")) {
+				dir = "sup";
+				BombaCruz bC = (BombaCruz) mapa[y+1][x];
+				bC.rodar(dir);
+			}
+		}
+	/*
 		boolean next=true;
 		if(dir==null){next = false;}
 
@@ -161,6 +186,26 @@ public class Tablero extends Observable{
 				setChanged();
 				notifyObservers(new Object[]{"PonerImagen", xAnt, yAnt, "Bomba"});
 			}
+			*/
+	}
+	public void moverBomba(String pDir, int pX, int pY) {
+		int nY = pY;
+		int nX = pX;
+		if (pX>0 && pDir.equals("izq")){nX--;}
+		else if (pX<17 && pDir.equals("der")){nX++;}
+		else if (pY>0 && pDir.equals("abj")){nY--;}
+		else if (pY<10 && pDir.equals("sup")){nX++;}
+		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !mapa[nY][nX].estaOcupada()) {
+			mapa[nY][nX] = new BombaCruz(nX, nY);
+			mapa[pY][pX].destruir();
+			mapa[pY][pX] = new Casilla(pX, pY);
+			BombaCruz bC = (BombaCruz) mapa[nY][nX];
+			bC.rodar(pDir);
+			setChanged();
+			notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
+			setChanged();
+			notifyObservers(new Object[]{"PonerImagen", nX, nY, "Bomba"});
+		}
 	}
 
 	public boolean buscarMismoColor(String pColor) {
@@ -333,7 +378,8 @@ public class Tablero extends Observable{
 	}
 
 	// Metodo auxiliar para manejar la explosion en una casilla
-	public void procesarExplosion(int x, int y, int pOriginalX, int pOriginalY) {
+	public int procesarExplosion(int x, int y, int pOriginalX, int pOriginalY, int pComboActual) {
+		int newCombo = pComboActual;
 	    String tipo = mapa[y][x].tipoCasilla();
 	    ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 
@@ -341,7 +387,9 @@ public class Tablero extends Observable{
 	        if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
 	            enemigo.destruir();
 	            ListaEnemigos.remove(enemigo); // Asegura que se elimine de la lista
-				Jugador.getJugador().actualizarPuntuacion(500);
+				Jugador.getJugador().actualizarPuntuacion(500 * pComboActual);
+				System.out.println("Combo actual: " + pComboActual);
+				newCombo = pComboActual + 1;
 	        }
 	    }
 
@@ -380,6 +428,7 @@ public class Tablero extends Observable{
 	            e.iniciarTimer();
 	            break;
 	    }
+		return newCombo;
 	}
 
 	public void explosionTerminada(int pX, int pY)

@@ -23,6 +23,7 @@ public class PonerBombaUltra implements StrategyPonerBomba {
 
 	    int[] dx = {0, 0, 0, -1, 1};
 	    int[] dy = {0, -1, 1, 0, 0};
+		int combo = 1;
 
 	    for (int i = 0; i < 5; i++) {
 	        for (int j = 1; j <= 20; j++) {
@@ -38,7 +39,7 @@ public class PonerBombaUltra implements StrategyPonerBomba {
 	                tab.changeStateString("Muerto");
 	            }
 
-	            tab.procesarExplosion(newX, newY, pX, pY);
+	            combo = tab.procesarExplosion(newX, newY, pX, pY, combo);
 	        }
 	    }
 

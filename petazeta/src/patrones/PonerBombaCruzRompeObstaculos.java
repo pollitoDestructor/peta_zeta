@@ -30,7 +30,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
             tab.changeStateString("Muerto");
         }
         
-        tab.procesarExplosion(pX, pY, pX, pY); //Donde la propia bomba
+        tab.procesarExplosion(pX, pY, pX, pY, 1); //Donde la propia bomba
 
         for (int i = 0; i < 4; i++) { // Las 4 direcciones diagonales
             for (int j = 1; j <= 20; j++) { // Explosión hasta un rango de 20
@@ -46,7 +46,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
                 }
 
                 // Procesar la explosión en la casilla
-                tab.procesarExplosion(newX, newY, pX, pY);
+                tab.procesarExplosion(newX, newY, pX, pY, 1);
             }
         }
 

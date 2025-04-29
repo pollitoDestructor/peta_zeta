@@ -23,6 +23,7 @@ public class PonerBombaSuper implements StrategyPonerBomba {
 		
 		int[] dx = {0, 0, 0, -1, 1};
 		int[] dy = {0, -1, 1, 0, 0};
+		int combo = 1; //multiplicador de enemigos eliminados con una sola bomba
 
 		for (int i = 0; i < 5; i++) {
 			int newX = pX + dx[i];
@@ -30,7 +31,7 @@ public class PonerBombaSuper implements StrategyPonerBomba {
 
 			if (tab.esValido(newX, newY)) 
 			{
-				tab.procesarExplosion(newX, newY, pX,pY);
+				combo = tab.procesarExplosion(newX, newY, pX, pY, combo);
 				if (Jugador.getJugador().estaEnCasilla(newX, newY)) tab.changeStateString("Muerto");  // Cambiamos a estado de muerte
 			}
 		}

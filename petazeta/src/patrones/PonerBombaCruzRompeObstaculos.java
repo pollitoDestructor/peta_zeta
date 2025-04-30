@@ -7,7 +7,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
 
     @Override
     public String getTipoExplosion() {
-        return "Explosion1";
+        return "Explosion4";
     }
 
     @Override

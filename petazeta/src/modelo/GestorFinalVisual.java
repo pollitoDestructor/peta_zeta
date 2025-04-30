@@ -117,7 +117,7 @@ public class GestorFinalVisual extends Observable {
 		notifyObservers(new Object[] {2});
 	}
 	
-	public void crearMenuPplVisual() {
+	public void crearMenuPplVisual() { 
 		setChanged();
 		notifyObservers(new Object[] {4});
 		volverMenu();

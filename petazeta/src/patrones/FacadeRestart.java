@@ -17,7 +17,7 @@ public class FacadeRestart {
 		return miFacade;
 	}
 	
-	public void reiniciar() {
+	public void reiniciar() { 
 		GestorMenuPrincipal.reiniciarMenuPrincipal();
 		menuPpl = GestorMenuPrincipal.getMenu();
 		finV.crearMenuPplVisual();

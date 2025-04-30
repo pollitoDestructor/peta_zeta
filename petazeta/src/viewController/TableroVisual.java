@@ -152,7 +152,7 @@ public class TableroVisual extends JFrame implements Observer{
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb4.png")));
 						break;
 				}
-			}
+			} 
 			else if((String)param[0]=="Muerte") //Ventana de muerte
 			{
 				setVisible(false);

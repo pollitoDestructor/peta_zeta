@@ -95,7 +95,7 @@ public class FinalVisual extends JFrame implements Observer{
 			}
 			else if (accion == 4)
 			{
-				@SuppressWarnings("unused")
+				@SuppressWarnings("unused") 
 				MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
 			}
 

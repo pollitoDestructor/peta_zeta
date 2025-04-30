@@ -14,7 +14,7 @@ public class GestorMenuPrincipal extends Observable {
             miMenu = new GestorMenuPrincipal();
         }
         return miMenu;
-    }
+    } 
 
     public static void reiniciarMenuPrincipal() {
         miMenu = new GestorMenuPrincipal();

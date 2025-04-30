@@ -134,11 +134,11 @@ public class TableroVisual extends JFrame implements Observer{
 						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif")));} //Explosion
 						break;
 					case "Explosion2":
-						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
 						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2.gif")));} //Explosion
 						break;
 					case "Explosion3":
-						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
 						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif")));} //Explosion
 						break;
 					case "Explosion4":

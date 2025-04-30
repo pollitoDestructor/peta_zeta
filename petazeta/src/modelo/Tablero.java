@@ -134,7 +134,6 @@ public class Tablero extends Observable{
 				dir = "izq";
 				BombaCruz bC = (BombaCruz) mapa[y][x-1];
 				bC.rodar(dir);
-				//this.moverBomba(dir,x--,y);
 			}
 		}
 		if (x<11) {
@@ -158,36 +157,8 @@ public class Tablero extends Observable{
 				bC.rodar(dir);
 			}
 		}
-	/*
-		boolean next=true;
-		if(dir==null){next = false;}
-
-		Casilla c=null;
-		Casilla b=null;
-		int bombX = x; int bombY = y;
-		int xAnt=x; int yAnt=y;
-
-		while (next) {
-			c=null;
-			xAnt=x; yAnt=y;
-			if (x>0 && dir.equals("izq")){c = mapa[y][x-1];x--;}
-			else if (x<17 && dir.equals("der")){c = mapa[y][x+1];x++;}
-			else if (y>0 && dir.equals("abj")){c = mapa[y-1][x];y--;}
-			else if (y<10 && dir.equals("sup")){c = mapa[y+1][x];y++;}
-
-			if (c==null || c.estaOcupada()) {next = false;}
-		}
-			if (xAnt!=x || yAnt!=y) {
-				b = mapa[bombY][bombX];
-				b.actualizar(xAnt, yAnt);
-				mapa[bombY][bombX] = new Casilla(bombX, bombY);
-				setChanged();
-				notifyObservers(new Object[]{"PonerImagen", bombX, bombY, "Casilla"});
-				setChanged();
-				notifyObservers(new Object[]{"PonerImagen", xAnt, yAnt, "Bomba"});
-			}
-			*/
 	}
+
 	public void moverBomba(String pDir, int pX, int pY) {
 		int nY = pY;
 		int nX = pX;
@@ -195,7 +166,7 @@ public class Tablero extends Observable{
 		else if (pX<17 && pDir.equals("der")){nX++;}
 		else if (pY>0 && pDir.equals("abj")){nY--;}
 		else if (pY<10 && pDir.equals("sup")){nY++;}
-		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !mapa[nY][nX].estaOcupada()) {
+		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !hayEnemigo(nX,nY) && !mapa[nY][nX].estaOcupada()) {
 			mapa[nY][nX] = new BombaCruz(nX, nY);
 			mapa[pY][pX].destruir();
 			mapa[pY][pX] = new Casilla(pX, pY);
@@ -236,6 +207,10 @@ public class Tablero extends Observable{
 
 	public void deleteEnemigo(Enemigo pEnemigo) {
 		ListaEnemigos.remove(pEnemigo);
+	}
+
+	public boolean hayEnemigo(int pX, int pY) {
+		return ListaEnemigos.stream().anyMatch(enemigo -> enemigo.estaEn(pX, pY)); // JAVA 8 !!!!!!!!! :DDDD YIPPPEEEE !!!!!
 	}
 
 	public boolean casillaDisponible(int pXOld, int pYOld, int pX, int pY, String pType) {
@@ -430,7 +405,7 @@ public class Tablero extends Observable{
 				newCombo = pComboActual + 1;
 				setChanged();
 				mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-				if (Jugador.getJugador().getColor().equals("red")) {exp="Explosion3";}
+				if (Jugador.getJugador().getColor().equals("red")) {exp="Explosion2";}
 				notifyObservers(new Object[]{"PonerImagen", x, y, exp, newCombo});
 			}
 		}

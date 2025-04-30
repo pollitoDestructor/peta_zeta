@@ -384,14 +384,15 @@ public class Tablero extends Observable{
 	    ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 
 
-
+		String exp = stratBomba.getTipoExplosion();
 	    switch (tipo) {
 	        case "Casilla":
 	        case "BloqueBlando":
 	            mapa[y][x].destruir();
 	            setChanged();
 	            mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-	            notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
+				if (Jugador.getJugador().getColor().equals("red")) {exp="Explosion2";}
+				notifyObservers(new Object[]{"PonerImagen", x, y, exp});
 	            break;
 	        case "BombaUltra":
 	        case "BombaSuper":
@@ -399,7 +400,8 @@ public class Tablero extends Observable{
 	            if (pOriginalX == x && pOriginalY == y) { //La propia bomba
 	                setChanged();
 	                mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
+					if (Jugador.getJugador().getColor().equals("red")) {exp="Explosion2";}
+					notifyObservers(new Object[]{"PonerImagen", x, y, exp});
 	            } else { //Bombas que encuentra en su explosion
 	                mapa[y][x].destruir();
 	                detonarBomba(x, y, newCombo);
@@ -428,7 +430,8 @@ public class Tablero extends Observable{
 				newCombo = pComboActual + 1;
 				setChanged();
 				mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
-				notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion(), newCombo});
+				if (Jugador.getJugador().getColor().equals("red")) {exp="Explosion3";}
+				notifyObservers(new Object[]{"PonerImagen", x, y, exp, newCombo});
 			}
 		}
 

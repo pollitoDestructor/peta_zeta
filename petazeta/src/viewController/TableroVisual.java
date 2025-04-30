@@ -116,7 +116,12 @@ public class TableroVisual extends JFrame implements Observer{
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("hard4.png"))); //Bloque Duro
 						break;
 					case "BombaSuper":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb1.png"))); //Bomba
+						String color = (String)param[4];
+						if(color.equals("red")){
+							pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb3.png"))); //Bomba
+						} else {
+							pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb1.png"))); //Bomba
+						}
 						break;
 					case "BombaUltra":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb2.png"))); //Bomba
@@ -133,7 +138,7 @@ public class TableroVisual extends JFrame implements Observer{
 						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2.gif")));} //Explosion
 						break;
 					case "Explosion3":
-						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
 						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif")));} //Explosion
 						break;
 					case "Explosion4":
@@ -221,7 +226,7 @@ public class TableroVisual extends JFrame implements Observer{
 						if (pCasilla.getIcon() != null) //Para evitar errores
 						{
 							String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
-							if (descr.contains(color + "withbomb1.png") || descr.contains(color + "withbomb2.png") || descr.contains(color + "withbomb4.png")) //TODO
+							if (descr.contains(color + "withbomb1.png") || descr.contains(color + "withbomb2.png") || descr.contains(color + "withbomb3.png") || descr.contains(color + "withbomb4.png")) //TODO
 							{
 								//Si DEJAMOS bomba (el anterior es Bomberman con bomba
 								switch (color) {
@@ -232,7 +237,7 @@ public class TableroVisual extends JFrame implements Observer{
 										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb2.png")));
 										break;
 									case "red":
-										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb3.png")));
 										break;
 									case "blue":
 										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb4.png")));
@@ -305,9 +310,9 @@ public class TableroVisual extends JFrame implements Observer{
 						if (tpOldCasilla.getIcon() != null) //Para evitar errores
 						{
 							String descr = ((ImageIcon) tpOldCasilla.getIcon()).getDescription();
-							if (descr.contains("redwithbomb1.png") || descr.contains("redwithbomb2.png")) //TODO
+							if (descr.contains("redwithbomb3.png")) //TODO
 							{
-								tpOldCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+								tpOldCasilla.setIcon(new ImageIcon(getClass().getResource("bomb3.png")));
 							}
 							else
 							{

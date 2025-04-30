@@ -383,17 +383,7 @@ public class Tablero extends Observable{
 	    String tipo = mapa[y][x].tipoCasilla();
 	    ArrayList<Enemigo> copiaEnemigos = new ArrayList<>(ListaEnemigos);
 
-	    for (Enemigo enemigo : copiaEnemigos) {
-	        if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
-	            enemigo.destruir();
-	            ListaEnemigos.remove(enemigo); // Asegura que se elimine de la lista
-				Jugador.getJugador().actualizarPuntuacion(500 * pComboActual);
-				System.out.println("Combo actual: " + pComboActual);
-				newCombo = pComboActual + 1;
-	        }
-	    }
 
-		verificarVictoria();
 
 	    switch (tipo) {
 	        case "Casilla":
@@ -412,7 +402,7 @@ public class Tablero extends Observable{
 	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            } else { //Bombas que encuentra en su explosion
 	                mapa[y][x].destruir();
-	                detonarBomba(x, y, pComboActual);
+	                detonarBomba(x, y, newCombo);
 	            }
 	            break;
 	        case "BloqueDuro":
@@ -428,6 +418,22 @@ public class Tablero extends Observable{
 	            e.iniciarTimer();
 	            break;
 	    }
+
+		for (Enemigo enemigo : copiaEnemigos) {
+			if (enemigo.estaEnCasilla(x, y) && enemigo.estaVivo()) {
+				enemigo.destruir();
+				ListaEnemigos.remove(enemigo); // Asegura que se elimine de la lista
+				Jugador.getJugador().actualizarPuntuacion(500 * pComboActual);
+				System.out.println("Combo actual: " + pComboActual);
+				newCombo = pComboActual + 1;
+				setChanged();
+				mapa[y][x] = FactoryCasillas.getFactoryCasillas().genCasilla("Explosion", x, y);
+				notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion(), newCombo});
+			}
+		}
+
+		verificarVictoria();
+
 		return newCombo;
 	}
 

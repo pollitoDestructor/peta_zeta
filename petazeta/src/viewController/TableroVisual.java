@@ -125,13 +125,20 @@ public class TableroVisual extends JFrame implements Observer{
 						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb4.png"))); //Bomba
 						break;
 					case "Explosion1":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif")));} //Explosion
+						break;
+					case "Explosion2":
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2.gif")));} //Explosion
 						break;
 					case "Explosion3":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif"))); //Explosion
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast2x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif")));} //Explosion
 						break;
 					case "Explosion4":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast4.gif"))); //Explosion
+						if(param.length==5){pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast4x"+String.valueOf((((int)param[4]-2)%3)+1)+".gif")));}
+						else{pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast4.gif")));} //Explosion
 						break;
 					case "blue":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal1.gif"))); //Portal azul

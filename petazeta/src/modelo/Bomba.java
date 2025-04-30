@@ -15,17 +15,17 @@ public abstract class Bomba extends Casilla {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                explotar(); //Pasados 3 segundos, explota
+                explotar(1); //Pasados 3 segundos, explota
             }       
         };
         timer = new Timer();
         timer.schedule(timerTask, PERIODO * 1000); // Explota despues de 3 segundos
     }
     
-    protected void explotar() {
+    protected void explotar(int pCombo) {
         destruir(); // Aqui destruimos la bomba
         
-        tablero.detonarBomba(getCoordX(),getCoordY()); //Pasa coords y nombre(para herencia)
+        tablero.detonarBomba(getCoordX(),getCoordY(), pCombo); //Pasa coords y nombre(para herencia)
     }
     
     public void destruir() //Destruye la Bomba

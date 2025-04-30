@@ -122,13 +122,16 @@ public class TableroVisual extends JFrame implements Observer{
 						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb2.png"))); //Bomba
 						break;
 					case "BombaCruz":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb1.png"))); //Bomba
+						pCasilla.setIcon(new ImageIcon(getClass().getResource((String)param[4]+"withbomb4.png"))); //Bomba
 						break;
 					case "Explosion1":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast1.gif"))); //Explosion
 						break;
 					case "Explosion3":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast3.gif"))); //Explosion
+						break;
+					case "Explosion4":
+						pCasilla.setIcon(new ImageIcon(getClass().getResource("miniBlast4.gif"))); //Explosion
 						break;
 					case "blue":
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("redwithportal1.gif"))); //Portal azul
@@ -146,7 +149,7 @@ public class TableroVisual extends JFrame implements Observer{
 						pCasilla.setIcon(new ImageIcon(getClass().getResource("pass1.png")));
 						break;
 					case "Bomba":
-						pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+						pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb4.png")));
 						break;
 				}
 			}
@@ -211,7 +214,7 @@ public class TableroVisual extends JFrame implements Observer{
 						if (pCasilla.getIcon() != null) //Para evitar errores
 						{
 							String descr = ((ImageIcon) pCasilla.getIcon()).getDescription();
-							if (descr.contains(color + "withbomb1.png") || descr.contains(color + "withbomb2.png")) //TODO
+							if (descr.contains(color + "withbomb1.png") || descr.contains(color + "withbomb2.png") || descr.contains(color + "withbomb4.png")) //TODO
 							{
 								//Si DEJAMOS bomba (el anterior es Bomberman con bomba
 								switch (color) {
@@ -225,7 +228,7 @@ public class TableroVisual extends JFrame implements Observer{
 										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
 										break;
 									case "blue":
-										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb1.png")));
+										pCasilla.setIcon(new ImageIcon(getClass().getResource("bomb4.png")));
 										break;
 								}
 							} else if (descr.contains(color + "withportal1.gif")) {

@@ -137,7 +137,7 @@ public class Tablero extends Observable{
 				//this.moverBomba(dir,x--,y);
 			}
 		}
-		if (x<11) { //TODO comprobar si en el borde derecho funciona bien
+		if (x<11) {
 			if(mapa[y][x+1].tipoCasilla().equals("BombaCruz")) {
 				dir = "der";
 				BombaCruz bC = (BombaCruz) mapa[y][x+1];
@@ -194,7 +194,7 @@ public class Tablero extends Observable{
 		if (pX>0 && pDir.equals("izq")){nX--;}
 		else if (pX<17 && pDir.equals("der")){nX++;}
 		else if (pY>0 && pDir.equals("abj")){nY--;}
-		else if (pY<10 && pDir.equals("sup")){nX++;}
+		else if (pY<10 && pDir.equals("sup")){nY++;}
 		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !mapa[nY][nX].estaOcupada()) {
 			mapa[nY][nX] = new BombaCruz(nX, nY);
 			mapa[pY][pX].destruir();
@@ -373,8 +373,8 @@ public class Tablero extends Observable{
 		}
 	}
 
-	public void detonarBomba(int pX, int pY) {
-		stratBomba.detonarBomba(pX, pY);
+	public void detonarBomba(int pX, int pY, int pCombo) {
+		stratBomba.detonarBomba(pX, pY, pCombo);
 	}
 
 	// Metodo auxiliar para manejar la explosion en una casilla
@@ -412,7 +412,7 @@ public class Tablero extends Observable{
 	                notifyObservers(new Object[]{"PonerImagen", x, y, stratBomba.getTipoExplosion()});
 	            } else { //Bombas que encuentra en su explosion
 	                mapa[y][x].destruir();
-	                detonarBomba(x, y);
+	                detonarBomba(x, y, pComboActual);
 	            }
 	            break;
 	        case "BloqueDuro":

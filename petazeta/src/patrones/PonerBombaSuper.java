@@ -16,14 +16,14 @@ public class PonerBombaSuper implements StrategyPonerBomba {
 	}
 	
 	@Override
-	public void detonarBomba(int pX, int pY) {
+	public void detonarBomba(int pX, int pY, int pCombo) {
 		Tablero tab = Tablero.getTablero();
 
 		Jugador.getJugador().addBomba();
 		
 		int[] dx = {0, 0, 0, -1, 1};
 		int[] dy = {0, -1, 1, 0, 0};
-		int combo = 1; //multiplicador de enemigos eliminados con una sola bomba
+		int combo = pCombo; //multiplicador de enemigos eliminados con una sola bomba
 
 		for (int i = 0; i < 5; i++) {
 			int newX = pX + dx[i];

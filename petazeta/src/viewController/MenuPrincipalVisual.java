@@ -244,6 +244,7 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 					break;
 				case "Cerrar":
 					setVisible(false);
+					dispose();
 					break;
 				case "Reescale":
 					//Reescalar bomber1

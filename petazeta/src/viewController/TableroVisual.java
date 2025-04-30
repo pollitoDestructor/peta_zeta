@@ -152,12 +152,8 @@ public class TableroVisual extends JFrame implements Observer{
 			}
 			else if((String)param[0]=="Muerte") //Ventana de muerte
 			{
-				//GestorFinalVisual.getFinal(false); TODO
 				setVisible(false);
-				System.out.println("Apaga paso1.");
 				dispose();
-				System.out.println("Dispose paso 2.");
-
 			}
 			else if((String)param[0]=="FinalVisual") 
 			{

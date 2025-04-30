@@ -110,13 +110,16 @@ public class GestorFinalVisual extends Observable {
             timer.cancel();  
             timer.purge();
         }
-		
-		System.out.println("AQUI SE VUELVE AL MENU PRINCIPAL!!!!!"); //TODO
-        volverMenu();
 	}
 
 	private void volverMenu(){
 		setChanged();
 		notifyObservers(new Object[] {2});
+	}
+	
+	public void crearMenuPplVisual() {
+		setChanged();
+		notifyObservers(new Object[] {4});
+		volverMenu();
 	}
 }

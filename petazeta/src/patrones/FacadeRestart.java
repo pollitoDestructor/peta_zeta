@@ -1,12 +1,12 @@
 package patrones;
 
+import modelo.GestorFinalVisual;
 import modelo.GestorMenuPrincipal;
-import viewController.FinalVisual;
-import viewController.MenuPrincipalVisual;
 
 public class FacadeRestart {
 	private static FacadeRestart miFacade;
 	private GestorMenuPrincipal menuPpl = GestorMenuPrincipal.getMenu();
+	private GestorFinalVisual finV = GestorFinalVisual.getFinal();
 	
 	private FacadeRestart() {}
 	
@@ -20,7 +20,7 @@ public class FacadeRestart {
 	public void reiniciar() {
 		GestorMenuPrincipal.reiniciarMenuPrincipal();
 		menuPpl = GestorMenuPrincipal.getMenu();
-		MenuPrincipalVisual menuVisual = new MenuPrincipalVisual(); //TODO arreglar
+		finV.crearMenuPplVisual();
 		menuPpl.opcionesMenu("Inicio");
 	}
 }

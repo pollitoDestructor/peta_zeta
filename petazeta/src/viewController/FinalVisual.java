@@ -77,6 +77,8 @@ public class FinalVisual extends JFrame implements Observer{
 			else if (accion == 2)
 			{
 				setVisible(false);
+				GestorFinalVisual.getFinal().deleteObserver(this);
+				dispose();
 			}
 			else if (accion == 3)
 			{
@@ -91,8 +93,13 @@ public class FinalVisual extends JFrame implements Observer{
 				}
 				contentPane.add(getSubtitulo());
 			}
+			else if (accion == 4)
+			{
+				@SuppressWarnings("unused")
+				MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
+			}
 
-		}
+		} 
 
 	}
 	private JLabel getLblPartidaEstado() {

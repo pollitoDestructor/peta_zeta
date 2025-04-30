@@ -16,7 +16,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
     }
 
     @Override
-    public void detonarBomba(int pX, int pY) {
+    public void detonarBomba(int pX, int pY, int pCombo) {
         Tablero tab = Tablero.getTablero();
 
         Jugador.getJugador().addBomba();
@@ -24,6 +24,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
         // Coordenadas de movimiento para explosión en forma de cruz (diagonal)
         int[] dx = {-1, -1, 1, 1}; // Arriba-Izquierda, Arriba-Derecha, Abajo-Izquierda, Abajo-Derecha
         int[] dy = {-1, 1, -1, 1};
+        int combo = pCombo;
         
         //Esta en la propia bomba?
         if (Jugador.getJugador().estaEnCasilla(pX, pY)) {
@@ -46,7 +47,7 @@ public class PonerBombaCruzRompeObstaculos implements StrategyPonerBomba {
                 }
 
                 // Procesar la explosión en la casilla
-                tab.procesarExplosion(newX, newY, pX, pY, 1);
+                combo = tab.procesarExplosion(newX, newY, pX, pY, combo);
             }
         }
 

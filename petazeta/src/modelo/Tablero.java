@@ -455,7 +455,7 @@ public class Tablero extends Observable{
 	}
 	
 	//M�todo para evitar dependencias
-	public void changeStateString(String pState) {
+	public void changeStateString(String pState) { 
 		if(!fin) {
 			if(pState.equals("Muerto")) changeState(new StateMuerto());
 			else if(pState.equals("Ganar")) changeState(new StateGanar());

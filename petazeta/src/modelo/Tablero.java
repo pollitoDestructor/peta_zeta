@@ -170,6 +170,7 @@ public class Tablero extends Observable{
 		else if (pY<10 && pDir.equals("sup")){nY++;}
 		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !hayEnemigo(nX,nY) && !mapa[nY][nX].estaOcupada()) {
 			if(mapa[nY][nX].tipoCasilla().equals("Explosion")) {
+				mapa[nY][nX].destruir(); //Para detener la explosion que encuentra y "reiniciarla"
 				mapa[nY][nX] = new BombaCruz(nX, nY);
 				mapa[pY][pX].destruir();
 				mapa[pY][pX] = new Casilla(pX, pY);

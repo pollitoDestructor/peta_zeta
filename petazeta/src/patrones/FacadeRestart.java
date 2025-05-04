@@ -2,6 +2,8 @@ package patrones;
 
 import modelo.GestorFinalVisual;
 import modelo.GestorMenuPrincipal;
+import modelo.Jugador;
+import modelo.Tablero;
 
 public class FacadeRestart {
 	private static FacadeRestart miFacade;
@@ -18,6 +20,8 @@ public class FacadeRestart {
 	}
 	
 	public void reiniciar() { 
+		Tablero.reiniciarTablero(); 
+		Jugador.reiniciarJugador(); 
 		GestorMenuPrincipal.reiniciarMenuPrincipal();
 		menuPpl = GestorMenuPrincipal.getMenu();
 		finV.crearMenuPplVisual();

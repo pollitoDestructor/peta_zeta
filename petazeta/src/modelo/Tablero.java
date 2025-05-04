@@ -31,6 +31,8 @@ public class Tablero extends Observable{
 	private StrategyTablero stratTablero = new TableroClassic();
 	private StrategyPonerBomba stratBomba = new PonerBombaSuper();
 	private StateJugador state;
+	
+	private boolean fin = false;
 
 	//==================================SINGLETON==================================
 	private Tablero() {
@@ -167,6 +169,16 @@ public class Tablero extends Observable{
 		else if (pY>0 && pDir.equals("abj")){nY--;}
 		else if (pY<10 && pDir.equals("sup")){nY++;}
 		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !hayEnemigo(nX,nY) && !mapa[nY][nX].estaOcupada()) {
+			if(mapa[nY][nX].tipoCasilla().equals("Explosion")) //TODO igual se puede simplificar
+			{
+				mapa[nY][nX] = new BombaCruz(nX, nY);
+				mapa[nY][nX].destruir(); //TODO para los timers
+				mapa[pY][pX].destruir();
+				mapa[pY][pX] = new Casilla(pX, pY);
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
+				this.detonarBomba(nX, nY, 0); //TODO el combo bien? no se
+			}else {
 			mapa[nY][nX] = new BombaCruz(nX, nY);
 			mapa[pY][pX].destruir();
 			mapa[pY][pX] = new Casilla(pX, pY);
@@ -176,7 +188,9 @@ public class Tablero extends Observable{
 			notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
 			setChanged();
 			notifyObservers(new Object[]{"PonerImagen", nX, nY, "Bomba"});
+			}
 		}
+		
 	}
 
 	public boolean buscarMismoColor(String pColor) {
@@ -225,7 +239,7 @@ public class Tablero extends Observable{
 	            switch (pType) {
 	                case "Jugador":
 	                    System.out.println("�El jugador ha muerto!");
-						this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+						this.changeStateString("Muerto");  // Cambiamos a estado de muerte
 	                    break;
 					case "Pass":
 					case "Doria":
@@ -237,7 +251,7 @@ public class Tablero extends Observable{
 	                        disponible = false;
 	                        if (ListaEnemigos.isEmpty()) //Si la lista de enemigos esta vacía
 	        				{
-	        						changeState(new StateGanar());
+	        						changeStateString("Ganar");
 	        				}
 	                    }
 	                    break;
@@ -256,7 +270,7 @@ public class Tablero extends Observable{
 	                    break;
 	                case "Jugador": // Si jugador se mueve donde hay un enemigo
 	                    System.out.println("Se choca con un enemigo muere Dios qué horror.");
-	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+	                    this.changeStateString("Muerto");  // Cambiamos a estado de muerte
 	                    break;
 	            }
 	        }
@@ -267,7 +281,7 @@ public class Tablero extends Observable{
 					case "Doria":
 	                case "Globo":
 	                    System.out.println("Se lo come un enemigo Dios qué horror.");
-	                    this.changeState(new StateMuerto());  // Cambiamos a estado de muerte
+	                    this.changeStateString("Muerto");  // Cambiamos a estado de muerte
 	                    break;
 	            }
 	        }
@@ -442,8 +456,11 @@ public class Tablero extends Observable{
 	
 	//M�todo para evitar dependencias
 	public void changeStateString(String pState) {
-		System.out.println("Muerte por detonacion");
-		if(pState.equals("Muerto")) changeState(new StateMuerto());
+		if(!fin) {
+			if(pState.equals("Muerto")) changeState(new StateMuerto());
+			else if(pState.equals("Ganar")) changeState(new StateGanar());
+		}
+		this.fin = true;
 	}
 
 	public void pantallaFinal(boolean pEstadoPartida) {
@@ -457,14 +474,12 @@ public class Tablero extends Observable{
 		GestorFinalVisual.getFinal().setFinal(pEstadoPartida); //Establecer booleano
 
 		detenerTimers();
-		Tablero.reiniciarTablero(); //TODO Sprint3
-		Jugador.reiniciarJugador();
 	}
 
 	public void verificarVictoria() {
 		if (ListaEnemigos.isEmpty()) {
 			Jugador.getJugador().guardarPuntuacion();
-			changeState(new StateGanar()); 
+			changeStateString("Ganar"); 
 		}
 	}
 

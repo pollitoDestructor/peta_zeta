@@ -169,28 +169,28 @@ public class Tablero extends Observable{
 		else if (pY>0 && pDir.equals("abj")){nY--;}
 		else if (pY<10 && pDir.equals("sup")){nY++;}
 		if(nY >= 0 && nY<= 11 && nX >= 0 && nX <= 16 && !hayEnemigo(nX,nY) && !mapa[nY][nX].estaOcupada()) {
-			if(mapa[nY][nX].tipoCasilla().equals("Explosion")) //TODO igual se puede simplificar
-			{
+			if(mapa[nY][nX].tipoCasilla().equals("Explosion")) {
 				mapa[nY][nX] = new BombaCruz(nX, nY);
-				mapa[nY][nX].destruir(); //TODO para los timers
 				mapa[pY][pX].destruir();
 				mapa[pY][pX] = new Casilla(pX, pY);
+				mapa[nY][nX].destruir();
+				detonarBomba(nX, nY, 1);
 				setChanged();
 				notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
-				this.detonarBomba(nX, nY, 0); //TODO el combo bien? no se
-			}else {
-			mapa[nY][nX] = new BombaCruz(nX, nY);
-			mapa[pY][pX].destruir();
-			mapa[pY][pX] = new Casilla(pX, pY);
-			BombaCruz bC = (BombaCruz) mapa[nY][nX];
-			bC.rodar(pDir);
-			setChanged();
-			notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
-			setChanged();
-			notifyObservers(new Object[]{"PonerImagen", nX, nY, "Bomba"});
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", nX, nY, "Explosion"});
+			} else {
+				mapa[nY][nX] = new BombaCruz(nX, nY);
+				mapa[pY][pX].destruir();
+				mapa[pY][pX] = new Casilla(pX, pY);
+				BombaCruz bC = (BombaCruz) mapa[nY][nX];
+				bC.rodar(pDir);
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", pX, pY, "Casilla"});
+				setChanged();
+				notifyObservers(new Object[]{"PonerImagen", nX, nY, "Bomba"});
 			}
 		}
-		
 	}
 
 	public boolean buscarMismoColor(String pColor) {

@@ -98,6 +98,7 @@ public class GestorFinalVisual extends Observable {
 			}
 			setChanged();
 			notifyObservers(new Object[] {8,fila,rankSize});
+			fila++;
 		}
 		setChanged();
 		notifyObservers(new Object[] {9});

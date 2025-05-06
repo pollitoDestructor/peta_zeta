@@ -90,7 +90,6 @@ public class FinalVisual extends JFrame implements Observer{
 				contentPane.add(getLblPartidaEstado());
 				if (estadoPartida) { //Mostrar el ranking si se gana
 					contentPane.add(getRankingPanel());
-					//actualizarRankingVisual(); //TODO
 				}
 				contentPane.add(getSubtitulo());
 			}
@@ -188,42 +187,6 @@ public class FinalVisual extends JFrame implements Observer{
 		return rankingPanel;
 	}
 
-
-	/*private void actualizarRankingVisual() {
-		
-		int fila = 1;
-		for (Map.Entry<String, Integer> entrada : ranking.obtenerRankingOrdenado().entrySet()) {
-			String jugador = entrada.getKey();
-			int puntos = entrada.getValue();
-
-			String texto = String.format("%-4d %-6s %7d", fila, jugador.toUpperCase(), puntos);
-			
-			
-			JLabel filaLabel = new JLabel(texto);
-			filaLabel.setFont(new Font("Monospaced", Font.PLAIN, 22));
-			filaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			filaLabel.setForeground(Color.WHITE);
-
-			if (fila <= 3) {
-				filaLabel.setForeground(new Color(
-						colores[(fila - 1) * 3],
-						colores[(fila - 1) * 3 + 1],
-						colores[(fila - 1) * 3 + 2]
-				));
-			}
-
-			rankingPanel.add(filaLabel);
-
-			if (fila < ranking.obtenerRankingOrdenado().size()) {
-				rankingPanel.add(crearEspacioGrande());
-			}
-
-			fila++;
-		}
-
-		getRankingPanel().revalidate();
-		getRankingPanel().repaint();
-	}*/
 
 	// Método auxiliar para crear espacios grandes (igual que tu separador original)
 	private JLabel crearEspacioGrande() {

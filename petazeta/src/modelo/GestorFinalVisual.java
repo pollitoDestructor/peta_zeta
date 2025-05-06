@@ -1,5 +1,7 @@
 package modelo;
 
+import java.awt.Color;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,7 +39,10 @@ public class GestorFinalVisual extends Observable {
 		numLetra = 0;
 		montaje = "";
 
-		if(estadoFin) mensaje = "HAS GANADO!!!"; //Elegimos mensaje
+		if(estadoFin) {
+			this.actualizarRankingVisual();
+			mensaje = "HAS GANADO!!!"; //Elegimos mensaje
+		}
 		else mensaje = "HAS PERDIDO!!!";
 		
 		setChanged();
@@ -62,6 +67,40 @@ public class GestorFinalVisual extends Observable {
 		};
 		timerLetras = new Timer();
 		timerLetras.scheduleAtFixedRate(timerTask2, 0, 250); //Cada 500ms
+		
+	}
+	
+	private void actualizarRankingVisual() {
+		Ranking ranking = Ranking.getRanking();
+		int[] colores = {
+				255, 215, 0,     // Oro
+				192, 192, 192,   // Plata
+				205, 127, 50     // Bronce
+		};
+		
+		int rankSize = ranking.obtenerRankingOrdenado().size();
+		setChanged();
+		notifyObservers(new Object[] {5,rankSize});
+		
+		int fila = 1;
+		for (Map.Entry<String, Integer> entrada : ranking.obtenerRankingOrdenado().entrySet()) {
+			String jugador = entrada.getKey();
+			int puntos = entrada.getValue();
+
+			String texto = String.format("%-4d %-6s %7d", fila, jugador.toUpperCase(), puntos);
+			
+			setChanged();
+			notifyObservers(new Object[] {6,texto});
+			
+			if (fila <= 3) {
+				setChanged();
+				notifyObservers(new Object[] {7,colores,fila});
+			}
+			setChanged();
+			notifyObservers(new Object[] {8,fila,rankSize});
+		}
+		setChanged();
+		notifyObservers(new Object[] {9});
 	}
 	
 	private void actualizarLetras()

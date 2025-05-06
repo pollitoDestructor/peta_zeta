@@ -26,6 +26,7 @@ public class FinalVisual extends JFrame implements Observer{
 	private JLabel lblPartidaEstado;
 	private JPanel rankingPanel;
 	private Controlador controlador = null;
+	private JLabel lblAux;
 
 	/**
 	 * Create the frame.
@@ -89,7 +90,7 @@ public class FinalVisual extends JFrame implements Observer{
 				contentPane.add(getLblPartidaEstado());
 				if (estadoPartida) { //Mostrar el ranking si se gana
 					contentPane.add(getRankingPanel());
-					actualizarRankingVisual();
+					//actualizarRankingVisual(); //TODO
 				}
 				contentPane.add(getSubtitulo());
 			}
@@ -97,6 +98,54 @@ public class FinalVisual extends JFrame implements Observer{
 			{
 				@SuppressWarnings("unused") 
 				MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
+			}
+			else if (accion == 5)
+			{
+				int rankSize = (int) datos[1];
+				getRankingPanel().removeAll();
+				getRankingPanel().setLayout(new GridLayout(rankSize * 2 + 1, 1));
+
+				JLabel cabecera = new JLabel(String.format("%-4s %-6s %s", "RANK", "NAME", "SCORE"));
+				cabecera.setForeground(Color.YELLOW);
+				cabecera.setFont(new Font("Monospaced", Font.BOLD, 28));
+				cabecera.setHorizontalAlignment(SwingConstants.CENTER);
+				rankingPanel.add(cabecera);
+				rankingPanel.add(crearEspacioGrande());
+			}
+			else if (accion == 6)
+			{
+				String texto = (String) datos[1];
+				JLabel filaLabel = new JLabel(texto);
+				filaLabel.setFont(new Font("Monospaced", Font.PLAIN, 22));
+				filaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				filaLabel.setForeground(Color.WHITE);
+				this.lblAux = filaLabel;
+			}
+			else if (accion == 7)
+			{
+				int[] colores = (int[]) datos[1];
+				int fila = (int) datos[2];
+				lblAux.setForeground(new Color(
+						colores[(fila - 1) * 3],
+						colores[(fila - 1) * 3 + 1],
+						colores[(fila - 1) * 3 + 2]
+				));
+			}
+			else if (accion == 8)
+			{
+				int fila = (int) datos[1];
+				int rankSize = (int) datos[2];
+				rankingPanel.add(lblAux);
+
+				if (fila < rankSize) {
+					rankingPanel.add(crearEspacioGrande());
+				}
+			}
+			else if (accion == 9)
+			{
+
+				getRankingPanel().revalidate();
+				getRankingPanel().repaint();
 			}
 
 		} 
@@ -140,30 +189,16 @@ public class FinalVisual extends JFrame implements Observer{
 	}
 
 
-	private void actualizarRankingVisual() {
-		Ranking ranking = Ranking.getRanking();
-		int[] colores = {
-				255, 215, 0,     // Oro
-				192, 192, 192,   // Plata
-				205, 127, 50     // Bronce
-		};
-
-		getRankingPanel().removeAll();
-		getRankingPanel().setLayout(new GridLayout(ranking.obtenerRankingOrdenado().size() * 2 + 1, 1));
-
-		JLabel cabecera = new JLabel(String.format("%-4s %-6s %s", "RANK", "NAME", "SCORE"));
-		cabecera.setForeground(Color.YELLOW);
-		cabecera.setFont(new Font("Monospaced", Font.BOLD, 28));
-		cabecera.setHorizontalAlignment(SwingConstants.CENTER);
-		rankingPanel.add(cabecera);
-		rankingPanel.add(crearEspacioGrande());
-
+	/*private void actualizarRankingVisual() {
+		
 		int fila = 1;
 		for (Map.Entry<String, Integer> entrada : ranking.obtenerRankingOrdenado().entrySet()) {
 			String jugador = entrada.getKey();
 			int puntos = entrada.getValue();
 
 			String texto = String.format("%-4d %-6s %7d", fila, jugador.toUpperCase(), puntos);
+			
+			
 			JLabel filaLabel = new JLabel(texto);
 			filaLabel.setFont(new Font("Monospaced", Font.PLAIN, 22));
 			filaLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -188,7 +223,7 @@ public class FinalVisual extends JFrame implements Observer{
 
 		getRankingPanel().revalidate();
 		getRankingPanel().repaint();
-	}
+	}*/
 
 	// Método auxiliar para crear espacios grandes (igual que tu separador original)
 	private JLabel crearEspacioGrande() {

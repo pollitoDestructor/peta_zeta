@@ -428,7 +428,8 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 			{
 				menu.iniciarJuego();
 			}
-			else if (keyCode==KeyEvent.VK_M){try {
+			else if (keyCode==KeyEvent.VK_M){try 
+			{
 				Musica.getMusica().ponerMusica();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 				System.out.println("Fallo Musical");

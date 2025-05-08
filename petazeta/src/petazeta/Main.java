@@ -1,6 +1,5 @@
 package petazeta;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.*;
@@ -9,9 +8,6 @@ import modelo.GestorMenuPrincipal;
 import modelo.Musica;
 import viewController.MenuPrincipalVisual;
 
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
 
 public class Main {
 

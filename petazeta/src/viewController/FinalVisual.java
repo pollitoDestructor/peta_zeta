@@ -7,9 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import modelo.*;
 import patrones.FacadeRestart;
-import petazeta.Main;
-
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.MouseEvent;

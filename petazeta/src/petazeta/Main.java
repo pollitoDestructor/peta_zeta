@@ -7,6 +7,7 @@ public class Main {
 
 	public static void main(String[] args){
 		GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
+		@SuppressWarnings("unused")
 		MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
 		menu.opcionesMenu("Inicio");
 		System.out.println("Inicia juego");

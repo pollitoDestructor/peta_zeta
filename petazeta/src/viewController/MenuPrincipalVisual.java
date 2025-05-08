@@ -2,16 +2,20 @@ package viewController;
 
 import java.awt.EventQueue;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.GestorMenuPrincipal;
+import modelo.Musica;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
+import java.io.IOException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
@@ -421,10 +425,16 @@ public class MenuPrincipalVisual extends JFrame implements Observer {
 				menu.opcionesMenu("Cerrar");
 				menu.end();
 			}
-			else if(keyCode==KeyEvent.VK_SPACE){
+			else if(keyCode==KeyEvent.VK_SPACE)
+			{
 				menu.iniciarJuego();
 			}
-			else if (keyCode==KeyEvent.VK_M){/*Ajustar musica*/}
+			else if (keyCode==KeyEvent.VK_M){try {
+				Musica.getMusica().ponerMusica();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+				System.out.println("Fallo Musical");
+				
+			}}
 			else if (keyCode==KeyEvent.VK_O){
 				menu.opcionesMenu("Opciones");
 			}

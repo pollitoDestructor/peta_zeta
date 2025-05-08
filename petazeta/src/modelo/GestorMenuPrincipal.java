@@ -1,13 +1,19 @@
 package modelo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 @SuppressWarnings("deprecation")
-public class GestorMenuPrincipal extends Observable {
+public class GestorMenuPrincipal extends Observable  {
     private static GestorMenuPrincipal miMenu;
     private String ultimo_mapa_elegido = "Classic";
-
-    private GestorMenuPrincipal(){}
 
     public static GestorMenuPrincipal getMenu() {
         if (miMenu == null){

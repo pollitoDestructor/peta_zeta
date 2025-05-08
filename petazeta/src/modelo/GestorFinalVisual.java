@@ -1,6 +1,5 @@
 package modelo;
 
-import java.awt.Color;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Timer;

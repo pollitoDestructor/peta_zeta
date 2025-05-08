@@ -1,6 +1,5 @@
 package viewController;
 
-import java.awt.EventQueue;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;

@@ -19,6 +19,7 @@ public class Main {
 	{
 		Musica.getMusica().ponerMusica();
 		GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
+		@SuppressWarnings("unused")
 		MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
 		menu.opcionesMenu("Inicio");
 		System.out.println("Inicia juego");

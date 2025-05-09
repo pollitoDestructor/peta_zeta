@@ -11,18 +11,37 @@ public class Explosion extends Casilla {
 	public Explosion(int pX, int pY)
 	{
 		super(pX,pY);
-		ocupado = false;
-		
-	     TimerTask timerTask = new TimerTask() {
+		setOcupado(false);
+		iniciarTimer();
+	     
+	}
+	
+	 public void iniciarTimer() {
+		 TimerTask timerTask = new TimerTask() {
 	            @Override
 	            public void run() {
 	            	System.out.println("Explotado");
-	            	Tablero.getTablero().explosionTerminada(pY,pX);
+	            	Tablero.getTablero().explosionTerminada(getCoordX(),getCoordY());
 	            	timer.cancel();
 	            	timer.purge();
 	            }       
 	        };
+	        if(timer != null) {
+	        	timer.cancel();
+            	timer.purge();
+	        }
 	        timer = new Timer();
 	        timer.schedule(timerTask, PERIODO * 1000); // Termina despues de 2 segundos
+	    }
+
+	private void detenerTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+	}
+
+	public void destruir() {
+		detenerTimer();
 	}
 }

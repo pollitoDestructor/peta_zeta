@@ -1,29 +1,25 @@
 package petazeta;
 
-import modelo.Jugador;
-import modelo.Tablero;
-import viewController.TableroVisual;
+import java.io.IOException;
 
-public class Main { 
+import javax.sound.sampled.*;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public static void main(String[] args) {
-		
-		Tablero tablero = Tablero.getTablero();
-		TableroVisual f = new TableroVisual();
-		
-		tablero.ponerBloques();
-		
-		Jugador jugador = Jugador.getJugador();
-		jugador.inicio(); //para imprimir el primer Bomberman nada mas
-		
-		//tablero.printMap();
-		System.out.println("El jugador esta en: "+jugador.getPosX()+" "+jugador.getPosY());
-		f.setVisible(true);
-		
-		
+import modelo.GestorMenuPrincipal;
+import modelo.Musica;
+import viewController.MenuPrincipalVisual;
+
+
+public class Main {
+
+	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException 
+	{
+		Musica.getMusica().ponerMusica();
+		GestorMenuPrincipal menu = GestorMenuPrincipal.getMenu();
+		@SuppressWarnings("unused")
+		MenuPrincipalVisual menuVisual = new MenuPrincipalVisual();
+		menu.opcionesMenu("Inicio");
+		System.out.println("Inicia juego");
+
 	}
 
 }

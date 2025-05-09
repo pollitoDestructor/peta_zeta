@@ -1,20 +1,26 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
+
 @SuppressWarnings("deprecation")
-public class Jugador extends Observable { 
-	
+public class Jugador extends Observable {
+
 	private static Jugador miJugador; //referencia estatica
 	private int posX;
 	private int posY;
-	private int bombas=10;
+	private int bombas;
+	private int puntuacion;
+	private String color;
 
 	private Jugador() {
 		this.posX=0;
 		this.posY=0;
+		this.puntuacion=0;
+		this.bombas=10;
 	}
-	
+
 	//obtener obj estatico
 	public static Jugador getJugador() {
 		if (miJugador == null){
@@ -22,22 +28,33 @@ public class Jugador extends Observable {
 		}
 		return miJugador;
 	}
-	
+
+	public static void reiniciarJugador() {
+		miJugador = new Jugador();
+	}
+
 	//getters
 	public int getPosX() {
 		return this.posX;
 	}
-	
 	public int getPosY() {
 		return this.posY;
 	}
-	
-	public void addBomba() {
-		if (this.bombas<10) {
-			this.bombas++;
-		}
+
+	public String getColor() {return this.color;}
+	public int getPuntuacion() {return this.puntuacion;}
+	public void setColor(String pColor){
+		this.color=pColor;
+		if(color.equals("white")) {this.bombas=10;}
+		else if(color.equals("black")) {this.bombas=1;}
+		else if(color.equals("red")) {this.bombas=10;}
+		else if(color.equals("blue")) {this.bombas=3;}
 	}
-	
+
+	public void addBomba() {
+		this.bombas++;
+	}
+
 	public boolean estaEnCasilla(int pX, int pY) {
 		boolean esta = false;
 		if(this.posX==pX && this.posY==pY) {
@@ -45,30 +62,52 @@ public class Jugador extends Observable {
 		}
 		return esta;
 	}
-	
+
 	public void inicio() //para imprimir la primera pos
 	{
 		setChanged();
-		notifyObservers(new Object[] {posX,posY,0,0});
+		notifyObservers(new Object[] {"mover",posX,posY,0,0,color});
 	}
 
 	public void ponerBomba()
-	{ 
-		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(this.posX, this.posY)) {
-		bombas--;
-		Tablero.getTablero().ponerBomba(this.posX, this.posY);
-		System.out.println("Se pone una bomba en (" + this.posX + ", " + this.posY + ")");
+	{
+		if (this.bombas>0 && Tablero.getTablero().casillaDisponible(posX,posY,this.posX, this.posY,"Jugador")) {
+			bombas--;
+			Tablero.getTablero().ponerBomba(posX, posY);
 		}
 	}
-	
+
+
 	//movimiento del jugador
 	public void mover(int x, int y) {
-		if (Tablero.getTablero().casillaDisponible(posX+x,posY+y)){
-			setChanged();
-			notifyObservers(new Object[] {posX,posY,x,y}); //le manda la pos SIN ACTUALIZAR
-			this.posX=posX+x; this.posY=posY+y;
-			
+		if (Tablero.getTablero().casillaDisponible(posX,posY,posX+x,posY+y,"Jugador")) {
+			if(Tablero.getTablero().getCasilla(posX+x, posY+y).tipoCasilla().equals("Teletransporte")) {
+				ArrayList<Integer> pos = Tablero.getTablero().buscarOtroTeletransporte(posX+x, posY+y);
+				setChanged();
+				notifyObservers(new Object[] {"tp",posX,posY,pos.get(0),pos.get(1),pos.get(2)});
+				this.posX=pos.get(0);
+				this.posY=pos.get(1);
+			}
+			else {
+				setChanged();
+				notifyObservers(new Object[] {"mover",posX,posY,x,y,color}); //le manda la pos SIN ACTUALIZAR
+				this.posX=posX+x;
+				this.posY=posY+y;
+			}
+
 		}
 		//else {System.out.println("El movimiento no se ha podido efectuar");}
 	}
+
+	public void actualizarPuntuacion(int newP) {
+		puntuacion = puntuacion + newP;
+		setChanged();
+		notifyObservers(new Object[] {"punt",puntuacion});
+	}
+	public void guardarPuntuacion() {
+		if (color != null && puntuacion > 0) {
+			Ranking.getRanking().anadirJugador(color, puntuacion);
+		}
+	}
+
 }

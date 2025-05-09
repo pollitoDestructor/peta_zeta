@@ -3,36 +3,37 @@ package modelo;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Bomba extends Casilla {
+public abstract class Bomba extends Casilla {
     private Timer timer = null;
     private static final int PERIODO = 3; //Periodo de 3 segundos
     private Tablero tablero; //Referencia al tablero (constructora)
 
-    public Bomba(int a, int b) {
+    protected Bomba(int a, int b) {
         super(a, b);  
-        ocupado = true;
+        setOcupado(true);
         this.tablero = Tablero.getTablero(); //Puntero a Tablero (por comodidad)
-        
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                explotar(); //Pasados 3 segundos, explota
+                explotar(1); //Pasados 3 segundos, explota
             }       
         };
         timer = new Timer();
         timer.schedule(timerTask, PERIODO * 1000); // Explota despues de 3 segundos
     }
     
-    protected void explotar() {
+    protected void explotar(int pCombo) {
         destruir(); // Aqui destruimos la bomba
         
-        tablero.detonarBomba(coordX,coordY,tipoCasilla()); //Pasa coords y nombre(para herencia)
+        tablero.detonarBomba(getCoordX(),getCoordY(), pCombo); //Pasa coords y nombre(para herencia)
     }
     
     public void destruir() //Destruye la Bomba
 	{
-		System.out.println("Bomba "+coordX+", "+coordY+" destruida."); 
+		System.out.println("Bomba "+getCoordX()+", "+getCoordY()+" destruida."); 
 		timer.cancel();
 		timer.purge();
+		
 	}
+    
 }

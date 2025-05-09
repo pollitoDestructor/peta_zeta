@@ -2,9 +2,9 @@ package modelo;
 
 public class Casilla 
 {
-	protected int coordX; // Para la interfaz igual son necesarias
-	protected int coordY; // Para la interfaz igual son necesarias
-	protected boolean ocupado;
+	private int coordX; // Para la interfaz igual son necesarias
+	private int coordY; // Para la interfaz igual son necesarias
+	private boolean ocupado;
 	
 	public Casilla(int pX, int pY) //Constructora
 	{
@@ -13,6 +13,19 @@ public class Casilla
 		ocupado = false;
 	}
 	
+	protected int getCoordY() {
+		return coordY;
+	}
+	
+	protected int getCoordX() {
+		return coordX;
+	}
+	
+	protected void setOcupado(boolean pOcupado) {
+        this.ocupado = pOcupado;
+	}
+
+
 	public String tipoCasilla() 
 	{
 		return this.getClass().getSimpleName();
@@ -24,8 +37,9 @@ public class Casilla
 	}
 	public void destruir() //Destruye la casilla
 	{
-		System.out.println("Casilla"+coordX+","+coordY+"destruido.");
+		//System.out.println("Casilla"+coordX+","+coordY+"destruido.");
 	}
 
+	public void actualizar(int pX, int pY) {coordX=pX;coordY=pY;}
 	
 }
